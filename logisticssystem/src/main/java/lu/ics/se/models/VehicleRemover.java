@@ -1,5 +1,5 @@
 package lu.ics.se.models;
 
-public class Truck {
+public class VehicleRemover {
 
 }
