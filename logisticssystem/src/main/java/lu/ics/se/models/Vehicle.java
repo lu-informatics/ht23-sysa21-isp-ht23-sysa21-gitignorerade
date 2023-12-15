@@ -6,6 +6,7 @@ public class Vehicle {
     private double vehicleCapacity;
     private int daysSinceLastMaintenance;
     private ServiceHistory serviceHistory;
+    private int VehicleNumberInFleet;
 
     
 
@@ -13,11 +14,12 @@ public class Vehicle {
         this.serviceHistory = new ServiceHistory();
 
     }
-    public Vehicle(String vehicleIdentificationNumber, String vehicleName, double vehicleCapacity, int daysSinceLastMaintenance) {
+    public Vehicle(String vehicleIdentificationNumber, String vehicleName, double vehicleCapacity, int daysSinceLastMaintenance, int VehicleNumberInFleet) {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
         this.vehicleName = vehicleName;
         this.vehicleCapacity = vehicleCapacity;
         this.daysSinceLastMaintenance = daysSinceLastMaintenance;
+        this.VehicleNumberInFleet = VehicleNumberInFleet;
         this.serviceHistory = new ServiceHistory();
     }
 
@@ -36,6 +38,9 @@ public class Vehicle {
     public ServiceHistory getServiceHistory() {
         return serviceHistory;
     }
+    public int getVehicleNumberInFleet() {
+        return VehicleNumberInFleet;
+    }
     public void setVehicleIdentificationNumber(String vehicleIdentificationNumber) {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
     }
@@ -50,6 +55,9 @@ public class Vehicle {
         }
     public void setServiceHistory(ServiceHistory serviceHistory) {
         this.serviceHistory = serviceHistory;
+    }
+    public void setVehicleNumberInFleet(int VehicleNumberInFleet) {
+        this.VehicleNumberInFleet = VehicleNumberInFleet;
     }
     public void addMaintenanceEvent(MaintenanceEvent maintenanceEvent){
         serviceHistory.addMaintenanceEvent(maintenanceEvent);

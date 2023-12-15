@@ -2,6 +2,7 @@ package lu.ics.se;
 
 import lu.ics.se.models.VehicleAdder;
 import lu.ics.se.models.VehicleManifest;
+import lu.ics.se.models.VehicleRemover;
 import lu.ics.se.models.Vehicle;
 import java.util.Scanner;
 
@@ -10,6 +11,7 @@ public class Main {
     public static void main(String[] args) {
         VehicleAdder vehicleAdder = new VehicleAdder();
         VehicleManifest vehicleManifest = new VehicleManifest();
+        VehicleRemover vehicleRemover = new VehicleRemover();
         Scanner myScanner = new Scanner(System.in);
         boolean isRunning = true;
 
@@ -28,17 +30,13 @@ public class Main {
 
             switch (action) {
                 case 1:
-                    vehicleManifest.addVehicle(vehicleAdder.createVehicle());
+                    vehicleManifest.addVehicle(vehicleAdder.createVehicle(vehicleManifest));
                     break;
                 case 2:
                     vehicleManifest.printVehicleManifest();
                     break;
                 case 3:
-                    System.out.println("Please enter the name of the vehicle you want to remove:");
-                    String vehicleName = myScanner.nextLine();
-                    Vehicle vehicleToRemove = vehicleManifest.getVehicleByName(vehicleName);
-                    vehicleManifest.removeVehicle(vehicleToRemove);
-                    System.out.println("Vehicle removed successfully!");
+                    vehicleRemover.removeVehicle(vehicleManifest);
                     break;
                 case 4:
                     System.out.println("Please enter the name of the vehicle you want to access the service history of:");

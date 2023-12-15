@@ -9,7 +9,7 @@ public class VehicleAdder {
     public VehicleAdder() {
 
     }
-    public Vehicle createVehicle(){
+    public Vehicle createVehicle(VehicleManifest vehicleList){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Please enter the vehicle identification number:");
         String vehicleIdentificationNumber = scanner.nextLine();
@@ -18,12 +18,11 @@ public class VehicleAdder {
         System.out.println("Please enter the vehicle capacity:");
         double vehicleCapacity = scanner.nextDouble();
         int daysSinceLastMaintenance = 0;
-        Vehicle vehicle = new Vehicle(vehicleIdentificationNumber, vehicleName, vehicleCapacity, daysSinceLastMaintenance);
+        int numberOfVehiclesInVehicleManifest = vehicleList.getVehicleManifest().size() + 1;
+        Vehicle vehicle = new Vehicle(vehicleIdentificationNumber, vehicleName, vehicleCapacity, daysSinceLastMaintenance, numberOfVehiclesInVehicleManifest);
         vehiclesMap.put(vehicleName, vehicle);
         System.out.println("Vehicle added successfully!");
         return vehicle;
+        }
     }
-
-    
-}
 

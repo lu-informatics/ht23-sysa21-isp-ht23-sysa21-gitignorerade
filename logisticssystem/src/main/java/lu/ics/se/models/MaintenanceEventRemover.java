@@ -12,5 +12,6 @@ public class MaintenanceEventRemover {
         int maintenanceEventNumber = scanner.nextInt();
         MaintenanceEvent maintenanceEventToRemove = serviceHistory.getMaintenanceEventByNumber(maintenanceEventNumber);
         serviceHistory.removeMaintenanceEvent(maintenanceEventToRemove);
+        System.out.println("Maintenance event removed successfully!");
         }
     }
