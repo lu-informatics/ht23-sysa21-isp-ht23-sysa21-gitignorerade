@@ -1,26 +1,27 @@
 package lu.ics.se.models;
+
 import java.util.ArrayList;
 
 public class Workshop {
     private String workshopName;
     private String workshopAddress;
-    private boolean isContractor;
+    private boolean isInternal;
     private boolean servicesVans;
     private boolean servicesMediumTrucks;
     private boolean servicesLargeTrucks;
-    private ArrayList<ServiceEvent> serviceRecord;
+    private ArrayList<ServiceEvent> serviceEvent;
 
     public Workshop(){
-        serviceRecord = new ArrayList<ServiceEvent>();
+        serviceEvent = new ArrayList<ServiceEvent>();
     }
-    public Workshop(String workshopName, String workshopAddress, boolean isContractor, boolean servicesVans, boolean servicesMediumTrucks, boolean servicesLargeTrucks) {
+    public Workshop(String workshopName, String workshopAddress, boolean isInternal, boolean servicesVans, boolean servicesMediumTrucks, boolean servicesLargeTrucks) {
         this.workshopName = workshopName;
         this.workshopAddress = workshopAddress;
-        this.isContractor = isContractor;
+        this.isInternal = isInternal;
         this.servicesVans = servicesVans;
         this.servicesMediumTrucks = servicesMediumTrucks;
         this.servicesLargeTrucks = servicesLargeTrucks;
-        serviceRecord = new ArrayList<ServiceEvent>();
+        serviceEvent = new ArrayList<ServiceEvent>();
     }
     public String getWorkshopName() {
         return workshopName;
@@ -28,8 +29,8 @@ public class Workshop {
     public String getWorkshopAddress() {
         return workshopAddress;
     }
-    public boolean getIsContractor() {
-        return isContractor;
+    public boolean getIsInternal() {
+        return isInternal;
     }
     public boolean getServicesVans() {
         return servicesVans;
@@ -40,8 +41,8 @@ public class Workshop {
     public boolean getServicesLargeTrucks() {
         return servicesLargeTrucks;
     }
-    public ArrayList<ServiceEvent> getServiceRecord() {
-        return serviceRecord;
+    public ArrayList<ServiceEvent> getServiceEvent() {
+        return serviceEvent;
     }
     public void setWorkshopName(String workshopName) {
         this.workshopName = workshopName;
@@ -49,8 +50,8 @@ public class Workshop {
     public void setWorkshopAddress(String workshopAddress) {
         this.workshopAddress = workshopAddress;
     }
-    public void setIsContractor(boolean isContractor) {
-        this.isContractor = isContractor;
+    public void setIsInternal(boolean isInternal) {
+        this.isInternal = isInternal;
     }
     public void setServicesVans(boolean servicesVans) {
         this.servicesVans = servicesVans;
@@ -61,11 +62,11 @@ public class Workshop {
     public void setServicesLargeTrucks(boolean servicesLargeTrucks) {
         this.servicesLargeTrucks = servicesLargeTrucks;
     }
-    public void setServiceRecord(ArrayList<ServiceEvent> serviceRecord) {
-        this.serviceRecord = serviceRecord;
+    public void setServiceEvent(ArrayList<ServiceEvent> serviceEvent) {
+        this.serviceEvent = serviceEvent;
     }
     public void addServiceEvent(ServiceEvent serviceEvent){
-        serviceRecord.add(serviceEvent);
+        serviceEvent.add(serviceEvent);
     }
     
 
@@ -73,3 +74,5 @@ public class Workshop {
 
 
 }
+
+

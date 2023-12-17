@@ -65,5 +65,12 @@ public class ServiceEvent {
     public void setEventActions(ArrayList<ServiceAction> eventActions) {
         this.eventActions = eventActions;
     }
+    public void add(ServiceEvent serviceEvent) {
+
+    }
+    public void remove(ServiceEvent serviceEvent) {
+    }
+    public void addServiceAction(ServiceAction serviceAction) {
+    }
     
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.TableView?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="your.package.ViewAllVehiclesController">
+
+    <center>
+        <Ta§bleView fx:id="tableView">
+            <!-- Define your columns here -->
+        </TableView>
+    </center>
+
+</BorderPane>
