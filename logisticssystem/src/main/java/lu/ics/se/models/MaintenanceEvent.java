@@ -5,11 +5,12 @@ public class MaintenanceEvent {
     private String description;
     private String date;
     private int maintenanceEventNumberInServiceHistory;
+    private Vehicle vehicleServiced;
 
     public MaintenanceEvent() {
 
     }   
-    public MaintenanceEvent(Double cost, String description, String date, int maintenanceEventNumberInServiceHistory) {
+    public MaintenanceEvent(Double cost, String description, String date, int maintenanceEventNumberInServiceHistory, Vehicle vehicleServiced) {
         this.cost = cost;
         this.description = description;
         this.date = date;
@@ -27,6 +28,9 @@ public class MaintenanceEvent {
     public int getMaintenanceEventNumberInServiceHistory() {
         return maintenanceEventNumberInServiceHistory;
     }
+    public Vehicle getVehicleServiced() {
+        return vehicleServiced;
+    }
     public void setCost(Double cost) {
         this.cost = cost;
     }
@@ -38,6 +42,9 @@ public class MaintenanceEvent {
     }
     public void setMaintenanceEventNumberInServiceHistory(int maintenanceEventNumberInServiceHistory) {
         this.maintenanceEventNumberInServiceHistory = maintenanceEventNumberInServiceHistory;
+    }
+    public void setVehicleServiced(Vehicle vehicleServiced) {
+        this.vehicleServiced = vehicleServiced;
     }
     
 }

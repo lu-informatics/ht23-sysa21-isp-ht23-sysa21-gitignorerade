@@ -84,7 +84,7 @@ public class Vehicle {
     public void addMaintenanceEventByFunction(){
         MaintenanceEventAdder maintenanceEventAdder = new MaintenanceEventAdder();
         int maintenanceEventNumberInServiceHistory = serviceHistory.getServiceHistory().size() + 1;
-        addMaintenanceEvent(maintenanceEventAdder.createMaintenanceEvent(maintenanceEventNumberInServiceHistory));
+        addMaintenanceEvent(maintenanceEventAdder.createMaintenanceEvent(maintenanceEventNumberInServiceHistory, this));
            
     }
     public void removeMaintenanceEventByFunction(){
