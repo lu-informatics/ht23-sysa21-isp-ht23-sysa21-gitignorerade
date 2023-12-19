@@ -65,5 +65,9 @@ public class ServiceEvent {
     public void setEventActions(ArrayList<ServiceAction> eventActions) {
         this.eventActions = eventActions;
     }
+    public void addServiceActionToEvent(ServiceAction serviceAction) {
+        eventActions.add(serviceAction);
+    }
     
+
 }

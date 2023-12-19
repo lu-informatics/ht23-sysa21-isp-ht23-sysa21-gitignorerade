@@ -7,5 +7,14 @@ public class ServiceRecord {
     public ServiceRecord() {
         serviceRecord = new ArrayList<ServiceEvent>();
     }
+    public void addServiceEvent(ServiceEvent serviceEvent) {
+        serviceRecord.add(serviceEvent);
+    }
+    public ArrayList<ServiceEvent> getServiceRecord() {
+        return serviceRecord;
+    }
+    public void setServiceRecord(ArrayList<ServiceEvent> serviceRecord) {
+        this.serviceRecord = serviceRecord;
+    }
 
 }
