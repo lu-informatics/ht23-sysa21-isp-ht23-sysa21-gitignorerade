@@ -4,18 +4,20 @@ public class Workshop {
     private String workshopName;
     private String workshopID;
     private int workshopIndexInWorkshopList;
+    private boolean isInternalWorkshop;
     private ServiceHistory serviceHistoryofWorkshop;
     private VehicleManifest vehiclesPrimarilyServicedByWorkshop;
 
     public Workshop() {
 
     }
-    public Workshop(String workshopName, String workshopID) {
+    public Workshop(String workshopName, String workshopID, boolean isInternalWorkshop) {
         this.workshopName = workshopName;
         this.workshopID = workshopID;
         this.workshopIndexInWorkshopList = workshopIndexInWorkshopList;
         this.serviceHistoryofWorkshop = serviceHistoryofWorkshop;
         this.vehiclesPrimarilyServicedByWorkshop = vehiclesPrimarilyServicedByWorkshop;
+        this.isInternalWorkshop = isInternalWorkshop; 
     }
     public String getWorkshopName() {
         return workshopName;
@@ -32,6 +34,9 @@ public class Workshop {
     public VehicleManifest getVehiclesPrimarilyServicedByWorkshop() {
         return vehiclesPrimarilyServicedByWorkshop;
     }
+    public boolean getIsInternalWorkshop() {
+        return isInternalWorkshop;
+    }
     public void setWorkshopName(String workshopName) {
         this.workshopName = workshopName;
     }
@@ -47,6 +52,10 @@ public class Workshop {
     public void setVehiclesPrimarilyServicedByWorkshop(VehicleManifest vehiclesPrimarilyServicedByWorkshop) {
         this.vehiclesPrimarilyServicedByWorkshop = vehiclesPrimarilyServicedByWorkshop;
     }
+    public void setIsInternalWorkshop(boolean isInternalWorkshop) {
+        this.isInternalWorkshop = isInternalWorkshop;
+    }
+    
     
 
 

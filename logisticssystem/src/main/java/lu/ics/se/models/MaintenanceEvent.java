@@ -1,4 +1,5 @@
 package lu.ics.se.models;
+import java.util.ArrayList;
 
 public class MaintenanceEvent {
     private Double cost;
@@ -6,15 +7,16 @@ public class MaintenanceEvent {
     private String date;
     private int maintenanceEventNumberInServiceHistory;
     private Vehicle vehicleServiced;
+    private ArrayList<MaintenanceServiceAction> maintenanceServiceActions;
 
     public MaintenanceEvent() {
 
     }   
-    public MaintenanceEvent(Double cost, String description, String date, int maintenanceEventNumberInServiceHistory, Vehicle vehicleServiced) {
-        this.cost = cost;
+    public MaintenanceEvent(String description, String date, int maintenanceEventNumberInServiceHistory, Vehicle vehicleServiced) {
         this.description = description;
         this.date = date;
         this.maintenanceEventNumberInServiceHistory = maintenanceEventNumberInServiceHistory;
+        this.maintenanceServiceActions = new ArrayList<MaintenanceServiceAction>();
     }
     public Double getCost() {
         return cost;
@@ -31,6 +33,9 @@ public class MaintenanceEvent {
     public Vehicle getVehicleServiced() {
         return vehicleServiced;
     }
+    public ArrayList<MaintenanceServiceAction> getMaintenanceServiceActions() {
+        return maintenanceServiceActions;
+    }
     public void setCost(Double cost) {
         this.cost = cost;
     }
@@ -45,6 +50,16 @@ public class MaintenanceEvent {
     }
     public void setVehicleServiced(Vehicle vehicleServiced) {
         this.vehicleServiced = vehicleServiced;
+    }
+    public void setMaintenanceServiceActions(ArrayList<MaintenanceServiceAction> maintenanceServiceActions) {
+        this.maintenanceServiceActions = maintenanceServiceActions;
+    }
+    public void calculateMaintenanceEventCost(){
+        double totalCost = 0;
+        for (MaintenanceServiceAction maintenanceServiceAction : maintenanceServiceActions) {
+            totalCost += maintenanceServiceAction.calculateMaintenanceServiceActionCost();
+        }
+        this.cost = totalCost;
     }
     
 }

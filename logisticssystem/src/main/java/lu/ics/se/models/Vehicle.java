@@ -71,7 +71,12 @@ public class Vehicle {
     public void printFormattedServiceHistory(){
         for (MaintenanceEvent maintenanceEvent : serviceHistory.getServiceHistory()) {
             int i = 1;
-            System.out.println("---------" + "\n" + "Entry no: " + i + "\n" + "---------" + "\n" + "Description: " + maintenanceEvent.getDescription() + "\n" + "Cost: " + maintenanceEvent.getCost() + "\n" + "Date: " + maintenanceEvent.getDate());
+            System.out.println("---------" +
+            "\n" + "Entry no: " + i +
+            "\n" + "---------" +
+            "\n" + "Description: " + maintenanceEvent.getDescription() + 
+            "\n" + "Cost: " + maintenanceEvent.getCost() + 
+            "\n" + "Date: " + maintenanceEvent.getDate());
             i++;
         }
     }
@@ -85,7 +90,7 @@ public class Vehicle {
         MaintenanceEventAdder maintenanceEventAdder = new MaintenanceEventAdder();
         int maintenanceEventNumberInServiceHistory = serviceHistory.getServiceHistory().size() + 1;
         addMaintenanceEvent(maintenanceEventAdder.createMaintenanceEvent(maintenanceEventNumberInServiceHistory, this));
-           
+        maintenanceEventAdder = null;
     }
     public void removeMaintenanceEventByFunction(){
         MaintenanceEventRemover maintenanceEventRemover = new MaintenanceEventRemover();
