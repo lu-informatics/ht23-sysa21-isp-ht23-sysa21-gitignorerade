@@ -31,7 +31,7 @@ public class Vehicle {
         this.capacityInKg = capacityinKg;
         this.daysSinceLastService = daysSinceLastService;
         this.serviceEvent = new ArrayList<ServiceEvent>();
-        this.serviceHistory = new ServiceHistory();
+        this.serviceHistory = new ServiceHistory(vehicleType, daysSinceLastService, vehicleType, daysSinceLastService, daysSinceLastService, daysSinceLastService);
 
         
 

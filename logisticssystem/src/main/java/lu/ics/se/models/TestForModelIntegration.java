@@ -29,17 +29,17 @@ public class TestForModelIntegration {
         Part tire = new Part("Tire");
 
         // Add parts to events
-        maintenanceEvent1.addPart(tire);
-        maintenanceEvent2.addPart(tire);
-
-        // Create service history
+        // Initialize service history
         ServiceHistory serviceHistory = new ServiceHistory();
+
+        // Add service events to service history
         try {
             serviceHistory.addServiceEvent(maintenanceEvent1);
             serviceHistory.addServiceEvent(maintenanceEvent2);
         } catch (ServiceHistory.LargeTruckInternalServiceException e) {
             e.printStackTrace();
         }
+
 
         // Set service history for vehicles
         largeTruck.setServiceHistory(serviceHistory);

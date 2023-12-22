@@ -1,700 +1,296 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ListView?>
+<?import lu.ics.se.controllers.WorkshopHistoryController?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane xmlns="http://javafx.com/javafx/17"
+         xmlns:fx="http://javafx.com/fxml/1"
+         fx:controller="lu.ics.se.controllers.MainController"
+         tabClosingPolicy="UNAVAILABLE">
+
+    <!-- Vehicle Management Tab -->
+    <Tab text="Vehicle Management">
+        <content>
+            <AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+                        fx:controller="lu.ics.se.controllers.VehicleController">
+                <!-- Contents of the Vehicle Management tab -->
+                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                      prefHeight="400.0" prefWidth="600.0">
+                    <children>
+                        <Label text="Vehicle Management" underline="true">
+                            <font>
+                                <javafx.scene.text.Font size="20.0"/>
+                            </font>
+                        </Label>
+                        <VBox alignment="CENTER" spacing="10.0">
+                            <HBox spacing="10.0">
+                                <Label text="Vehicle Name:"/>
+                                <TextField fx:id="vehicleNameField"/>
+                                <Label text="Location:"/>
+                                <TextField fx:id="locationField"/>
+                                <Label text="Capacity (kg):"/>
+                                <TextField fx:id="capacityField"/>
+                                <Label text="Vehicle Type:"/>
+                                <TextField fx:id="vehicleTypeField"/>
+                                <Button text="Add Vehicle" onAction="#addVehicle"/>
+                            </HBox>
+                            <TableView fx:id="vehicleTable" prefHeight="200.0" prefWidth="400.0">
+                                <columns>
+                                    <TableColumn text="Vin" fx:id="vinColumn"/>
+                                    <TableColumn text="Name" fx:id="nameColumn"/>
+                                    <TableColumn text="Location" fx:id="locationColumn"/>
+                                    <TableColumn text="Capacity" fx:id="capacityColumn"/>
+                                    <TableColumn text="Type" fx:id="typeColumn"/>
+                                    <TableColumn text="Days Since Last Service" fx:id="daysSinceLastServiceColumn"/>
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </children>
+                </VBox>
+            </AnchorPane>
+        </content>
+    </Tab>
+    <VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="lu.ics.se.controllers.WorkshopsVisitedController">
+
+    <Label text="List of Workshops Visited by a Vehicle"/>
+    
+    <Label text="Enter Vehicle VIN:"/>
+    <TextField fx:id="vinTextField"/>
+    
+    <Button text="List Workshops" onAction="#listWorkshops"/>
+    
+    <ListView fx:id="workshopsListView"/>
+    
+    <Button text="Clear List" onAction="#clearList"/>
+</VBox>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="lu.ics.se.controllers.ServiceCostController">
+
+    <Label text="Cost of Services For all Vehicles"/>
+    <Button text="Calculate" onAction="#calculateTotalCost"/>
+
+</VBox>
+
+<AnchorPane fx:id="serviceCostTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.ServiceCostController">
    <children>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
-        <tabs>
-          <Tab text="Viking Express">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <ImageView fitHeight="373.0" fitWidth="606.0" layoutX="-5.0" layoutY="-1.0">
-                           <image>
-                              <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-14%20kl.%2017.45.28.png" />
-                           </image>
-                        </ImageView>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-          <Tab text="Vehicle">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TabPane layoutX="-3.0" layoutY="-3.0" prefHeight="373.0" prefWidth="604.0" tabClosingPolicy="UNAVAILABLE">
-                          <tabs>
-                            <Tab text="Add vehicles">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <Label layoutX="28.0" layoutY="23.0" text="Vehicle registration">
-                                             <font>
-                                                <Font size="39.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="34.0" layoutY="94.0" text="Vehicle Name:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="42.0" layoutY="133.0" text="Vehicle Type:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="89.0" layoutY="169.0" text="Location:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="87.0" layoutY="205.0" text="Capacity:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Button fx:id="addVehicleButton" layoutX="212.0" layoutY="253.0" mnemonicParsing="false" onAction="#addVehicle" style="-fx-background-color: black;" text="Add vehicle">
-                                             <font>
-                                                <Font size="21.0" />
-                                             </font>
-                                             <textFill>
-                                                <LinearGradient endX="1.0" endY="1.0">
-                                                   <stops>
-                                                      <Stop>
-                                                         <color>
-                                                            <Color red="1.0" green="1.0" blue="1.0" />
-                                                         </color>
-                                                      </Stop>
-                                                      <Stop offset="1.0">
-                                                         <color>
-                                                            <Color red="1.0" green="1.0" blue="1.0" />
-                                                         </color>
-                                                      </Stop>
-                                                   </stops>
-                                                </LinearGradient>
-                                             </textFill>
-                                          </Button>
-                                          <TextField fx:id="vehicleNameField" layoutX="200.0" layoutY="99.0" promptText="Vehicle Name" />
-                                          <TextField fx:id="vehicleTypeField" layoutX="199.0" layoutY="137.0" promptText="Vehicle Type" />
-                                          <TextField fx:id="locationField" layoutX="199.0" layoutY="173.0" promptText="Location" />
-                                          <TextField fx:id="capacityField" layoutX="199.0" layoutY="209.0" promptText="Capacity" />
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="461.0" layoutY="-36.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="103.0" layoutX="436.0" layoutY="207.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.57.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="127.0" fitWidth="112.0" layoutX="404.0" layoutY="266.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.21.33.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="-53.0" layoutY="240.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </Tab>
-                            <Tab text="View vehicles">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <TableView fx:id="vehicleTable" layoutX="2.0" prefHeight="346.0" prefWidth="605.0">
-                                            <columns>
-                                              <TableColumn fx:id="vinColumn" prefWidth="82.78449249267578" text="Vehicle Vin" />
-                                                <TableColumn fx:id="nameColumn" prefWidth="92.25757598876953" text="vehicle Name" />
-                                                <TableColumn fx:id="capacityColumn" prefWidth="84.56904602050781" text="Capacity (kg)" />
-                                                <TableColumn fx:id="typeColumn" prefWidth="86.28448486328125" text="Vehicle Type" />
-                                                <TableColumn fx:id="locationColumn" prefWidth="57.676727294921875" text="Location" />
-                                                <TableColumn fx:id="daysSinceLastServiceColumn" prefWidth="149.40744018554688" text="Days Since Last Service" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </Tab>
-                              <Tab text="Workshops visited">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <Label layoutX="11.0" layoutY="26.0" text="List of Workshops Visited By a Vehicle">
-                                             <font>
-                                                <Font size="28.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="29.0" layoutY="100.0" text="Enter Vehicle VIN:">
-                                             <font>
-                                                <Font size="21.0" />
-                                             </font></Label>
-                                          <TextField fx:id="vinTextField" layoutX="198.0" layoutY="102.0" promptText="VIN" />
-                                          <Button fx:id="listWorkshops" layoutX="230.0" layoutY="140.0" mnemonicParsing="false" onAction="#listWorkshops" style="-fx-background-color: black;" text="List Workshops" textFill="WHITE" />
-                                          <ListView fx:id="workshopsListView" layoutX="376.0" layoutY="71.0" prefHeight="223.0" prefWidth="207.0" />
-                                          <Button fx:id="clearList" layoutX="444.0" layoutY="305.0" mnemonicParsing="false" onAction="#clearList" style="-fx-background-color: black;" text="Clear List" textFill="WHITE" />
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="-85.0" layoutY="238.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="130.0" fitWidth="219.0" layoutX="117.0" layoutY="229.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.57.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="158.0" fitWidth="170.0" layoutX="154.0" layoutY="218.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.21.33.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                              <Tab text="Cost of service for vehicles">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <Label layoutX="210.0" layoutY="27.0" text="Cost of Service">
-                                             <font>
-                                                <Font size="28.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="14.0" layoutY="99.0" text="Total cost of service for a vehicle">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Button fx:id="calculateButton" layoutX="129.0" layoutY="178.0" mnemonicParsing="false" onAction="#calculateTotalServiceCost" style="-fx-background-color: black;" text="Calculate " textFill="WHITE" />
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="-85.0" layoutY="238.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Label layoutX="341.0" layoutY="99.0" text="Cost of Services for all vehicles">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Label>
-                                          <Button layoutX="402.0" layoutY="136.0" mnemonicParsing="false" onAction="#calculateTotalCost" style="-fx-background-color: black;" text="Calculate" textFill="WHITE" />
-                                          <ImageView fitHeight="235.0" fitWidth="30.0" layoutX="284.0" layoutY="73.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-14%20kl.%2015.44.37.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Text layoutX="58.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VIN:" />
-                                          <TextField fx:id="vinTextField" layoutX="85.0" layoutY="136.0" promptText="Enter VIN" />
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                          </tabs>
-                        </TabPane>
-                     </children>
-                  </AnchorPane>
-            </content>
-          </Tab>
-            <Tab text="Workshop">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TabPane layoutX="-3.0" layoutY="-3.0" prefHeight="387.0" prefWidth="619.0" tabClosingPolicy="UNAVAILABLE">
-                          <tabs>
-                            <Tab text="Add Workshops">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: black;">
-                                       <children>
-                                          <Label layoutX="194.0" layoutY="166.0" text="Workshop Address:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="229.0" layoutY="205.0" text="Workshop Type:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="218.0" layoutY="125.0" text="Workshop Name:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="nameField" layoutX="418.0" layoutY="129.0" promptText="Workshop Name" />
-                                          <TextField fx:id="addressField" layoutX="418.0" layoutY="169.0" promptText="Workshop Address" />
-                                          <TextField fx:id="typeField" layoutX="418.0" layoutY="211.0" promptText="Workshop Type" />
-                                          <Button fx:id="addWorkShopButton" layoutX="419.0" layoutY="268.0" mnemonicParsing="false" onAction="#handleAddWorkshop" style="-fx-background-color: white;" text="Add Workshop">
-                                             <font>
-                                                <Font size="21.0" />
-                                             </font>
-                                          </Button>
-                                          <Label layoutX="274.0" layoutY="65.0" text="Register workshop" textFill="WHITE">
-                                             <font>
-                                                <Font size="39.0" />
-                                             </font>
-                                          </Label>
-                                          <ImageView fitHeight="190.0" fitWidth="216.0" layoutX="-8.0" layoutY="-15.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-19%20kl.%2020.04.11.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="270.0" fitWidth="287.0" layoutX="-92.0" layoutY="211.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-19%20kl.%2020.03.18.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="188.0" layoutX="146.0" layoutY="234.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-19%20kl.%2020.03.27.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </AnchorPane>
-                              </content>
-                            </Tab>
-                            <Tab text="View Workshops">
-                              <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <TableView fx:id="workshopTable" prefHeight="342.0" prefWidth="606.0">
-                                            <columns>
-                                              <TableColumn fx:id="workshopNameColumn" prefWidth="120.0" text="Workshop Name" />
-                                              <TableColumn fx:id="workshopNameColumn" prefWidth="137.0" text="Workshop Address" />
-                                                <TableColumn fx:id="workshopTypeColumn" prefWidth="111.0" text="Workshop type" />
-                                            </columns>
-                                          </TableView>
-                                       </children></AnchorPane>
-                              </content>
-                            </Tab>
-                              <Tab text="Most expensive Workshop">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: black;">
-                                       <children>
-                                          <Label layoutX="83.0" layoutY="35.0" prefHeight="35.0" prefWidth="438.0" text="Most Expensive Workshop" textFill="WHITE">
-                                             <font>
-                                                <Font size="39.0" />
-                                             </font>
-                                          </Label>
-                                          <Button fx:id="displayMostExpensiveWorkshopButton" layoutX="139.0" layoutY="156.0" mnemonicParsing="false" onAction="#displayMostExpensiveWorkshop" style="-fx-background-color: white;" text="Display Most Expensive Workshop ">
-                                             <font>
-                                                <Font size="23.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                          </tabs>
-                        </TabPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Maintenance">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TabPane layoutX="-3.0" layoutY="-3.0" prefHeight="387.0" prefWidth="619.0" tabClosingPolicy="UNAVAILABLE">
-                           <tabs>
-                              <Tab text="Schedule maintenance">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <Label layoutX="194.0" layoutY="166.0" text="Workshop Address:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="229.0" layoutY="205.0" text="Workshop Type:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="218.0" layoutY="125.0" text="Workshop Name:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="vinField" layoutX="298.0" layoutY="112.0" promptText="VIN" />
-                                          <TextField fx:id="workShopNameField" layoutX="298.0" layoutY="194.0" promptText="Workshop Name" />
-                                          <Button fx:id="addMaintenanceButton" layoutX="267.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleAddMaintenance" style="-fx-background-color: black;" text="Schedule maintenance" textFill="WHITE">
-                                             <font>
-                                                <Font size="21.0" />
-                                             </font>
-                                          </Button>
-                                          <Label layoutX="115.0" layoutY="27.0" text="Schedule maintenance">
-                                             <font>
-                                                <Font size="39.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="costField" layoutX="297.0" layoutY="233.0" promptText="Cost" />
-                                          <Label layoutX="82.0" layoutY="151.0" text="Maintenance Date:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="230.0" layoutY="230.0" text="Cost:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="97.0" layoutY="190.0" text="Workshop Name:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="240.0" layoutY="110.0" text="VIN:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <DatePicker fx:id="maintenanceDatePicker" layoutX="298.0" layoutY="155.0" prefHeight="26.0" prefWidth="161.0" promptText="Maintenance date" />
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="501.0" layoutY="-25.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="140.0" fitWidth="108.0" layoutX="88.0" layoutY="266.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.21.33.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="-116.0" layoutY="27.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="95.0" layoutX="85.0" layoutY="249.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.57.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                              <Tab text="View maintenances">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <TableView layoutX="2.0" prefHeight="350.0" prefWidth="607.0">
-                                            <columns>
-                                              <TableColumn fx:id="vinColumn" prefWidth="75.0" text="VIN" />
-                                              <TableColumn fx:id="maintenanceDateColumn" prefWidth="109.51148986816406" text="Maintenance Date" />
-                                                <TableColumn fx:id="workshopNameColumn" prefWidth="109.51148986816406" text="Workshop Name" />
-                                                <TableColumn fx:id="costColumn" prefWidth="109.51148986816406" text="Cost" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                              <Tab text="Maintenance specifications ">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <Label fx:id="mostExpensiveMaintenanceLabel" layoutX="333.0" layoutY="96.0" prefHeight="31.0" prefWidth="257.0" text="Most Expensive Maintenance ">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="86.0" layoutY="25.0" text="Maintenance specifications">
-                                             <font>
-                                                <Font size="39.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="averageCostLabel" layoutX="21.0" layoutY="95.0" prefHeight="32.0" prefWidth="264.0" text="Average Cost For Maintenance ">
-                                             <font>
-                                                <Font size="20.0" />
-                                             </font>
-                                          </Label>
-                                          <ImageView fitHeight="254.0" fitWidth="30.0" layoutX="293.0" layoutY="75.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-14%20kl.%2015.44.37.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Button layoutX="86.0" layoutY="152.0" mnemonicParsing="false" onAction="#calculateAverageCost" style="-fx-background-color: black;" text="Calculate Average cost" textFill="WHITE" />
-                                          <Button layoutX="396.0" layoutY="152.0" mnemonicParsing="false" onAction="#displayMostExpensiveMaintenance" style="-fx-background-color: black;" text="Display Most Expensive" textFill="WHITE" />
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="-55.0" layoutY="202.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="161.0" layoutX="371.0" layoutY="242.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.57.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="126.0" fitWidth="64.0" layoutX="452.0" layoutY="216.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.21.33.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                           </tabs>
-                        </TabPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Service activity">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TabPane layoutX="-3.0" layoutY="-3.0" prefHeight="387.0" prefWidth="619.0" tabClosingPolicy="UNAVAILABLE">
-                           <tabs>
-                              <Tab text="Schedule maintenance">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <Label layoutX="194.0" layoutY="166.0" text="Workshop Address:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="229.0" layoutY="205.0" text="Workshop Type:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="218.0" layoutY="125.0" text="Workshop Name:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="vinField1" layoutX="297.0" layoutY="78.0" promptText="VIN" />
-                                          <TextField fx:id="workShopNameField1" layoutX="298.0" layoutY="194.0" promptText="Workshop Name" />
-                                          <Button fx:id="addMaintenanceButton1" layoutX="267.0" layoutY="275.0" mnemonicParsing="false" onAction="#handleAddMaintenance" style="-fx-background-color: black;" text="Schedule maintenance" textFill="WHITE">
-                                             <font>
-                                                <Font size="21.0" />
-                                             </font>
-                                          </Button>
-                                          <Label layoutX="129.0" layoutY="14.0" text="Add service activity">
-                                             <font>
-                                                <Font size="39.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="costField1" layoutX="297.0" layoutY="233.0" promptText="Cost" />
-                                          <Label layoutX="157.0" layoutY="111.0" text="Service Date:">
-                                             <font>
-                                                <Font size="22.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="218.0" layoutY="179.0" text="Cost of Service::">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="35.0" layoutY="142.0" text="Description of the problem:">
-                                             <font>
-                                                <Font size="22.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="244.0" layoutY="75.0" text="VIN:">
-                                             <font>
-                                                <Font size="22.0" />
-                                             </font>
-                                          </Label>
-                                          <DatePicker fx:id="maintenanceDatePicker1" layoutX="296.0" layoutY="115.0" prefHeight="26.0" prefWidth="161.0" promptText="Maintenance date" />
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="501.0" layoutY="-25.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="140.0" fitWidth="108.0" layoutX="88.0" layoutY="266.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.21.33.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="95.0" layoutX="85.0" layoutY="249.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.57.png" />
-                                             </image>
-                                          </ImageView>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                           </tabs>
-                        </TabPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-            <Tab text="Service History">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                     <children>
-                        <TabPane layoutX="-3.0" layoutY="-3.0" prefHeight="387.0" prefWidth="619.0" tabClosingPolicy="UNAVAILABLE">
-                           <tabs>
-                              <Tab text="Vehicle Service History">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <Label layoutX="194.0" layoutY="166.0" text="Workshop Address:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="218.0" layoutY="125.0" text="Workshop Name:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="vinField11" layoutX="162.0" layoutY="89.0" onAction="#vinTextField" promptText="VIN" />
-                                          <Button layoutX="173.0" layoutY="136.0" mnemonicParsing="false" onAction="#loadVehicleServiceHistory" style="-fx-background-color: black;" text="Load history" textFill="WHITE">
-                                             <font>
-                                                <Font size="21.0" />
-                                             </font>
-                                          </Button>
-                                          <Label layoutX="113.0" layoutY="3.0" text="Vehicle Service History">
-                                             <font>
-                                                <Font size="39.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="109.0" layoutY="86.0" text="VIN:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <ImageView fitHeight="140.0" fitWidth="108.0" layoutX="88.0" layoutY="266.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.21.33.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="-116.0" layoutY="27.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="95.0" layoutX="85.0" layoutY="249.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.57.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ListView fx:id="vehicleServiceHistoryListView" layoutX="340.0" layoutY="57.0" prefHeight="226.0" prefWidth="248.0" />
-                                          <Button layoutX="420.0" layoutY="292.0" mnemonicParsing="false" onAction="#clearList" style="-fx-background-color: black;" text="Clear list" textFill="WHITE">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                              <Tab text="Workshop Service History">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <Label layoutX="194.0" layoutY="166.0" text="Workshop Address:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="218.0" layoutY="125.0" text="Workshop Name:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="workshopNameTextField" layoutX="139.0" layoutY="101.0" onAction="#vinTextField" promptText="Workshop Name" />
-                                          <Button fx:id="loadHistory" layoutX="150.0" layoutY="146.0" mnemonicParsing="false" onAction="#loadHistory" style="-fx-background-color: black;" text="Load history" textFill="WHITE">
-                                             <font>
-                                                <Font size="21.0" />
-                                             </font>
-                                          </Button>
-                                          <Label layoutX="113.0" layoutY="3.0" text="Workshop Service History">
-                                             <font>
-                                                <Font size="39.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="124.0" layoutY="68.0" text="Workshop Name:">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <ImageView fitHeight="140.0" fitWidth="108.0" layoutX="88.0" layoutY="266.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.21.33.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="195.0" layoutX="-116.0" layoutY="27.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.02.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ImageView fitHeight="200.0" fitWidth="95.0" layoutX="85.0" layoutY="249.0">
-                                             <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-16%20kl.%2013.33.57.png" />
-                                             </image>
-                                          </ImageView>
-                                          <ListView fx:id="vehicleServiceHistoryListView1" layoutX="340.0" layoutY="57.0" prefHeight="226.0" prefWidth="248.0" />
-                                          <Button layoutX="420.0" layoutY="292.0" mnemonicParsing="false" onAction="#clearList" style="-fx-background-color: black;" text="Clear list" textFill="WHITE">
-                                             <font>
-                                                <Font size="18.0" />
-                                             </font>
-                                          </Button>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                              <Tab text="View all service history">
-                                 <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
-                                       <children>
-                                          <Label layoutX="194.0" layoutY="166.0" text="Workshop Address:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="218.0" layoutY="125.0" text="Workshop Name:" textFill="WHITE">
-                                             <font>
-                                                <Font size="26.0" />
-                                             </font>
-                                          </Label>
-                                          <TableView prefHeight="341.0" prefWidth="607.0">
-                                            <columns>
-                                              <TableColumn prefWidth="75.0" text="VIN" />
-                                              <TableColumn prefWidth="75.0" text="Vehicle Name" />
-                                                <TableColumn prefWidth="75.0" text="Workshop" />
-                                                <TableColumn prefWidth="75.0" text="Description" />
-                                                <TableColumn prefWidth="75.0" text="Cost" />
-                                            </columns>
-                                          </TableView>
-                                       </children>
-                                    </AnchorPane>
-                                 </content>
-                              </Tab>
-                           </tabs>
-                        </TabPane>
-                     </children>
-                  </AnchorPane>
-               </content>
-            </Tab>
-        </tabs>
-      </TabPane>
+      <Label layoutX="222.0" layoutY="46.0" text="Total Cost of Service for a Vehicle">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label text="Total Cost of Services For a Vehicle" Font.size="18"/>
+      <Label text="VIN:" />
+      <TextField fx:id="vinTextField" layoutX="260.0" layoutY="115.0" promptText="Enter VIN" />
+      <Button fx:id="calculateButton" layoutX="259.0" layoutY="161.0" mnemonicParsing="false" onAction="#calculateTotalServiceCost" text="Calculate" />
+      <Label fx:id="resultLabel" layoutX="254.0" layoutY="216.0" />
    </children>
 </AnchorPane>
+
+    <!-- Workshop Management Tab -->
+    <Tab text="Workshop Management">
+        <content>
+            <AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
+                        fx:controller="lu.ics.se.controllers.WorkshopController">
+                <!-- Contents of the Workshop Management tab -->
+                <VBox layoutX="20.0" layoutY="20.0" spacing="10.0">
+                    <HBox spacing="10.0">
+                        <TextField fx:id="nameField" promptText="Workshop Name:"/>
+                        <TextField fx:id="addressField" promptText="Workshop Address:"/>
+                        <TextField fx:id="typeField" promptText="Workshop Type:"/>
+                        <Button fx:id="addWorkshopButton" text="Add Workshop" onAction="#handleAddWorkshop"/>
+                    </HBox>
+                    <TableView fx:id="workshopTable" prefHeight="200.0" prefWidth="400.0">
+                        <columns>
+                            <TableColumn fx:id="workshopNameColumn" text="Workshop Name"/>
+                            <TableColumn fx:id="workshopAddressColumn" text="Workshop Address"/>
+                            <TableColumn fx:id="workshopTypeColumn" text="Workshop Type"/>
+                        </columns>
+                    </TableView>
+                </VBox>
+            </AnchorPane>
+        </content>
+    </Tab>
+    <tabs>
+                        <Tab text="Most Expensive Workshop">
+                            <content>
+                                <VBox spacing="10">
+                                    <Label text="Most Expensive Workshop" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                                    <HBox spacing="10">
+                                        <Label text="Most Expensive Workshop: "/>
+                                        <Label fx:id="mostExpensiveWorkshopLabel"/>
+                                        <Button fx:id="displayMostExpensiveWorkshopButton" text="Display Most Expensive" onAction="#displayMostExpensiveWorkshop"/>
+                                    </HBox>
+                                </VBox>
+                            </content>
+                        </Tab>
+                    </tabs>
+
+    <!-- Maintenance Schedule Tab -->
+    <Tab text="Maintenance Schedule">
+        <content>
+            <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
+                  fx:controller="lu.ics.se.controllers.MaintenanceTabController">
+                <!-- Contents of the Maintenance Schedule tab -->
+                <Label text="Maintenance Schedule" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                <TableView fx:id="maintenanceTable">
+                    <columns>
+                        <TableColumn text="VIN" fx:id="vinColumn"/>
+                        <TableColumn text="Maintenance Date" fx:id="maintenanceDateColumn"/>
+                        <TableColumn text="Workshop name" fx:id="workshopNameColumn"/>
+                        <TableColumn text="Cost" fx:id="costColumn"/>
+                    </columns>
+                </TableView>
+                <HBox spacing="10">
+                    <TextField fx:id="vinField" promptText="VIN"/>
+                    <DatePicker fx:id="maintenanceDatePicker" promptText="Maintenance Date"/>
+                    <TextField fx:id="workshopNameField" promptText="Workshop Name"/>
+                    <TextField fx:id="costField" promptText="Cost"/>
+                    <Button fx:id = "addMaintenanceButton" text="Schedule maintenance" onAction="#handleAddMaintenance"/>
+                </HBox>
+                <HBox spacing="10">
+                    <Label text="Average Cost For Maintenance "/>
+                    <Label fx:id="averageCostLabel"/>
+                    <Button text="Calculate Average Cost" onAction="#calculateAverageCost"/>
+                </HBox>
+                <HBox spacing="10">
+                    <Label text="Most Expensive Maintenance: "/>
+                    <Label fx:id="mostExpensiveMaintenanceLabel"/>
+                    <Button text="Display Most Expensive" onAction="#displayMostExpensiveMaintenance"/>
+                </HBox>
+            </VBox>
+        </content>
+    </Tab>
+
+<!-- New Service History Tab -->
+    <Tab text="Vehicle Service History">
+        <content>
+            <AnchorPane prefHeight="400.0" prefWidth="600.0">
+                <children>
+                    <Label layoutX="30.0" layoutY="30.0" text= "VIN:" />
+                    <TextField fx:id="vinTextField" layoutX="180.0" layoutY="27.0" promptText="VIN" />
+                    <Button layoutX="400.0" layoutY="25.0" mnemonicParsing="false" onAction="#loadVehicleServiceHistory" text="Load History" />
+                    <Button layoutX="580.0" layoutY="25.0" mnemonicParsing="false" onAction="#clearList" text="Clear List" />
+                    <ListView fx:id="vehicleServiceHistoryListView" layoutX="30.0" layoutY="80.0" prefHeight="250.0" prefWidth="540.0" />
+                </children>
+            </AnchorPane>
+        </content>
+    </Tab>
+</TabPane>
+
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="lu.ics.se.controllers.ServiceHistoryController"
+      alignment="CENTER"
+      spacing="10"
+      padding="20">
+
+    <Label text="Workshop Service History" style="-fx-font-size: 18px;"/>
+
+    <HBox spacing="10">
+        <Label text="Workshop Name:"/>
+        <TextField fx:id="workshopNameTextField"/>
+        <Button layoutX="580.0" layoutY="25.0" mnemonicParsing="false" onAction="#clearList" text="Clear List" />
+        <Button text="Load History" onAction="#loadHistory"/>
+    </HBox>
+
+    <ListView fx:id="serviceHistoryListView" prefHeight="300"/>
+
+</VBox>
+<TabPane fx:id="Service Activity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.MainController">
+    <tabs>
+        <!-- Other tabs go here -->
+
+        <!-- New Service Activity Tab -->
+        <Tab text="Service Activity">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                    <TabPane prefHeight="400.0" prefWidth="600.0">
+                        <tabs>
+                            <!-- Add Service Activity Tab -->
+                            <Tab text="Add Service Activity">
+                                <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                        <!-- Form for adding service activity -->
+                                        <Label layoutX="27.0" layoutY="30.0" text="VIN:" />
+                                        <TextField fx:id="vinField" layoutX="150.0" layoutY="27.0" promptText = "VIN" />
+
+                                        <Label layoutX="27.0" layoutY="70.0" text="Service Date:" />
+                                        <DatePicker fx:id="serviceDateField" layoutX="150.0" layoutY="67.0" promptText = "Service Date" />
+
+                                        <Label layoutX="27.0" layoutY="110.0" text="Description of the Problem:" />
+                                        <TextArea fx:id="descriptionField" layoutX="150.0" layoutY="107.0" prefHeight="64.0" prefWidth="250.0" promptText = "Description" />
+
+                                        <Label layoutX="27.0" layoutY="190.0" text="Cost of Service:" />
+                                        <TextField fx:id="costField" layoutX="150.0" layoutY="187.0" promptText = "Cost" />
+
+                                        <Label layoutX="27.0" layoutY="230.0" text="Parts Replaced:" />
+                                        <TextField fx:id="partsReplacedField" layoutX="150.0" layoutY="227.0" promptText ="Parts replaced" />
+
+                                        <Label layoutX="27.0" layoutY="270.0" text="Workshop Name:" />
+                                        <TextField fx:id="workshopNameField" layoutX="150.0" layoutY="267.0" promptText = "Workshop Name" />
+
+                                        <Button layoutX="27.0" layoutY="310.0" mnemonicParsing="false" onAction="#addServiceActivity" text="Add Service Activity" />
+                                    </AnchorPane>
+                                </content>
+                            </Tab>
+                        </tabs>
+                    </TabPane>
+                </AnchorPane>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>
+<Tab text="View Service Activities">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <!-- TableView for viewing service activities -->
+                            <TableView fx:id="serviceActivitiesTableView" layoutX="0.0" layoutY="0.0" prefHeight="250.0" prefWidth="550.0">
+                                <columns>
+                                    <TableColumn fx:id="vinColumn" prefWidth="75.0" text="VIN"/>
+                                    <TableColumn fx:id="serviceDateColumn" prefWidth="100.0" text="Service Date"/>
+                                    <TableColumn fx:id="descriptionColumn" prefWidth="150.0" text="Description"/>
+                                    <TableColumn fx:id="costColumn" prefWidth="75.0" text="Cost"/>
+                                    <TableColumn fx:id="partsReplacedColumn" prefWidth="100.0" text="Parts Replaced"/>
+                                    <TableColumn fx:id="workshopNameColumn" prefWidth="100.0" text="Workshop Name"/>
+                                    
+                                </columns>
+                            </TableView>
+                            <AnchorPane fx:id="detailsPane" layoutX="0.0" layoutY="250.0" prefHeight="100.0" prefWidth="550.0"/>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <TableView fx:id="serviceHistoryTableView" layoutX="20.0" layoutY="20.0" prefHeight="360.0" prefWidth="560.0">
+            <columns>
+                <TableColumn fx:id="vinColumn" text="VIN" />
+                <TableColumn fx:id="serviceDateColumn" text="Service Date" />
+                <TableColumn fx:id="descriptionColumn" text="Description" />
+                <TableColumn fx:id="costColumn" text="Cost" />
+                <TableColumn fx:id="partsReplacedColumn" text="Parts Replaced" />
+                <TableColumn fx:id="workshopNameColumn" text="Workshop Name" />
+            </columns>
+        </TableView>
+    </children>
+</AnchorPane>1
