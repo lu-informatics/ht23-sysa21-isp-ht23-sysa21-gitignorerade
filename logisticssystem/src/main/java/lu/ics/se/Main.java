@@ -1,9 +1,7 @@
 package lu.ics.se;
 
-import lu.ics.se.models.VehicleAdder;
-import lu.ics.se.models.VehicleManifest;
-import lu.ics.se.models.VehicleRemover;
-import lu.ics.se.models.Vehicle;
+import lu.ics.se.models.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 // todo: Add methods to remove vehicles from manifest and maintenanceevents from servicehistory
@@ -14,8 +12,10 @@ public class Main {
         VehicleRemover vehicleRemover = new VehicleRemover();
         Scanner myScanner = new Scanner(System.in);
         boolean isRunning = true;
+        int action = 0;
 
         while (isRunning) {
+            try{
             System.out.println("Welcome to the Logistics System!");
             System.out.println("Please enter the number of the action you want to perform:");
             System.out.println("1. Add a vehicle");
@@ -24,7 +24,7 @@ public class Main {
             System.out.println("4. Access the service history of a vehicle");
             System.out.println("5. Exit the program");
 
-            int action = myScanner.nextInt();
+            action = myScanner.nextInt();
 
             myScanner.nextLine();
 
@@ -85,6 +85,11 @@ public class Main {
                     System.out.println("Please enter a valid number");
                     break;
             }
+        }
+        catch (InputMismatchException e){
+            System.out.println("Please enter a number!");
+            myScanner.nextLine();
+        }
         }
         myScanner.close();
     }

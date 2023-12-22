@@ -20,6 +20,11 @@ public class WorkshopList {
     public void setWorkshopList(ArrayList<Workshop> workshopList){
         this.workshopList = workshopList;
     }
+    public void createWorkshop (String workshopName, String workshopID, boolean isInternalWorkshop){
+        Workshop workshop = new Workshop(workshopName, workshopID, isInternalWorkshop);
+        workshop.setWorkshopIndexInWorkshopList(workshopList.size());
+        workshopList.add(workshop);
+    }
 
 
 

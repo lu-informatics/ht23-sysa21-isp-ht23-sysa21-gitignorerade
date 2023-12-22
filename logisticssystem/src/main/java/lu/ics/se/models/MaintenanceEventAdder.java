@@ -24,7 +24,6 @@ public class MaintenanceEventAdder {
 
         int maintenanceActionChoice = scanner.nextInt();
         scanner.nextLine();
-        while (serviceActionAdderIsRunning){
             switch (maintenanceActionChoice) {
                 
                 case 1:
@@ -79,7 +78,6 @@ public class MaintenanceEventAdder {
 
 }
         
-}
 return maintenanceEvent;
 }
 }
