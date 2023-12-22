@@ -1,5 +1,6 @@
 package lu.ics.se.models;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ServiceEvent {
@@ -72,5 +73,31 @@ public class ServiceEvent {
     }
     public void addServiceAction(ServiceAction serviceAction) {
     }
-    
+    public void addPart(Part tire) {
+    }
+    public String getEventVehicleName() {
+        return null;
+    }
+    public String getEventWorkshopName() {
+        return null;
+    }
+    @Override
+    public String toString() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        StringBuilder result = new StringBuilder();
+        result.append("Event Name: ").append(eventName).append("\n");
+        result.append("Date: ").append(dateFormat.format(eventDate)).append("\n");
+        result.append("Description: ").append(eventDescription).append("\n");
+        result.append("Cost: $").append(eventCost).append("\n");
+
+        // Add information about service actions
+        result.append("Service Actions:\n");
+        for (ServiceAction action : eventActions) {
+            result.append(action.toString());  // Use the toString method of ServiceAction
+        }
+
+        return result.toString();
+    }
 }
+    
+

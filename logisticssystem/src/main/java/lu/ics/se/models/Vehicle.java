@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import javafx.beans.value.ObservableValue;
+
 public class Vehicle {
     private String vehicleIdentificationNumber;
     private String vehicleName;
@@ -12,7 +14,7 @@ public class Vehicle {
     private String vehicleType;
     private double daysSinceLastService;
     private ArrayList<ServiceEvent> serviceEvent;
-    private ServiceRecord serviceRecord;
+    private ServiceHistory serviceHistory;
     private int numberOfPartsReplaced;
     
     private static final int MAX_PARTS_REPLACED = 100;
@@ -20,7 +22,7 @@ public class Vehicle {
     private static final double TOTAL_COST_THRESHOLD = 100000;   
 
 
-    public Vehicle(String string, String string2, String string3, String string4, String string5){
+    public Vehicle(String string, String string2, String string3, double d, String string5){
    }
     public Vehicle(String vehicleIdentificationNumber, String vehicleName, String location, double capacityinKg, String vehicleType, double daysSinceLastService) {
         this.vehicleIdentificationNumber = generateUniqueVIN();
@@ -29,7 +31,7 @@ public class Vehicle {
         this.capacityInKg = capacityinKg;
         this.daysSinceLastService = daysSinceLastService;
         this.serviceEvent = new ArrayList<ServiceEvent>();
-        this.serviceRecord = new ServiceRecord();
+        this.serviceHistory = new ServiceHistory();
 
         
 
@@ -208,12 +210,12 @@ public class Vehicle {
         this.serviceEvent = serviceEvent;
     }
 
-    public ServiceRecord getServiceHistory() {
-        return serviceRecord;
+    public ServiceHistory getServiceHistory() {
+        return serviceHistory;
     }
 
-    public void setServiceHistory(ServiceRecord serviceRecord) {
-        this.serviceRecord = serviceRecord;
+    public void setServiceHistory(ServiceHistory serviceHistory) {
+        this.serviceHistory = serviceHistory;
     }
 
     public String getVehicleName() {
@@ -257,6 +259,24 @@ public class Vehicle {
 
     public void setNumberOfPartsReplaced(int numberOfPartsReplaced){
         this.numberOfPartsReplaced = numberOfPartsReplaced;
+    }
+    public ObservableValue<String> vehicleNameProperty() {
+        return null;
+    }
+    public Object vehicleIdentificationNumberProperty() {
+        return null;
+    }
+    public Object getCapacity() {
+        return null;
+    }
+    public ObservableValue<String> locationProperty() {
+        return null;
+    }
+    public Object capacityProperty() {
+        return null;
+    }
+    public Object daysSinceLastServiceProperty() {
+        return null;
     }
    
 }

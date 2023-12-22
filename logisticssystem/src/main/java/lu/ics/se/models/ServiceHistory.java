@@ -1,12 +1,27 @@
 package lu.ics.se.models;
 import java.util.ArrayList;
 
-public class ServiceRecord {
+public class ServiceHistory {
     private ArrayList<ServiceEvent> serviceEvent;
+    private String vin;
+    private String serviceDate;
+    private String description;
+    private String cost;
+    private String partsReplaced;
+    private String workshopName;
 
-    public ServiceRecord() {
+    public ServiceHistory(String string, Object object, String string2, Object object2, Object object3, Object object4) {
         serviceEvent = new ArrayList<ServiceEvent>();
     }
+public ServiceHistory (String vin, String serviceDate, String description, String cost, String partsReplaced, String workshopName) {
+    this.vin = vin;
+    this.serviceDate = serviceDate;
+    this.description = description;
+    this.cost = cost;
+    this.partsReplaced = partsReplaced;
+    this.workshopName = workshopName;
+    serviceEvent = new ArrayList<ServiceEvent>();
+}
 
     public class LargeTruckInternalServiceException extends Exception {
         public LargeTruckInternalServiceException(String message) {
@@ -50,11 +65,55 @@ public class ServiceRecord {
         return null; // Handle the case when no maintenance event is found
     }
 
-    
-    
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
 
+    public void setServiceDate(String serviceDate) {
+        this.serviceDate = serviceDate;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setCost(String cost) {
+        this.cost = cost;
+    }
+
+    public void setPartsReplaced(String partsReplaced) {
+        this.partsReplaced = partsReplaced;
+    }
+
+    public void setWorkshopName(String workshopName) {
+        this.workshopName = workshopName;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public String getServiceDate() {
+        return serviceDate;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getCost() {
+        return cost;
+    }
+
+    public String getPartsReplaced() {
+        return partsReplaced;
+    }
+
+    public String getWorkshopName() {
+        return workshopName;
+    }
+
+    
 }
 
     
-
-

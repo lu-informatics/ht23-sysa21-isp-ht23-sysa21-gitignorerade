@@ -3,6 +3,9 @@ package lu.ics.se.models;
 
 import java.util.ArrayList;
 
+import javafx.collections.ObservableList;
+import javafx.util.Callback;
+
 public class VehicleManifest {
     private ArrayList<Vehicle> companyOwnedVehicles;
     
@@ -43,6 +46,14 @@ public class VehicleManifest {
     
     public void removeVehicle(Vehicle vehicle) {
         companyOwnedVehicles.remove(vehicle);
+    }
+
+    public Callback getAllServiceEvents() {
+        return null;
+    }
+
+    public Vehicle getVehicleByName(String vehicleName) {
+        return null;
     } 
 }
     

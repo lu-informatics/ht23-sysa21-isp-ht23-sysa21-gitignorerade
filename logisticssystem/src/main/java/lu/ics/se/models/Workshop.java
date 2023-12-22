@@ -11,7 +11,7 @@ public class Workshop {
     private boolean servicesLargeTrucks;
     private ArrayList<ServiceEvent> serviceEvent;
 
-    public Workshop(){
+    public Workshop(String name, String address, String type){
         serviceEvent = new ArrayList<ServiceEvent>();
     }
     public Workshop(String workshopName, String workshopAddress, boolean isInternal, boolean servicesVans, boolean servicesMediumTrucks, boolean servicesLargeTrucks) {
@@ -67,6 +67,11 @@ public class Workshop {
     }
     public void addServiceEvent(ServiceEvent serviceEvent){
         serviceEvent.add(serviceEvent);
+    }
+    public String getType() {
+        return null;
+    }
+    public void setType(String text) {
     }
     
 

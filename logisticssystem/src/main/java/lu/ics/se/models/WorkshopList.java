@@ -1,6 +1,8 @@
 package lu.ics.se.models;
 import java.util.ArrayList;
 
+import javafx.util.Callback;
+
     public class WorkshopList {
         private ArrayList<Workshop> workshopsAvailable;
         
@@ -58,6 +60,10 @@ import java.util.ArrayList;
                 }
             }
             return null; // Handle the case when no workshop is found
+        }
+
+        public Callback getAllWorkshopNames() {
+            return null;
         }
 
         
