@@ -278,5 +278,8 @@ public class Vehicle {
     public Object daysSinceLastServiceProperty() {
         return null;
     }
+    public String getVin() {
+        return null;
+    }
    
 }

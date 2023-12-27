@@ -30,7 +30,7 @@ public class TestForModelIntegration {
 
         // Add parts to events
         // Initialize service history
-        ServiceHistory serviceHistory = new ServiceHistory();
+        ServiceHistory serviceHistory = new ServiceHistory(null, null, null, null, null, null);
 
         // Add service events to service history
         try {

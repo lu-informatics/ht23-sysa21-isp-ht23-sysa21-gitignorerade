@@ -307,39 +307,14 @@ public class VehicleController5 {
             public ServiceCostController(VehicleManifest vehicleManifest) {
                 this.vehicleManifest = vehicleManifest;
             }
-
-            
-
             @FXML
-            void calculateTotalCost() {
-                // Assuming you have a method in the VehicleManifest class to calculate the total cost
-                double totalCost = vehicleManifest.calculateTotalServiceCostForAllVehicles();
+            private void calculateTotalServiceCost() {
+            String vin = vinTextField.getText().trim();
 
-                // Display the result in a pop-up window
-                Stage stage = new Stage();
-                stage.initStyle(StageStyle.UTILITY);
-                stage.setTitle("Total Cost of Services");
-
-                VBox vbox = new VBox(new Label("The total cost of services for all vehicles is: $" + totalCost));
-                Button closeButton = new Button("Close");
-                closeButton.setOnAction(e -> stage.close());
-                vbox.getChildren().add(closeButton);
-
-                Scene scene = new Scene(vbox, 250, 100);
-                stage.setScene(scene);
-
-                // Show the stage
-                stage.show();
-            
-        }
-        @FXML
-    private void calculateTotalServiceCost(ActionEvent event) {
-        String vin = vinTextField.getText().trim();
-
-        if (vin.isEmpty()) {
+            if (vin.isEmpty()) {
             showAlert("Error", "VIN Empty", "Please enter a VIN.");
             return;
-        }
+            }
 
         // Assuming you have a method to get a vehicle by VIN from your data model
         Vehicle vehicle = getVehicleByVIN(vin);
@@ -349,32 +324,76 @@ public class VehicleController5 {
             return;
         }
 
-        double totalCost = calculateTotalServiceCostForVehicle(vehicle);
+        TableView<ServiceEvent> maintenanceEventsTableView = new TableView<>();
+        TableView<ServiceHistory> serviceHistoryEntriesTableView = new TableView<>();
+        // Assuming you have TableView instances for maintenance and service history in your UI
 
-        // Display the result
-        resultLabel.setText("Total Cost of Service: $" + totalCost);
+        double totalCost = calculateTotalCostForEvents(maintenanceEventsTableView, serviceHistoryEntriesTableView);
+
+        // Display the result in a pop-up window for the individual vehicle
+        showTotalServiceCostForVehicle(vehicle, totalCost);
     }
 
-    private double calculateTotalServiceCostForVehicle(Vehicle vehicle) {
+    @FXML
+    private void calculateTotalCost() {
+        TableView<ServiceEvent> maintenanceEventsTableView = new TableView<>();
+        TableView<ServiceHistory> serviceHistoryEntriesTableView = new TableView<>();
+        // Assuming you have TableView instances for maintenance and service history in your UI
+        double totalCost = calculateTotalCostForEvents(maintenanceEventsTableView, serviceHistoryEntriesTableView);
+
+        // Display the result in a pop-up window for all vehicles
+        showTotalServiceCostForAllVehicles(totalCost);
+    }
+
+    private double calculateTotalCostForEvents(TableView<ServiceEvent> maintenanceTableView, TableView<ServiceHistory> serviceHistoryTableView) {
         double totalCost = 0;
 
-        // Assuming you have a method to get all service events for a vehicle from your data model
-        ArrayList<ServiceEvent> serviceEvents = getAllServiceEventsForVehicle(vehicle);
+        // Loop through maintenance events
+        for (ServiceEvent maintenanceEvent : maintenanceTableView.getItems()) {
+            totalCost += maintenanceEvent.getEventCost();
+        }
 
-        for (ServiceEvent event : serviceEvents) {
-            totalCost += event.getEventCost();
+        // Loop through service history entries
+        for (ServiceHistory serviceHistoryEntry : serviceHistoryTableView.getItems()) {
+            totalCost += Double.parseDouble(serviceHistoryEntry.getCost());
         }
 
         return totalCost;
     }
-    @FXML
-    private void closeWindow(ActionEvent event) {
-        // Close the pop-up window
-        if (stage != null) {
-            stage.close();
-        }
-    
-}
+
+    private void showTotalServiceCostForVehicle(Vehicle vehicle, double totalCost) {
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.UTILITY);
+        stage.setTitle("Total Service Cost for Vehicle");
+
+        VBox vbox = new VBox(new Label("The total service cost for vehicle with VIN " + vehicle.getVin() + " is: $" + totalCost));
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(e -> stage.close());
+        vbox.getChildren().add(closeButton);
+
+        Scene scene = new Scene(vbox, 350, 100);
+        stage.setScene(scene);
+
+        // Show the stage
+        stage.show();
+    }
+
+    private void showTotalServiceCostForAllVehicles(double totalCost) {
+        Stage stage = new Stage();
+        stage.initStyle(StageStyle.UTILITY);
+        stage.setTitle("Total Cost of Services");
+
+        VBox vbox = new VBox(new Label("The total cost of services for all vehicles is: $" + totalCost));
+        Button closeButton = new Button("Close");
+        closeButton.setOnAction(e -> stage.close());
+        vbox.getChildren().add(closeButton);
+
+        Scene scene = new Scene(vbox, 350, 100);
+        stage.setScene(scene);
+
+        // Show the stage
+        stage.show();
+    }
 
     private void showAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -384,80 +403,71 @@ public class VehicleController5 {
         alert.showAndWait();
     }
 
-    // Placeholder methods, replace with your actual data model interactions
     private Vehicle getVehicleByVIN(String vin) {
-        // Implement this method to retrieve a Vehicle by VIN
+        // Implement this method to retrieve a vehicle by VIN from your data model
         return null;
     }
 
-    private ArrayList<ServiceEvent> getAllServiceEventsForVehicle(Vehicle vehicle) {
-        // Implement this method to retrieve all service events for a Vehicle
-        return null;
-    }
+    // Define your ServiceEvent, ServiceHistory, and Vehicle classes as needed
 }
-
-        
-    }
 
     
-    public class WorkshopsVisitedController {
+    class WorkshopsVisitedController {
 
-    @FXML
-    private TextField vinTextField;
+        @FXML
+        private TextField vinTextField;
 
-    @FXML
-    private ListView<String> workshopsListView;
+        @FXML
+        private ListView<String> workshopsListView;
 
-    private VehicleManifest vehicleManifest;  // Assuming you have a reference to the VehicleManifest
+        private VehicleManifest vehicleManifest;  // Assuming you have a reference to the VehicleManifest
 
-    public WorkshopsVisitedController(VehicleManifest vehicleManifest) {
-        this.vehicleManifest = vehicleManifest;
-    }
-
-    @FXML
-    private void listWorkshops(ActionEvent event) {
-        // Get the VIN from the text field
-        String vin = vinTextField.getText().trim();
-
-        // Clear the previous list
-        workshopsListView.getItems().clear();
-
-        // Find the vehicle by VIN
-        Vehicle vehicle = findVehicleByVIN(vin);
-
-        // If the vehicle is found, list the workshops
-        if (vehicle != null) {
-            List<lu.ics.se.models.Workshop> workshops = vehicle.getWorkshopsServicedIn();
-
-            // Display the workshops in the ListView
-            for (lu.ics.se.models.Workshop workshop : workshops) {
-                workshopsListView.getItems().add(workshop.getWorkshopName());
-            }
-        } else {
-            // Vehicle not found
-            workshopsListView.getItems().add("Vehicle not found");
+        public WorkshopsVisitedController(VehicleManifest vehicleManifest) {
+            this.vehicleManifest = vehicleManifest;
         }
-    }
 
-    @FXML
-    private void clearList(ActionEvent event) {
-        // Clear the ListView
-        workshopsListView.getItems().clear();
-    }
+        @FXML
+        private void listWorkshops(ActionEvent event) {
+            // Get the VIN from the text field
+            String vin = vinTextField.getText().trim();
 
-    // Helper method to find a vehicle by VIN
-    private Vehicle findVehicleByVIN(String vin) {
-        List<Vehicle> vehicles = vehicleManifest.getCompanyOwnedVehicles();
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle.getVehicleIdentificationNumber().equals(vin)) {
-                return vehicle;
+            // Clear the previous list
+            workshopsListView.getItems().clear();
+
+            // Find the vehicle by VIN
+            Vehicle vehicle = findVehicleByVIN(vin);
+
+            // If the vehicle is found, list the workshops
+            if (vehicle != null) {
+                List<lu.ics.se.models.Workshop> workshops = vehicle.getWorkshopsServicedIn();
+
+                // Display the workshops in the ListView
+                for (lu.ics.se.models.Workshop workshop : workshops) {
+                    workshopsListView.getItems().add(workshop.getWorkshopName());
+                }
+            } else {
+                // Vehicle not found
+                workshopsListView.getItems().add("Vehicle not found");
             }
         }
-        return null;
+
+        @FXML
+        private void clearList(ActionEvent event) {
+            // Clear the ListView
+            workshopsListView.getItems().clear();
+        }
+
+        // Helper method to find a vehicle by VIN
+        private Vehicle findVehicleByVIN(String vin) {
+            List<Vehicle> vehicles = vehicleManifest.getCompanyOwnedVehicles();
+            for (Vehicle vehicle : vehicles) {
+                if (vehicle.getVehicleIdentificationNumber().equals(vin)) {
+                    return vehicle;
+                }
+            }
+            return null;
+        }
     }
-}
-    @FXML
-    private void handleAddWorkshop(ActionEvent event) {
         String name = nameField.getText();
         String address = addressField.getText();
         String type = typeField.getText();
@@ -572,10 +582,14 @@ private void displayMostExpensiveWorkshop() {
                 "Workshop Name: " + mostExpensiveWorkshop.getWorkshopName() + "\n" +
                 "Workshop Address: " + mostExpensiveWorkshop.getWorkshopAddress() + "\n" +
                 "Total Cost: $" + calculateTotalCostForWorkshop(mostExpensiveWorkshop);
-        showAlert("Most Expensive Workshop", mostExpensiveWorkshopMessage);
+        showAlert3("Most Expensive Workshop", mostExpensiveWorkshopMessage);
     } else {
-        showAlert("No Workshops", "There are no workshops available.");
+        showAlert3("No Workshops", "There are no workshops available.");
     }
+}
+
+private double calculateTotalCostForWorkshop(Workshop workshop) {
+    return 0.0;
 }
 
 private Workshop findMostExpensiveWorkshop() {
@@ -598,18 +612,41 @@ private Workshop findMostExpensiveWorkshop() {
         }
     }
 
+    // Check the maintenanceTableView
+    for (ServiceEvent event : maintenanceTableView.getItems()) {
+        double totalCost = event.getEventCost();
+        if (totalCost > maxCost) {
+            maxCost = totalCost;
+            mostExpensiveWorkshop = new Workshop(
+                    event.getEventWorkshopName(),
+                    event.getEventWorkshopAddress(),
+                    calculateTotalCostForWorkshop(event)
+            );
+        }
+    }
+    TableView<ServiceHistory> serviceHistoryTableView = new TableView<>();
+    for (ServiceHistory history : serviceHistoryTableView.getItems()) {
+        double totalCost = Double.parseDouble(history.getCost());
+        if (totalCost > maxCost) {
+            maxCost = totalCost;
+            mostExpensiveWorkshop = new Workshop(
+                    history.getWorkshopName(),
+                    history.getWorkshopAddress(),
+                    calculateTotalCostForWorkshop2(history),
+                    ""
+            );
+        }
+    }
     return mostExpensiveWorkshop;
+    
 }
 
-private double calculateTotalCostForWorkshop(Workshop workshop) {
-    double totalCost = 0;
+private String calculateTotalCostForWorkshop2(ServiceHistory history) {
+    return null;
+}
 
-    // Iterate through all service events of the workshop to calculate total cost
-    for (ServiceEvent event : workshop.getServiceEvent()) {
-        totalCost += event.getEventCost();
-    }
-
-    return totalCost;
+private Object calculateTotalCostForWorkshop(ServiceEvent event) {
+    return null;
 }
 
 private void showAlert3(String title, String content) {
@@ -624,12 +661,25 @@ private void showAlert3(String title, String content) {
     @FXML
     private void initializeMaintenanceTableView() {
         // Set up columns for maintenance table view
-        vehicleColumn.setCellValueFactory(new PropertyValueFactory<>("eventVehicleName"));
+        TableColumn<ServiceEvent, String> vinColumn = new TableColumn<>("VIN");
+        vinColumn.setCellValueFactory(new PropertyValueFactory<>("eventVin"));
+
+        TableColumn<ServiceEvent, LocalDate> dateColumn = new TableColumn<>("Date");
         dateColumn.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
+
+        TableColumn<ServiceEvent, String> workshopColumn = new TableColumn<>("Workshop");
         workshopColumn.setCellValueFactory(new PropertyValueFactory<>("eventWorkshopName"));
+
+        TableColumn<ServiceEvent, Double> costColumn = new TableColumn<>("Cost");
+        costColumn.setCellValueFactory(new PropertyValueFactory<>("eventCost"));
+
+        // Add columns to the table view
+        maintenanceTableView.getColumns().addAll(vinColumn, dateColumn, workshopColumn, costColumn);
+
 
         // Add double-click event to open the edit/delete window
         maintenanceTableView.setOnMouseClicked(this::handleMaintenanceDoubleClick);
+
         // Load initial data into the table
         refreshMaintenanceTable();
     }
@@ -642,12 +692,16 @@ private void showAlert3(String title, String content) {
     private void handleAddMaintenance() {
         try {
             // Get input values from UI elements
-            String vehicleName = vehicleNameTextField.getText();
-            String workshopName = workshopChoiceBox.getValue();
+            TextField vinField = new TextField(); // Replace TextField with the appropriate type for vinField
+            String vehicleVin = vinField.getText();
+            TextInputControl workshopNameField = new TextField(); // Replace TextField with the appropriate type for workshopNameField
+            String workshopName = workshopNameField.getText();
             String dateString = maintenanceDatePicker.getEditor().getText();
+            TextInputControl costField = new TextField(); // Replace TextField with the appropriate type for costField
+            double costFieldValue = Double.parseDouble(costField.getText());
 
             // Validate inputs
-            if (vehicleName.isEmpty() || workshopName == null || dateString.isEmpty()) {
+            if (vehicleVin.isEmpty() || workshopName.isEmpty() || dateString.isEmpty() || String.valueOf(costFieldValue).isEmpty()) {
                 showAlert("Error", "Please fill in all fields.");
                 return;
             }
@@ -656,10 +710,10 @@ private void showAlert3(String title, String content) {
             // Note: You should handle date parsing errors in a real-world application
             ServiceEvent newMaintenance = new ServiceEvent("Maintenance", "Maintenance Description",
                     0.0, DateUtil.parseStringToDate(dateString), workshopList.getWorkshopByName(workshopName),
-                    vehicleManifest.getVehicleByName(vehicleName), new ArrayList<>());
+                    vehicleManifest.getVehicleByVIN(vehicleVin), new ArrayList<>());
 
             // Add the new maintenance to the vehicle's service events
-            Vehicle selectedVehicle = vehicleManifest.getVehicleByName(vehicleName);
+            Vehicle selectedVehicle = vehicleManifest.getVehicleByVIN(vehicleVin);
             selectedVehicle.addServiceEvent(newMaintenance);
 
             // Refresh the maintenance table view
@@ -712,11 +766,17 @@ private void showAlert3(String title, String content) {
         updateLabels();
     }
 
+    private Label costLabel; // Declare costLabel
+
+
     private void updateLabels() {
-        vehicleLabel.setText("Vehicle: " + selectedMaintenance.getEventVehicleName());
+        vehicleLabel.setText("VIN: " + selectedMaintenance.getEventVehicleVIN());
         dateLabel.setText("Date: " + selectedMaintenance.getEventDate());
         workshopLabel.setText("Workshop: " + selectedMaintenance.getEventWorkshopName());
+        costLabel.setText("Cost: $" + selectedMaintenance.getEventCost());
     }
+
+
 
     @FXML
     private void handleEdit() {
@@ -899,27 +959,29 @@ private void showAlert3(String title, String content) {
     }
 
     @FXML
-    private void showHistory(ActionEvent event) {
-        String workshopName = workshopNameTextField.getText().trim();
-        Workshop workshop = workshopList.getWorkshopByName(workshopName);
+private void showHistory(ActionEvent event) {
+    String workshopName = workshopNameTextField.getText().trim();
+    Workshop workshop = workshopList.getWorkshopByName(workshopName);
 
-        // Clear the ListView before displaying new entries
-        serviceHistoryListView.getItems().clear();
+    // Clear the ListView before displaying new entries
+    serviceHistoryListView.getItems().clear();
 
-        if (workshop != null) {
-            // Display service history entries for the selected workshop
-            for (ServiceEvent serviceEvent : workshop.getServiceEvent()) {
-                serviceHistoryListView.getItems().add(formatServiceEvent(serviceEvent));
+    if (workshop != null) {
+        // Iterate through the general service history and filter entries for the selected workshop
+        for (ServiceHistory serviceHistory : serviceHistories) {
+            if (serviceHistory.getWorkshopName() != null &&
+                serviceHistory.getWorkshopName().equals(workshop.getWorkshopName())) {
+                // Add the entry to the workshop service history ListView
+                serviceHistoryListView.getItems().add(formatServiceHistory(serviceHistory));
             }
-        } else {
-            // Handle the case when the workshop is not found
-            showAlert("Workshop not found.", "Error", Alert.AlertType.ERROR);
         }
+    } else {
+        // Handle the case when the workshop is not found
+        showAlert("Workshop not found.", "Error", Alert.AlertType.ERROR);
     }
 
-    private String formatServiceEvent(ActionEvent event) {
-        return null;
-    }
+}
+
 
     // Format the service event information for display
     private String formatServiceEvent(ServiceEvent event) {
@@ -1204,17 +1266,18 @@ public class YourController {
         });
     }
 
+    private void handleServiceHistoryDoubleClick() {
+    }
+
     @FXML
     private void initialize() {
         // Existing code...
         initializeServiceHistoryTable();
     }
 
-    private void handleServiceHistoryDoubleClick() {
-        TableView<ServiceHistory> serviceHistoryTableView = new TableView<>(); // Initialize the variable
-
+    private void handleServiceHistoryDoubleClick(TableView<ServiceHistory> serviceHistoryTableView) {
         ServiceHistory selectedHistoryEntry = serviceHistoryTableView.getSelectionModel().getSelectedItem();
-
+    
         if (selectedHistoryEntry != null) {
             // Show a confirmation dialog
             if (showConfirmationDialog("Remove Service History Entry",
@@ -1224,6 +1287,7 @@ public class YourController {
             }
         }
     }
+    
 
     private boolean showConfirmationDialog(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);

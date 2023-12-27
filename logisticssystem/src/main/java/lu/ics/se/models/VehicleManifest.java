@@ -54,6 +54,10 @@ public class VehicleManifest {
 
     public Vehicle getVehicleByName(String vehicleName) {
         return null;
+    }
+
+    public Vehicle getVehicleByVIN(String vehicleVin) {
+        return null;
     } 
 }
     

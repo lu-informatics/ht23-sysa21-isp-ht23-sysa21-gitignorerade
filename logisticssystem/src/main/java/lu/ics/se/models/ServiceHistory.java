@@ -10,10 +10,10 @@ public class ServiceHistory {
     private String partsReplaced;
     private String workshopName;
 
-    public ServiceHistory(String string, Object object, String string2, Object object2, Object object3, Object object4) {
+    public ServiceHistory() {
         serviceEvent = new ArrayList<ServiceEvent>();
     }
-public ServiceHistory (String vin, String serviceDate, String description, String cost, String partsReplaced, String workshopName) {
+public ServiceHistory (String vin, Object object, String description, Object object2, Object object3, Object object4) {
     this.vin = vin;
     this.serviceDate = serviceDate;
     this.description = description;
@@ -111,6 +111,12 @@ public ServiceHistory (String vin, String serviceDate, String description, Strin
 
     public String getWorkshopName() {
         return workshopName;
+    }
+    public String calculateTotalCostForWorkshop() {
+        return null;
+    }
+    public String getWorkshopAddress() {
+        return null;
     }
 
     

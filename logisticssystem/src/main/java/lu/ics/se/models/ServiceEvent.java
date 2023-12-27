@@ -98,6 +98,14 @@ public class ServiceEvent {
 
         return result.toString();
     }
+    public String getEventVehicleVIN() {
+        return null;
+    }
+    public String getEventWorkshopAddress() {
+        return null;
+    }
+    public void calculateTotalCostForWorkshop() {
+    }
 }
     
 

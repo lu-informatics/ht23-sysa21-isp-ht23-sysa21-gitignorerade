@@ -11,7 +11,7 @@ public class Workshop {
     private boolean servicesLargeTrucks;
     private ArrayList<ServiceEvent> serviceEvent;
 
-    public Workshop(String name, String address, String type){
+    public Workshop(String name, String address, String type, String string){
         serviceEvent = new ArrayList<ServiceEvent>();
     }
     public Workshop(String workshopName, String workshopAddress, boolean isInternal, boolean servicesVans, boolean servicesMediumTrucks, boolean servicesLargeTrucks) {
@@ -23,6 +23,18 @@ public class Workshop {
         this.servicesLargeTrucks = servicesLargeTrucks;
         serviceEvent = new ArrayList<ServiceEvent>();
     }
+    public Workshop(String eventWorkshopName, String eventWorkshopAddress, Object calculateTotalCostForWorkshop) {
+        // Add your implementation here
+    }
+
+    public Workshop(String eventWorkshopName, String eventWorkshopAddress, Object calculateTotalCostForWorkshop, int dummyParameter) {
+        // Add your implementation here
+    }
+
+    public Workshop(String eventWorkshopName, String eventWorkshopAddress, Object calculateTotalCostForWorkshop, String dummyParameter) {
+        // Add your implementation here
+    }
+
     public String getWorkshopName() {
         return workshopName;
     }
@@ -72,6 +84,9 @@ public class Workshop {
         return null;
     }
     public void setType(String text) {
+    }
+    public ServiceHistory[] getServiceHistory() {
+        return null;
     }
     
 
