@@ -1,0 +1,10 @@
+
+{
+    "redhat.telemetry.enabled": true,
+    "workbench.startupEditor": "none",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "/users/markussehlberg/javafx-sdk-21.0.1/lib/*.jar"
+    ],
+    "git.openRepositoryInParentFolders": "never"
+}

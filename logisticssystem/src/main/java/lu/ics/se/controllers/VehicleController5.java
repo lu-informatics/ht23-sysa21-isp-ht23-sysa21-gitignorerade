@@ -120,8 +120,7 @@ public class VehicleController5 {
     private TextField vehicleNameTextField;
     @FXML
     private DatePicker maintenanceDatePicker;
-    @FXML
-    private ChoiceBox<String> workshopChoiceBox;
+    
     @FXML
     private Button addMaintenanceButton;
 
@@ -157,7 +156,13 @@ public class VehicleController5 {
     private ServiceEvent selectedMaintenance;
 
     @FXML
-    private TextField vinTextField;
+    private TextField vinField;
+
+    @FXML
+    private TextField costField;
+
+    @FXML
+    private TextField workshopNameField;
 
     @FXML
     private ListView<String> vehicleServiceHistoryListView;
@@ -200,8 +205,15 @@ public class VehicleController5 {
         workshopTable.setItems(getWorkshopData());
 
         // Maintenance Tab
-        initializeWorkshopChoiceBox();
+        
         initializeMaintenanceTableView();
+    }
+
+    private ObservableList<Workshop> getWorkshopData() {
+        return null;
+    }
+
+    private void initializeMaintenanceTableView() {
     }
 
     @FXML
@@ -217,10 +229,15 @@ public class VehicleController5 {
             );
 
             vehicleManifest.addVehicle(newVehicle);
+            vehicleTable.setItems(FXCollections.observableArrayList(vehicleManifest.getCompanyOwnedVehicles()));
+            
             clearFields();
         } catch (NumberFormatException e) {
             showAlert("Invalid input", "Numeric values are expected for capacity.");
         }
+    }
+
+    private void showAlert(String string, String string2) {
     }
 
     private String generateUniqueVIN() {
@@ -265,12 +282,14 @@ public class VehicleController5 {
                 return ButtonType.OK;
             }
             return null;
-        });
+        }); 
 
-        Optional<ButtonType> result = dialog.showAndWait(); }
+                    Optional<ButtonType> result = dialog.showAndWait();
+                }
+            
 
         @FXML
-    private void initializeServiceCostTab() {
+        private void initializeServiceCostTab() {
         try {
             ServiceCostController serviceCostController = new ServiceCostController(vehicleManifest);
 
@@ -466,8 +485,9 @@ public class VehicleController5 {
                 }
             }
             return null;
-        }
-    }
+        
+    }   @FXML
+        private void handleAddWorkshop(ActionEvent event) {
         String name = nameField.getText();
         String address = addressField.getText();
         String type = typeField.getText();
@@ -566,11 +586,7 @@ public class VehicleController5 {
         typeField.clear();
     }
 
-    @FXML
-    private void initializeWorkshopChoiceBox() {
-        // Populate the workshop choice box with available workshops
-        workshopChoiceBox.setItems(FXCollections.observableArrayList(workshopList.getAllWorkshopNames()));
-    }
+   
     @FXML
 private void displayMostExpensiveWorkshop() {
     // Retrieve the most expensive workshop
@@ -761,6 +777,8 @@ private void showAlert3(String title, String content) {
         }
     }
 
+    private ServiceEvent selectedMaintenance; // Declare selectedMaintenance field
+
     private void setMaintenance(ServiceEvent maintenance) {
         this.selectedMaintenance = maintenance;
         updateLabels();
@@ -828,10 +846,13 @@ private void showAlert3(String title, String content) {
     }
 
     private void clearMaintenanceFields() {
-        vehicleNameTextField.clear();
+        vinField.clear();
+        workshopNameField.clear();
         maintenanceDatePicker.getEditor().clear();
-        workshopChoiceBox.getSelectionModel().clearSelection();
+        costField.clear();
     }
+
+    
 
     private void showAlert2(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -886,7 +907,7 @@ private void showAlert3(String title, String content) {
 
     @FXML
     void loadWorkshopHistory(ActionEvent event) {
-        String vin = vinTextField.getText().trim();
+        String vin = vinField.getText().trim();
 
         // Retrieve the service histories based on the VIN
         List<ServiceHistory> vehicleServiceHistories = findServiceHistoriesByVIN(vin);
@@ -918,7 +939,7 @@ private void showAlert3(String title, String content) {
                serviceHistory.getDescription() + " | " +
                serviceHistory.getCost() + " | " +
                serviceHistory.getWorkshopName() + " | " +
-               "Parts Replaced: " + serviceHistory.getPartsReplaced();
+               serviceHistory.getPartsReplaced();
     }
 
     private List<ServiceHistory> findServiceHistoriesByVIN(String vin) {
@@ -939,7 +960,7 @@ private void showAlert3(String title, String content) {
         vehicleServiceHistoryListView.getItems().clear();
     }
 
-    public class ServiceHistoryController {
+    class ServiceHistoryController {
 
     @FXML
     private TextField workshopNameTextField;
@@ -1011,7 +1032,7 @@ private void showHistory(ActionEvent event) {
         alert.showAndWait();
     }
 
-    public class MainController {
+    class MainController {
 
         @FXML
         private TextField vinField;
@@ -1234,7 +1255,7 @@ private void showHistory(ActionEvent event) {
         alert.showAndWait();
     }
 }
-public class YourController {
+
 
     // Existing code...
 
@@ -1308,7 +1329,9 @@ public class YourController {
     
 
 }
-    }
+}
+        }
+    
     
     
     

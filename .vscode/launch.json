@@ -1,0 +1,52 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "TestForModelIntegration",
+            "request": "launch",
+            "mainClass": "logisticssystem/lu.ics.se.models.TestForModelIntegration",
+            "projectName": "logisticssystem"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "logisticssystem/lu.ics.se.Main",
+            "projectName": "logisticssystem"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "lu.ics.se.Main",
+            "projectName": "logisticssystem"
+        },
+        {
+            "type": "java",
+            "name": "Main with JavaFX",
+            "request": "launch",
+            "mainClass": "lu.ics.se.Main",
+            "projectName": "logisticssystem",
+            "vmArgs": [
+                "--module-path",
+                "/users/markussehlberg/Java/is-projekt/isp-ignorerade/lib/javafx-sdk-21.0.1/lib",
+                "--add-modules",
+                "javafx.controls,javafx.graphics",
+                "-Dprism.order=sw"
+            ]
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)",
+            "request": "launch",
+            "mainClass": "lu.ics.se.Main",
+            "vmArgs": [
+                "--module-path",
+                "/users/markussehlberg/Java/is-projekt/isp-ignorerade/lib/javafx-sdk-21.0.1/lib",
+                "--add-modules",
+                "javafx.controls,javafx.graphics",
+                "-Dprism.order=sw"
+            ]
+        }
+    ]
+}
