@@ -105,7 +105,7 @@
         <content>
             <AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
                     
-                <!-- Contents of the Workshop Management tab -->
+                <-- Contents of the Workshop Management tab -->
                 <VBox layoutX="20.0" layoutY="20.0" spacing="10.0">
                     <HBox spacing="10.0">
                         <TextField fx:id="nameField" promptText="Workshop Name:"/>

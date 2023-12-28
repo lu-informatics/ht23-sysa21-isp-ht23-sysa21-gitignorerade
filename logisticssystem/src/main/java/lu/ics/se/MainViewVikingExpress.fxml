@@ -22,8 +22,7 @@
     <!-- Vehicle Management Tab -->
     <Tab text="Vehicle Management">
         <content>
-            <AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
-                        fx:controller="lu.ics.se.controllers.VehicleController5">
+            <AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.VehicleController5">
                 <!-- Contents of the Vehicle Management tab -->
                 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                       prefHeight="400.0" prefWidth="600.0">
