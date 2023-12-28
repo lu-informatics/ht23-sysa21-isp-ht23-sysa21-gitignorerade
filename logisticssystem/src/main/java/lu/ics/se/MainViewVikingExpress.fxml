@@ -22,7 +22,7 @@
     <!-- Vehicle Management Tab -->
     <Tab text="Vehicle Management">
         <content>
-            <AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.VehicleController5">
+           <AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" />
                 <!-- Contents of the Vehicle Management tab -->
                 <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
                       prefHeight="400.0" prefWidth="600.0">
@@ -62,7 +62,7 @@
     </Tab>
     <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="lu.ics.se.controllers.VehicleController5">
+     
 
     <Label text="List of Workshops Visited by a Vehicle"/>
     
@@ -77,14 +77,14 @@
 </VBox>
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="lu.ics.se.controllers.ServiceCostController">
+     
 
     <Label text="Cost of Services For all Vehicles"/>
     <Button text="Calculate" onAction="#calculateTotalCost"/>
 
 </VBox>
 
-<AnchorPane fx:id="serviceCostTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.VehicleController5">
+<AnchorPane fx:id="serviceCostTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" 
    <children>
       <Label layoutX="222.0" layoutY="46.0" text="Total Cost of Service for a Vehicle">
          <font>
@@ -103,7 +103,7 @@
     <Tab text="Workshop Management">
         <content>
             <AnchorPane xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
-                        fx:controller="lu.ics.se.controllers.VehicleController5">
+                        
                 <!-- Contents of the Workshop Management tab -->
                 <VBox layoutX="20.0" layoutY="20.0" spacing="10.0">
                     <HBox spacing="10.0">
@@ -142,7 +142,7 @@
     <Tab text="Maintenance Schedule">
         <content>
             <VBox xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-                  fx:controller="lu.ics.se.controllers.VehicleController5">
+                 
                 <!-- Contents of the Maintenance Schedule tab -->
                 <Label text="Maintenance Schedule" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
                 <TableView fx:id="maintenanceTable">
@@ -192,7 +192,7 @@
 
 <VBox xmlns="http://javafx.com/javafx"
       xmlns:fx="http://javafx.com/fxml"
-      fx:controller="lu.ics.se.controllers.VehicleController5"
+    
       alignment="CENTER"
       spacing="10"
       padding="20">
@@ -209,7 +209,7 @@
     <ListView fx:id="serviceHistoryListView" prefHeight="300"/>
 
 </VBox>
-<TabPane fx:id="Service Activity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.VehicleController5">
+<TabPane fx:id="Service Activity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
     <tabs>
         <!-- Other tabs go here -->
 

@@ -8,4 +8,6 @@ module logisticssystem {
     requires javafx.fxml;
     requires javafx.graphics;
     requires transitive javafx.graphicsEmpty;
+
+    opens lu.ics.se.controllers to javafx.fxml;
 }
