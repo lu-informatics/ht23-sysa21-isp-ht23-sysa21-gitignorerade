@@ -1,5 +1,6 @@
 package lu.ics.se.models;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class ServiceHistory {
     private ArrayList<ServiceEvent> serviceEvent;
@@ -116,6 +117,27 @@ public ServiceHistory (String vin, Object object, String description, Object obj
         return null;
     }
     public String getWorkshopAddress() {
+        return null;
+    }
+    public Iterable<ServiceHistory> getServiceActions() {
+        return null;
+    }
+    public Object getActionName() {
+        return null;
+    }
+    public Object getActionDescription() {
+        return null;
+    }
+    public Object getEventCost() {
+        return null;
+    }
+    public Object getEventDescription() {
+        return null;
+    }
+    public Date getEventDate() {
+        return null;
+    }
+    public Object getEventName() {
         return null;
     }
 

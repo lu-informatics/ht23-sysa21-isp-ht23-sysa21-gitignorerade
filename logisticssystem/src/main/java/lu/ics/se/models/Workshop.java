@@ -88,6 +88,9 @@ public class Workshop {
     public ServiceHistory[] getServiceHistory() {
         return null;
     }
+    public Iterable<ServiceHistory> getServiceHistories() {
+        return null;
+    }
     
 
 

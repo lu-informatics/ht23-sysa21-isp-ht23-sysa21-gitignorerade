@@ -1,6 +1,10 @@
 package lu.ics.se.models;
 import java.util.Date;
+
+import javafx.beans.Observable;
+
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ServiceEvent {
@@ -15,14 +19,17 @@ public class ServiceEvent {
     public ServiceEvent() {
         eventActions = new ArrayList<ServiceAction>();
     }
-    public ServiceEvent(String eventName, String eventDescription, double eventCost, Date eventDate, Workshop eventWorkshop, Vehicle eventVehicle, ArrayList<ServiceAction> eventActions) {
+    public ServiceEvent(String eventName, String eventDescription, double eventCost, Date maintenanceDate, Workshop eventWorkshop, Vehicle eventVehicle, ArrayList<ServiceAction> eventActions) {
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.eventCost = eventCost;
-        this.eventDate = eventDate;
+        this.eventDate = maintenanceDate;
         this.eventWorkshop = eventWorkshop;
         this.eventVehicle = eventVehicle;
         this.eventActions = eventActions;
+    }
+    public ServiceEvent(String string, String string2, double d, LocalDate maintenanceDate, Workshop workshopByName,
+            Vehicle vehicleByVIN, ArrayList arrayList) {
     }
     public String getEventName() {
         return eventName;
@@ -105,6 +112,18 @@ public class ServiceEvent {
         return null;
     }
     public void calculateTotalCostForWorkshop() {
+    }
+    public Observable eventCostProperty() {
+        return null;
+    }
+    public Observable eventWorkshopNameProperty() {
+        return null;
+    }
+    public Observable eventDateProperty() {
+        return null;
+    }
+    public Observable eventVinProperty() {
+        return null;
     }
 }
     
