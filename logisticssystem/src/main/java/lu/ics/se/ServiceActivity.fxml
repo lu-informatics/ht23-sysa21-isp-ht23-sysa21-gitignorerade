@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.ServiceActivityController">
+    </VBox>
+<TabPane fx:id="Service Activity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.MainController">
+    <tabs>   <fx:controller="lu.ics.se.controllers.WorkshopController">
+        
+             <!-- Add Service Activity Tab -->
+                            <Tab text="Add Service Activity">
+                                <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                        <!-- Form for adding service activity -->
+                                        <Label layoutX="27.0" layoutY="30.0" text="VIN:" />
+                                        <TextField fx:id="vinField" layoutX="150.0" layoutY="27.0" promptText = "VIN" />
+
+                                        <Label layoutX="27.0" layoutY="70.0" text="Service Date:" />
+                                        <DatePicker fx:id="serviceDateField" layoutX="150.0" layoutY="67.0" promptText = "Service Date" />
+
+                                        <Label layoutX="27.0" layoutY="110.0" text="Description of the Problem:" />
+                                        <TextArea fx:id="descriptionField" layoutX="150.0" layoutY="107.0" prefHeight="64.0" prefWidth="250.0" promptText = "Description" />
+
+                                        <Label layoutX="27.0" layoutY="190.0" text="Cost of Service:" />
+                                        <TextField fx:id="costField" layoutX="150.0" layoutY="187.0" promptText = "Cost" />
+
+                                        <Label layoutX="27.0" layoutY="230.0" text="Parts Replaced:" />
+                                        <TextField fx:id="partsReplacedField" layoutX="150.0" layoutY="227.0" promptText ="Parts replaced" />
+
+                                        <Label layoutX="27.0" layoutY="270.0" text="Workshop Name:" />
+                                        <TextField fx:id="workshopNameField" layoutX="150.0" layoutY="267.0" promptText = "Workshop Name" />
+
+                                        <Button layoutX="27.0" layoutY="310.0" mnemonicParsing="false" onAction="#addServiceActivity" text="Add Service Activity" />
+                                    </AnchorPane>
+                                </content>
+                            </Tab>
+                        </tabs>
+                    </TabPane>
+                </AnchorPane>
+            </content>
+        </Tab>
+    </tabs>
+</TabPane>
+<Tab text="View Service Activities">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                            <!-- TableView for viewing service activities -->
+                            <TableView fx:id="serviceActivitiesTableView" layoutX="0.0" layoutY="0.0" prefHeight="250.0" prefWidth="550.0">
+                                <columns>
+                                    <TableColumn fx:id="vinColumn" prefWidth="75.0" text="VIN"/>
+                                    <TableColumn fx:id="serviceDateColumn" prefWidth="100.0" text="Service Date"/>
+                                    <TableColumn fx:id="descriptionColumn" prefWidth="150.0" text="Description"/>
+                                    <TableColumn fx:id="costColumn" prefWidth="75.0" text="Cost"/>
+                                    <TableColumn fx:id="partsReplacedColumn" prefWidth="100.0" text="Parts Replaced"/>
+                                    <TableColumn fx:id="workshopNameColumn" prefWidth="100.0" text="Workshop Name"/>
+                                    
+                                </columns>
+                            </TableView>
+                            <AnchorPane fx:id="detailsPane" layoutX="0.0" layoutY="250.0" prefHeight="100.0" prefWidth="550.0"/>
+                        </AnchorPane>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
+    </children>
+</AnchorPane>
+
+
+</AnchorPane>
+

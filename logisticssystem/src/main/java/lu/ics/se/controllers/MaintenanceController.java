@@ -4,6 +4,7 @@ package lu.ics.se.controllers;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -28,6 +29,7 @@ import java.io.IOException;
 import java.util.List;
 import javafx.beans.Observable;
 import javafx.util.Callback;
+import javafx.event.ActionEvent; // Add this import statement
 
 public class MaintenanceController {
     // Maintenance Tab
@@ -69,7 +71,7 @@ public class MaintenanceController {
     @FXML
     private Button showAverageCostButton;
     @FXML
-    private Button showMostExpensiveButton;
+    private Button displayMostExpensiveMaintenance;
 
 
     @FXML
@@ -289,29 +291,69 @@ public class MaintenanceController {
     @FXML
     private void handleShowAverageCost() {
         // Display information on average cost
-        double averageCost = calculateAverageCost();
+        double averageCost = calculateAverageCost(null);
         String averageCostMessage = String.format("Average Cost for Maintenance: $%.2f", averageCost);
         showAlert("Average Cost", averageCostMessage);
     }
 
-    private double calculateAverageCost() {
-        return 0;
+
+    public double calculateAverageCost(ActionEvent event) {
+        ObservableList<ServiceEvent> serviceEvents = maintenanceTableView.getItems();
+        if (serviceEvents.isEmpty()) {
+            return 0.0;
+        }
+
+        double totalCost = 0.0;
+        for (ServiceEvent serviceEvent : serviceEvents) {
+            totalCost += serviceEvent.getEventCost();
+        }
+
+        return totalCost / serviceEvents.size();
+    }
+    @FXML
+public void displayMostExpensiveMaintenance(ActionEvent event) {
+    ObservableList<ServiceEvent> serviceEvents = maintenanceTableView.getItems();
+    
+    if (serviceEvents.isEmpty()) {
+        showAlert("Most Expensive Maintenance", "No maintenance records available.");
+        return;
     }
 
-    @FXML
-    private void handleShowMostExpensive() {
-        // Display information on the most expensive maintenance
-        ServiceEvent mostExpensive = findMostExpensiveMaintenance();
+    ServiceEvent mostExpensiveEvent = findMostExpensiveMaintenance();
+
+    if (mostExpensiveEvent != null) {
         String mostExpensiveMessage = "Most Expensive Maintenance:\n" +
-                "Vehicle: " + mostExpensive.getEventVehicleName() + "\n" +
-                "Workshop: " + mostExpensive.getEventWorkshopName() + "\n" +
-                "Cost: $" + mostExpensive.getEventCost();
+            "Vehicle: " + mostExpensiveEvent.getEventVehicleName() + "\n" +
+            "Workshop: " + mostExpensiveEvent.getEventWorkshopName() + "\n" +
+            "Cost: $" + mostExpensiveEvent.getEventCost();
         showAlert("Most Expensive Maintenance", mostExpensiveMessage);
+    } else {
+        showAlert("Most Expensive Maintenance", "No maintenance records found.");
     }
+}
+
 
     private ServiceEvent findMostExpensiveMaintenance() {
-        return null;
+        ObservableList<ServiceEvent> serviceEvents = maintenanceTableView.getItems();
+    
+        if (serviceEvents.isEmpty()) {
+            return null;
+        }
+    
+        ServiceEvent mostExpensiveEvent = null;
+        double highestCost = Double.MIN_VALUE;
+    
+        for (ServiceEvent serviceEvent : serviceEvents) {
+            if (serviceEvent.getEventCost() > highestCost) {
+                highestCost = serviceEvent.getEventCost();
+                mostExpensiveEvent = serviceEvent;
+            }
+        }
+    
+        return mostExpensiveEvent;
     }
+    
+
 
     private void showAlert(String title, String message) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

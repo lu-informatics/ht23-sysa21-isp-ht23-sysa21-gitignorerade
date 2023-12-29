@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.VehicleController">
+    <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+        <children>
+         <!-- Vehicle Management Tab -->
+    <Tab text="Vehicle Management">
+        <content>
+            <AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
+                        fx:controller="lu.ics.se.controllers.VehicleController1">
+                <!-- Contents of the Vehicle Management tab -->
+                <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+                      prefHeight="400.0" prefWidth="600.0">
+                    <children>
+                        <Label text="Vehicle Management" underline="true">
+                            <font>
+                                <javafx.scene.text.Font size="20.0"/>
+                            </font>
+                        </Label>
+                        <VBox alignment="CENTER" spacing="10.0">
+                            <HBox spacing="10.0">
+                                <Label text="Vehicle Name:"/>
+                                <TextField fx:id="vehicleNameField"/>
+                                <Label text="Location:"/>
+                                <TextField fx:id="locationField"/>
+                                <Label text="Capacity (kg):"/>
+                                <TextField fx:id="capacityField"/>
+                                <Label text="Vehicle Type:"/>
+                                <TextField fx:id="vehicleTypeField"/>
+                                <Button text="Add Vehicle" onAction="#addVehicle"/>
+                            </HBox>
+                            <TableView fx:id="vehicleTable" prefHeight="200.0" prefWidth="400.0">
+                                <columns>
+                                    <TableColumn text="Vin" fx:id="vinColumn"/>
+                                    <TableColumn text="Name" fx:id="nameColumn"/>
+                                    <TableColumn text="Location" fx:id="locationColumn"/>
+                                    <TableColumn text="Capacity" fx:id="capacityColumn"/>
+                                    <TableColumn text="Type" fx:id="typeColumn"/>
+                                    <TableColumn text="Days Since Last Service" fx:id="daysSinceLastServiceColumn"/>
+                                </columns>
+                            </TableView>
+                        </VBox>
+                    </children>
+                </VBox>
+            </AnchorPane>
+        </content>
+    </Tab>
+    <VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+        fx:controller="lu.ics.se.controllers.VehicleController5"
+    <Label text="List of Workshops Visited by a Vehicle"/>
+    
+    <Label text="Enter Vehicle VIN:"/>
+    <TextField fx:id="vinField"/>
+    
+    <Button text="List Workshops" onAction="#listWorkshops"/>
+    
+    <ListView fx:id="workshopsListView"/>
+    
+    <Button text="Clear List" onAction="#clearList"/>
+</VBox>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="lu.ics.se.controllers.ServiceCostController">
+
+    <Label text="Cost of Services For all Vehicles"/>
+    <Button text="Calculate" onAction="#calculateTotalCost"/>
+
+</VBox>
+
+<AnchorPane fx:id="serviceCostTab" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.ServiceCostController">
+   <children>
+      <Label layoutX="222.0" layoutY="46.0" text="Total Cost of Service for a Vehicle">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Label text="Total Cost of Services For a Vehicle" Font.size="18"/>
+      <Label text="VIN:" />
+      <TextField fx:id="vinField" layoutX="260.0" layoutY="115.0" promptText="Enter VIN" />
+      <Button fx:id="calculateButton" layoutX="259.0" layoutY="161.0" mnemonicParsing="false" onAction="#calculateTotalServiceCost" text="Calculate" />
+      <Label fx:id="resultLabel" layoutX="254.0" layoutY="216.0" />
+   </children>
+</AnchorPane>
+        </children>
+    </VBox>
+</AnchorPane>
