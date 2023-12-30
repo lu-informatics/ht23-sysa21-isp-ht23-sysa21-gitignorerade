@@ -85,7 +85,7 @@
                                                 <Font size="19.0" />
                                              </font>
                                           </Label>
-                                          <TextField layoutX="69.0" layoutY="132.0" onAction="#vinField" promptText="VIN" />
+                                          <TextField layoutX="69.0" layoutY="132.0" onAction="#vinTextField" promptText="VIN" />
                                           <Button fx:id="listWorkshops" layoutX="81.0" layoutY="189.0" mnemonicParsing="false" onAction="#listWorkshops" style="-fx-background-color: white;" text="List visited workshops" />
                                        </children></AnchorPane>
                                  </content>

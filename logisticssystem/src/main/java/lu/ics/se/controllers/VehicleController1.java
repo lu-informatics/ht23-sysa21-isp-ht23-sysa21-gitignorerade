@@ -62,6 +62,10 @@ public class VehicleController1<ServiceCostController> {
     private VehicleManifest vehicleManifest;
 
     @FXML
+    private TextField vinField;
+
+
+    @FXML
     private TextField vinTextField;
 
     @FXML
@@ -121,9 +125,15 @@ public class VehicleController1<ServiceCostController> {
     }
 
     private String generateUniqueVIN() {
-        return UUID.randomUUID().toString();
+        // Generate a random UUID
+        String uuid = UUID.randomUUID().toString();
+    
+        // Remove hyphens from the UUID
+        String uuidWithoutHyphens = uuid.replaceAll("-", "");
+    
+        // Take the first 8 characters
+        return uuidWithoutHyphens.substring(0, 8);
     }
-
     private void clearFields() {
         vehicleNameField.clear();
         locationField.clear();
@@ -182,9 +192,31 @@ public class VehicleController1<ServiceCostController> {
             showAlert("Error", "Error", "An error occurred while initializing the Service Cost tab.");
         }
     }
+
     @FXML
-    private void calculateTotalServiceCost() {
-    String vin = vinTextField.getText().trim();
+    private void vinField(ActionEvent event) {
+    String vin = vinField.getText().trim();
+
+     if (validateVIN(vin)) {
+        // VIN is valid, find the vehicle
+        Vehicle vehicle = findVehicleByVIN(vin);
+        if (vehicle != null) {
+            // Vehicle found, calculate the total service cost
+            calculateTotalServiceCost(vehicle);
+        } else {
+            // Vehicle not found
+            showAlert("Vehicle Not Found", "No vehicle found with the entered VIN.");
+        }
+    } else {
+        // VIN is not valid
+        showAlert("Invalid VIN", "The entered VIN is not valid.");
+    }
+}
+
+
+    @FXML
+    private void calculateTotalServiceCost(Vehicle vehicle2) {
+    String vin = vinField.getText().trim();
 
     if (vin.isEmpty()) {
     showAlert("Error", "VIN Empty", "Please enter a VIN.");
@@ -285,28 +317,46 @@ return null;
 
 // Define your ServiceEvent, ServiceHistory, and Vehicle classes as needed
 
+@FXML
+private ListView<String> workshopListView; // Make sure this fx:id matches with your FXML
 
 @FXML
-private void listWorkshops(ActionEvent event) {
-    // Get the VIN from the text field
+private void vinTextField(ActionEvent event) {
     String vin = vinTextField.getText().trim();
 
-    // Clear the previous list
+    if (validateVIN(vin)) {
+        // VIN is valid, find the vehicle
+        Vehicle vehicle = findVehicleByVIN(vin);
+        if (vehicle != null) {
+            // Vehicle found, list the workshops visited
+            listWorkshops(vehicle);
+        } else {
+            // Vehicle not found
+            showAlert("Vehicle Not Found", "No vehicle found with the entered VIN.");
+            workshopListView.getItems().clear(); // Clear the list as no vehicle is found
+        }
+    } else {
+        // VIN is not valid
+        showAlert("Invalid VIN", "The entered VIN is not valid.");
+        workshopListView.getItems().clear(); // Clear the list as VIN is invalid
+    }
+}
+
+private boolean validateVIN(String vin) {
+    // Implement VIN validation logic here
+    return vin.length() == 8; // Example validation: check VIN length
+}
+
+
+@FXML
+private void listWorkshops(Vehicle vehicle) {
     workshopsListView.getItems().clear();
-
-    // Find the vehicle by VIN
-    Vehicle vehicle = findVehicleByVIN(vin);
-
-    // If the vehicle is found, list the workshops
     if (vehicle != null) {
         List<lu.ics.se.models.Workshop> workshops = vehicle.getWorkshopsServicedIn();
-
-        // Display the workshops in the ListView
         for (lu.ics.se.models.Workshop workshop : workshops) {
             workshopsListView.getItems().add(workshop.getWorkshopName());
         }
     } else {
-        // Vehicle not found
         workshopsListView.getItems().add("Vehicle not found");
     }
 }
