@@ -35,7 +35,7 @@
                                 <Font size="19.0" />
                             </font>
                         </Label>
-                        <TextField fx:id="workshopNameField" layoutX="77.0" layoutY="137.0" />
+                        <TextField fx:id="workshopNameTextField" layoutX="77.0" layoutY="137.0" />
                         <Button fx:id="loadWorkshopHistory" layoutX="95.0" layoutY="195.0" mnemonicParsing="false" onAction="#loadWorkshopHistory" style="-fx-background-color: white;" text="Load History">
                             <font>
                                 <Font size="19.0" />

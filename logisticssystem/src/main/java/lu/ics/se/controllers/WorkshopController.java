@@ -60,9 +60,18 @@ public class WorkshopController {
       
         this.workshopList = workshopList;
     }
+    
+        public WorkshopController() {
+            // constructor body
+        }
+    
+        // rest of the class
+    
 
     @FXML
     private void initialize() {
+
+        initializeWorkshopList();
         // Initialize workshop table
         workshopNameColumn.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
         workshopAddressColumn.setCellValueFactory(new PropertyValueFactory<>("workshopAddress"));
@@ -76,7 +85,26 @@ public class WorkshopController {
     //     return FXCollections.observableArrayList(workshopList.getAllWorkshops());
     // }
 
-   @FXML
+   
+    
+    private void initializeWorkshopList() {
+        // Initialize workshopList here. This might involve creating a new instance
+        // or fetching it from another source depending on your application's design.
+        workshopList = new WorkshopList();
+
+        // If your WorkshopList requires some initial data or setup, do it here
+        // For example, you might load workshops from a database or a file
+    }
+
+    private ObservableList<Workshop> getWorkshopData() {
+        if (workshopList != null) {
+            return FXCollections.observableArrayList(workshopList.getAllWorkshops());
+        } else {
+            // Handle the case where workshopList is null
+            return FXCollections.observableArrayList();
+        }
+    }
+@FXML
     private void handleAddWorkshop(ActionEvent event) {
         String name = nameField.getText();
         String address = addressField.getText();
@@ -166,9 +194,7 @@ editDialog.setScene(dialogScene);
 editDialog.show();
 }
 
-private ObservableList<Workshop> getWorkshopData() {
-return FXCollections.observableArrayList(workshopList.getAllWorkshops());
-}
+
 
 @FXML
 private void displayMostExpensiveWorkshop() {

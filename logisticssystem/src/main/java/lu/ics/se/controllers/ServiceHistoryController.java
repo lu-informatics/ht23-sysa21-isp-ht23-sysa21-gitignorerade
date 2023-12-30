@@ -139,6 +139,9 @@ private Button clearServiceHistoryView;
 @FXML
 private Button loadVehicleServiceHistory;
 
+
+@FXML
+private Button loadWorkshopHistory;
 @FXML
 private ListView<String> vehicleServiceHistoryListView;
 
@@ -150,7 +153,39 @@ private ListView<String> vehicleServiceHistoryListView;
     public static void setServiceHistories(List<ServiceHistory> histories) {
         serviceHistories = histories;
     }
+    @FXML
+private void vinField(ActionEvent event) {
+    String vin = vinField.getText().trim();
 
+    if (validateVIN(vin)) {
+        // VIN is valid, find the vehicle
+        Vehicle vehicle = findVehicleByVIN(vin);
+        if (vehicle != null) {
+            // Vehicle found, load the service history
+            loadVehicleServiceHistory(event); // Remove the second argument 'vehicle'
+        } else {
+            // Vehicle not found
+            showAlert("Vehicle Not Found", "No vehicle found with the entered VIN.", vin);
+        }
+    } else {
+        // VIN is not valid
+        showAlert("Invalid VIN", "The entered VIN is not valid.", vin);
+    }
+}
+    private boolean validateVIN(String vin) {
+    // Implement VIN validation logic here
+    return vin.length() == 8; // Example validation: check VIN length
+}
+private Vehicle findVehicleByVIN(String vin) {
+    VehicleManifest vehicleManifest = new VehicleManifest(); // Initialize the vehicleManifest variable
+    List<Vehicle> vehicles = vehicleManifest.getCompanyOwnedVehicles();
+    for (Vehicle vehicle : vehicles) {
+        if (vehicle.getVehicleIdentificationNumber().equals(vin)) {
+            return vehicle;
+        }
+    }
+    return null;
+}
     @FXML
     public void loadVehicleServiceHistory(ActionEvent event) {
         String vin = vinField.getText().trim();
@@ -174,6 +209,14 @@ private ListView<String> vehicleServiceHistoryListView;
         }
     }
 
+    private void showAlert(String title, String header, String content) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(header);
+        alert.setContentText(content);
+        alert.showAndWait();
+        }
+        
     @FXML
     void clearServiceHistory(ActionEvent event) {
         serviceHistoryListView.getItems().clear();
@@ -222,7 +265,7 @@ private ListView<String> vehicleServiceHistoryListView;
     
         // Handler for showing workshop history
         @FXML
-        private void showHistory(ActionEvent event) {
+        public void loadWorkshopHistory(ActionEvent event) {
             clearServiceHistoryView(event);
             String workshopName = workshopNameTextField.getText().trim();
     

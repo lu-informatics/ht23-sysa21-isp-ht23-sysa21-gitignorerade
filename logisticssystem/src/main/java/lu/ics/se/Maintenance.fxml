@@ -102,16 +102,14 @@
                                                 <Font size="17.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="351.0" layoutY="112.0" text="Most expensive " textFill="WHITE">
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font></Label>
-                                          <Label layoutX="144.0" layoutY="136.0" text="maintenance" textFill="WHITE">
-                                             <font>
-                                                <Font size="17.0" />
-                                             </font>
-                                          </Label>
-                                          <Label layoutX="361.0" layoutY="135.0" text="maintenance" textFill="WHITE">
+                                          ...
+                                        <Label layoutX="351.0" layoutY="112.0" text="Most expensive" textFill="WHITE" style="-fx-font-size: 17.0;" />
+                                        <Label layoutX="144.0" layoutY="136.0" text="maintenance" textFill="WHITE">
+                                        <font>
+                                         <Font size="17.0" />
+                                        </font>
+                                        </Label>
+                                        <Label layoutX="361.0" layoutY="135.0" text="maintenance" textFill="WHITE">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
@@ -131,5 +129,4 @@
                         </TabPane>
                      </children>
                   </AnchorPane>
-               </content>
-            </Tab>
+               

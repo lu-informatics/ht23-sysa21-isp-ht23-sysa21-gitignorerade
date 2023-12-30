@@ -26,6 +26,7 @@ import java.util.UUID;
 
 
 import java.io.IOException;
+import javafx.event.ActionEvent; // Add this import statement
 
 public class VehicleController1<ServiceCostController> {
     // Vehicle Tab
@@ -64,7 +65,9 @@ public class VehicleController1<ServiceCostController> {
     @FXML
     private TextField vinField;
 
-
+    @FXML
+    private Button listworkshops;
+    
     @FXML
     private TextField vinTextField;
 
@@ -214,8 +217,13 @@ public class VehicleController1<ServiceCostController> {
 }
 
 
+    
+
+    private void calculateTotalServiceCost(Vehicle vehicle) {
+    }
+
     @FXML
-    private void calculateTotalServiceCost(Vehicle vehicle2) {
+    public void calculateTotalServiceCost(ActionEvent event) {
     String vin = vinField.getText().trim();
 
     if (vin.isEmpty()) {
@@ -336,10 +344,16 @@ private void vinTextField(ActionEvent event) {
             workshopListView.getItems().clear(); // Clear the list as no vehicle is found
         }
     } else {
+
+
+
         // VIN is not valid
         showAlert("Invalid VIN", "The entered VIN is not valid.");
         workshopListView.getItems().clear(); // Clear the list as VIN is invalid
     }
+}
+
+private void listWorkshops(Vehicle vehicle) {
 }
 
 private boolean validateVIN(String vin) {
@@ -348,9 +362,11 @@ private boolean validateVIN(String vin) {
 }
 
 
+
 @FXML
-private void listWorkshops(Vehicle vehicle) {
+public void listWorkshops(ActionEvent event) {
     workshopsListView.getItems().clear();
+    Vehicle vehicle = getVehicleByVIN(vinTextField.getText().trim());
     if (vehicle != null) {
         List<lu.ics.se.models.Workshop> workshops = vehicle.getWorkshopsServicedIn();
         for (lu.ics.se.models.Workshop workshop : workshops) {
