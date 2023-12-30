@@ -129,6 +129,16 @@ private TextField costField;
 @FXML
 private TextField workshopNameTextField;
 
+
+@FXML
+private Button clearVehicleServiceHistory;
+
+@FXML
+private Button clearServiceHistoryView;
+
+@FXML
+private Button loadVehicleServiceHistory;
+
 @FXML
 private ListView<String> vehicleServiceHistoryListView;
 
@@ -142,7 +152,7 @@ private ListView<String> vehicleServiceHistoryListView;
     }
 
     @FXML
-    void loadWorkshopHistory(ActionEvent event) {
+    public void loadVehicleServiceHistory(ActionEvent event) {
         String vin = vinField.getText().trim();
 
         // Retrieve the service histories based on the VIN
@@ -213,7 +223,7 @@ private ListView<String> vehicleServiceHistoryListView;
         // Handler for showing workshop history
         @FXML
         private void showHistory(ActionEvent event) {
-            clearServiceHistoryView();
+            clearServiceHistoryView(event);
             String workshopName = workshopNameTextField.getText().trim();
     
             Workshop workshop = workshopList.getWorkshopByName(workshopName);
@@ -226,7 +236,8 @@ private ListView<String> vehicleServiceHistoryListView;
         }
     
         // Method to clear the service history view
-        private void clearServiceHistoryView() {
+         @FXML
+        public void clearServiceHistoryView(ActionEvent event) {
             serviceHistoryListView.getItems().clear();
         }
     

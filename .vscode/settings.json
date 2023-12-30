@@ -6,5 +6,6 @@
         "lib/**/*.jar",
         "/users/markussehlberg/javafx-sdk-21.0.1/lib/*.jar"
     ],
-    "git.openRepositoryInParentFolders": "never"
+    "git.openRepositoryInParentFolders": "never",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

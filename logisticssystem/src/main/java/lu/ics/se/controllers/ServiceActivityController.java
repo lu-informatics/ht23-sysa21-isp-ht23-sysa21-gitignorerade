@@ -170,7 +170,9 @@ public class ServiceActivityController {
     @FXML
     private TableView<ServiceHistory> serviceHistoryTableView;
 
-    
+    public ServiceActivityController() {
+        // your code here
+    }
     
         public ServiceActivityController(String vin, String description, double cost, LocalDate serviceDate,
             String workshopName) {

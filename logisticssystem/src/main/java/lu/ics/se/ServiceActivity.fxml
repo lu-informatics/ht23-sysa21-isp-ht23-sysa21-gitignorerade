@@ -1,70 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.ServiceActivityController">
-    </VBox>
-<TabPane fx:id="Service Activity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.MainController">
-    <tabs>   <fx:controller="lu.ics.se.controllers.WorkshopController">
-        
-             <!-- Add Service Activity Tab -->
-                            <Tab text="Add Service Activity">
-                                <content>
-                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                        <!-- Form for adding service activity -->
-                                        <Label layoutX="27.0" layoutY="30.0" text="VIN:" />
-                                        <TextField fx:id="vinField" layoutX="150.0" layoutY="27.0" promptText = "VIN" />
-
-                                        <Label layoutX="27.0" layoutY="70.0" text="Service Date:" />
-                                        <DatePicker fx:id="serviceDateField" layoutX="150.0" layoutY="67.0" promptText = "Service Date" />
-
-                                        <Label layoutX="27.0" layoutY="110.0" text="Description of the Problem:" />
-                                        <TextArea fx:id="descriptionField" layoutX="150.0" layoutY="107.0" prefHeight="64.0" prefWidth="250.0" promptText = "Description" />
-
-                                        <Label layoutX="27.0" layoutY="190.0" text="Cost of Service:" />
-                                        <TextField fx:id="costField" layoutX="150.0" layoutY="187.0" promptText = "Cost" />
-
-                                        <Label layoutX="27.0" layoutY="230.0" text="Parts Replaced:" />
-                                        <TextField fx:id="partsReplacedField" layoutX="150.0" layoutY="227.0" promptText ="Parts replaced" />
-
-                                        <Label layoutX="27.0" layoutY="270.0" text="Workshop Name:" />
-                                        <TextField fx:id="workshopNameField" layoutX="150.0" layoutY="267.0" promptText = "Workshop Name" />
-
-                                        <Button layoutX="27.0" layoutY="310.0" mnemonicParsing="false" onAction="#addServiceActivity" text="Add Service Activity" />
-                                    </AnchorPane>
-                                </content>
-                            </Tab>
-                        </tabs>
-                    </TabPane>
-                </AnchorPane>
-            </content>
-        </Tab>
-    </tabs>
-</TabPane>
-<Tab text="View Service Activities">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                            <!-- TableView for viewing service activities -->
-                            <TableView fx:id="serviceActivitiesTableView" layoutX="0.0" layoutY="0.0" prefHeight="250.0" prefWidth="550.0">
-                                <columns>
-                                    <TableColumn fx:id="vinColumn" prefWidth="75.0" text="VIN"/>
-                                    <TableColumn fx:id="serviceDateColumn" prefWidth="100.0" text="Service Date"/>
-                                    <TableColumn fx:id="descriptionColumn" prefWidth="150.0" text="Description"/>
-                                    <TableColumn fx:id="costColumn" prefWidth="75.0" text="Cost"/>
-                                    <TableColumn fx:id="partsReplacedColumn" prefWidth="100.0" text="Parts Replaced"/>
-                                    <TableColumn fx:id="workshopNameColumn" prefWidth="100.0" text="Workshop Name"/>
-                                    
-                                </columns>
-                            </TableView>
-                            <AnchorPane fx:id="detailsPane" layoutX="0.0" layoutY="250.0" prefHeight="100.0" prefWidth="550.0"/>
-                        </AnchorPane>
-                    </content>
-                </Tab>
-            </tabs>
+<AnchorPane fx:controller="lu.ics.se.controllers.ServiceActivityController" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0">
+    <children>
+        <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+            <!-- Add Service Activity Tab -->
+            <Tab text="Add Service Activity">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <Label layoutX="216.0" layoutY="9.0" text="Add Service Activity" textFill="WHITE">
+                            <font>
+                                <Font size="39.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="340.0" layoutY="73.0" text="VIN:" textFill="WHITE">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="268.0" layoutY="110.0" text="Service Date:" textFill="WHITE">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="246.0" layoutY="183.0" text="Cost of Service:" textFill="WHITE">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="251.0" layoutY="221.0" text="Parts Replaced:" textFill="WHITE">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
+                        <Label layoutX="233.0" layoutY="257.0" text="Workshop Name:" textFill="WHITE">
+                            <font>
+                                <Font size="20.0" />
+                            </font>
+                        </Label>
+                        <TextField fx:id="vinField" layoutX="382.0" layoutY="74.0" />
+                        <TextField fx:id="partsReplacedField" layoutX="383.0" layoutY="221.0" prefHeight="26.0" prefWidth="158.0" />
+                        <TextField fx:id="costField" layoutX="383.0" layoutY="184.0" prefHeight="26.0" prefWidth="157.0" />
+                        <DatePicker fx:id="serviceDateField" layoutX="383.0" layoutY="110.0" prefHeight="26.0" prefWidth="158.0" />
+                        <Button fx:id="addServiceActivityButton" layoutX="402.0" layoutY="303.0" mnemonicParsing="false" onAction="#addServiceActivity" style="-fx-background-color: white;" text="Add Service Activity" />
+                        <TextField fx:id="workshopNameField" layoutX="384.0" layoutY="257.0" prefHeight="26.0" prefWidth="158.0" />
+                    </AnchorPane>
+                </content>
+            </Tab>
+            <!-- View Service Activities Tab -->
+            <Tab text="View Service Activities">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                        <TableView fx:id="serviceActivitiesTableView" prefHeight="337.0" prefWidth="600.0">
+                            <columns>
+                                <TableColumn fx:id="vinColumn" prefWidth="90.0" text="VIN" />
+                                <TableColumn fx:id="serviceDateColumn" prefWidth="95.0" text="Service Date" />
+                                <TableColumn fx:id="descriptionColumn" prefWidth="101.0" text="Description" />
+                                <TableColumn fx:id="costColumn" prefWidth="77.0" text="Cost" />
+                                <TableColumn fx:id="partsReplacedColumn" prefWidth="127.0" text="Parts Replaced" />
+                                <TableColumn fx:id="workshopNameColumn" prefWidth="109.0" text="Workshop Name" />
+                            </columns>
+                        </TableView>
+                    </AnchorPane>
+                </content>
+            </Tab>
+            <!-- Additional Tabs for service activities can be added here -->
         </TabPane>
     </children>
 </AnchorPane>
-
-
-</AnchorPane>
-

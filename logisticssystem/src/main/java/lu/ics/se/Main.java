@@ -13,8 +13,12 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             // Load the main FXML file which contains the TabPane
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("MainViewVikingExpress.fxml"));
-            Parent root = loader.load();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+Parent root = loader.load();
+primaryStage.setScene(new Scene(root));
+
+
+            
 
             // Set the scene to the stage with the loaded FXML layout
             primaryStage.setScene(new Scene(root));

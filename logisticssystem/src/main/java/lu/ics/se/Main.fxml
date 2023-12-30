@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+    <center>
+        <TabPane fx:id="mainTabPane">
+            <tabs>
+                <!-- Viking Express Tab -->
+                <Tab text="Viking Express">
+                    <content>
+                        <fx:include source="FirstPage.fxml"/>
+                    </content>
+                </Tab>
+
+                <!-- Vehicle Tab -->
+                <Tab text="Vehicle">
+                    <content>
+                        <fx:include source="Vehicle.fxml"/>
+                    </content>
+                </Tab>
+                
+                <!-- Workshop Tab -->
+                <Tab text="Workshop">
+                    <content>
+                        <fx:include source="Workshop.fxml"/>
+                    </content>
+                </Tab>
+
+                <!-- Maintenance Tab -->
+                <Tab text="Maintenance">
+                    <content>
+                        <fx:include source="Maintenance.fxml"/>
+                    </content>
+                </Tab>
+
+                <!-- Service Activity Tab -->
+                <Tab text="Service Activity">
+                    <content>
+                        <fx:include source="ServiceActivity.fxml"/>
+                    </content>
+                </Tab>
+
+                <!-- Service History Tab -->
+                <Tab text="Service History">
+                    <content>
+                        <fx:include source="ServiceHistory.fxml"/>
+                    </content>
+                </Tab>
+
+                <!-- Additional tabs can be added here -->
+            </tabs>
+        </TabPane>
+    </center>
+</BorderPane>
