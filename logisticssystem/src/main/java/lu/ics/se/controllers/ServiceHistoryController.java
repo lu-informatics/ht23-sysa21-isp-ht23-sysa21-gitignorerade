@@ -249,13 +249,9 @@ private Vehicle findVehicleByVIN(String vin) {
         vehicleServiceHistoryListView.getItems().clear();
     }
 
-    public class WorkshopController {
-
-        @FXML
-        private TextField workshopNameTextField;
-        @FXML
-        private ListView<String> serviceHistoryListView;
     
+
+       
         private WorkshopList workshopList;
     
         // Setter for workshopList
@@ -265,7 +261,7 @@ private Vehicle findVehicleByVIN(String vin) {
     
         // Handler for showing workshop history
         @FXML
-        public void loadWorkshopHistory(ActionEvent event) {
+        public void loadHistory(ActionEvent event) {
             clearServiceHistoryView(event);
             String workshopName = workshopNameTextField.getText().trim();
     
@@ -292,7 +288,7 @@ private Vehicle findVehicleByVIN(String vin) {
         }
     
         // Method to format a single service history entry
-        private String formatServiceHistory(ServiceHistory history) {
+        private String formatWorkshopServiceHistory(ServiceHistory history) {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             StringBuilder historyBuilder = new StringBuilder();
     
@@ -317,7 +313,7 @@ private Vehicle findVehicleByVIN(String vin) {
             alert.setContentText(message);
             alert.showAndWait();
         }
-    }
+    
     
 
     // You need to have a reference to your WorkshopList or WorkshopService to get the workshops

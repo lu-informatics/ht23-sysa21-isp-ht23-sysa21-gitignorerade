@@ -134,7 +134,7 @@ public class ServiceActivityController {
         private DatePicker serviceDateField;
     
         @FXML
-        private TextArea descriptionField;
+        private TextField descriptionField;
     
 
     

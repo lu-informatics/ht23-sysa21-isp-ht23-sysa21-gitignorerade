@@ -28,7 +28,7 @@ import java.util.UUID;
 import java.io.IOException;
 import javafx.event.ActionEvent; // Add this import statement
 
-public class VehicleController1<ServiceCostController> {
+public class VehicleController1 {
     // Vehicle Tab
     @FXML
     private TextField vehicleNameField;
@@ -69,11 +69,16 @@ public class VehicleController1<ServiceCostController> {
     private Button listworkshops;
     
     @FXML
+    private Button addVehicle;
+    @FXML
     private TextField vinTextField;
 
     @FXML
     private ListView<String> workshopsListView;
 
+    
+        
+    
     public VehicleController1() {
         this.vehicleManifest = new VehicleManifest();
     }
