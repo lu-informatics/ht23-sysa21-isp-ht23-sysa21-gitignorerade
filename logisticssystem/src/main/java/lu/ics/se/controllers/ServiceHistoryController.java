@@ -154,7 +154,7 @@ private ListView<String> vehicleServiceHistoryListView;
         serviceHistories = histories;
     }
     @FXML
-private void vinField(ActionEvent event) {
+public void vinField(ActionEvent event) {
     String vin = vinField.getText().trim();
 
     if (validateVIN(vin)) {
@@ -218,7 +218,7 @@ private Vehicle findVehicleByVIN(String vin) {
         }
         
     @FXML
-    void clearServiceHistory(ActionEvent event) {
+    public void clearServiceHistory(ActionEvent event) {
         serviceHistoryListView.getItems().clear();
     }
 
@@ -245,7 +245,7 @@ private Vehicle findVehicleByVIN(String vin) {
     }
 
     @FXML
-    void clearVehicleServiceHistory(ActionEvent event) {
+    public void clearVehicleServiceHistory(ActionEvent event) {
         vehicleServiceHistoryListView.getItems().clear();
     }
 
@@ -362,7 +362,7 @@ private Vehicle findVehicleByVIN(String vin) {
     
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         // Existing code...
         initializeServiceHistoryTable();
     }

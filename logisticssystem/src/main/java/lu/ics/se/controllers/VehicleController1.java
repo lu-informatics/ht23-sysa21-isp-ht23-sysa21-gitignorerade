@@ -79,7 +79,7 @@ public class VehicleController1<ServiceCostController> {
     }
 
     @FXML
-    private void initialize() {
+    public void initialize() {
         // Initialize vehicle table
         vinColumn.setCellValueFactory(new PropertyValueFactory<>("vehicleIdentificationNumber"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("vehicleName"));
@@ -103,7 +103,7 @@ public class VehicleController1<ServiceCostController> {
     }
 
     @FXML
-    private void addVehicle() {
+    public void addVehicle() {
         try {
             Vehicle newVehicle = new Vehicle(
                     generateUniqueVIN(),
@@ -184,7 +184,7 @@ public class VehicleController1<ServiceCostController> {
     private TabPane vehicleTabPane; // Declare vehicleTabPane
 
     @FXML
-    private void initializeServiceCostTab() {
+    public void initializeServiceCostTab() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/lu/ics/se/views/ServiceCostTab.fxml"));
             Parent serviceCostRoot = loader.load();
@@ -197,7 +197,7 @@ public class VehicleController1<ServiceCostController> {
     }
 
     @FXML
-    private void vinField(ActionEvent event) {
+    public void vinField(ActionEvent event) {
     String vin = vinField.getText().trim();
 
      if (validateVIN(vin)) {
@@ -250,7 +250,7 @@ showTotalServiceCostForVehicle(vehicle, totalCost);
 }
 
 @FXML
-private void calculateTotalCost() {
+public void calculateTotalCost() {
 TableView<ServiceEvent> maintenanceEventsTableView = new TableView<>();
 TableView<ServiceHistory> serviceHistoryEntriesTableView = new TableView<>();
 // Assuming you have TableView instances for maintenance and service history in your UI
@@ -329,7 +329,7 @@ return null;
 private ListView<String> workshopListView; // Make sure this fx:id matches with your FXML
 
 @FXML
-private void vinTextField(ActionEvent event) {
+public void vinTextField(ActionEvent event) {
     String vin = vinTextField.getText().trim();
 
     if (validateVIN(vin)) {
@@ -378,7 +378,7 @@ public void listWorkshops(ActionEvent event) {
 }
 
 @FXML
-private void clearList(ActionEvent event) {
+public void clearList(ActionEvent event) {
     // Clear the ListView
     workshopsListView.getItems().clear();
 }

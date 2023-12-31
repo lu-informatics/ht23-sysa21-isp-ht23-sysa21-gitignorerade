@@ -179,7 +179,7 @@ public class ServiceActivityController {
     }
         // Other necessary methods and event handlers...
         @FXML
-        private void initialize() {
+        public void initialize() {
             // Initialize columns
             vinColumn.setCellValueFactory(new PropertyValueFactory<>("vin"));
             descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -193,7 +193,7 @@ public class ServiceActivityController {
                     (observable, oldValue, newValue) -> showDetails(newValue));
         }
         @FXML
-        private void addServiceActivity() {
+        public void addServiceActivity() {
             // Get values from the fields
             String vin = vinField.getText();
             LocalDate serviceDate = serviceDateField.getValue();
@@ -253,7 +253,7 @@ public class ServiceActivityController {
         
     }
     @FXML
-    private void editServiceActivity() {
+    public void editServiceActivity() {
         ServiceActivityController selectedActivity = serviceActivitiesTableView.getSelectionModel().getSelectedItem();
 
         if (selectedActivity != null) {
@@ -278,7 +278,7 @@ public class ServiceActivityController {
     private void setDescription(String newDescription) {
     }
     @FXML
-    private void markAsCompleted() {
+    public void markAsCompleted() {
         ServiceActivityController selectedActivity = serviceActivitiesTableView.getSelectionModel().getSelectedItem();
 
         if (selectedActivity != null) {
@@ -332,7 +332,7 @@ public class ServiceActivityController {
         return null;
     }
     @FXML
-    private void removeServiceActivity() {
+    public void removeServiceActivity() {
         TableView<ServiceActivityController> serviceActivitiesTableView = new TableView<>(); // Initialize the variable
         ServiceActivityController selectedActivity = serviceActivitiesTableView.getSelectionModel().getSelectedItem();
 

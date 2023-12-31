@@ -93,7 +93,7 @@ public class MaintenanceController {
     private VehicleManifest vehicleManifest;
 
     @FXML
-    private void initializeMaintenanceTableView() {
+    public void initializeMaintenanceTableView() {
         // Set up columns for maintenance table view
         TableColumn<ServiceEvent, String> vinColumn = new TableColumn<>("VIN");
         vinColumn.setCellValueFactory(new PropertyValueFactory<>("eventVin"));
@@ -135,7 +135,7 @@ public class MaintenanceController {
 
     
     @FXML
-    private void handleAddMaintenance() {
+    public void handleAddMaintenance() {
         try {
             // Get input values from UI elements
             TextField vinField = new TextField(); // Replace TextField with the appropriate type for vinField
@@ -228,7 +228,7 @@ public class MaintenanceController {
 
 
     @FXML
-    private void handleEdit() {
+    public void handleEdit() {
         if (selectedMaintenance != null) {
             try {
                 // Load the FXML file for the edit window
@@ -259,7 +259,7 @@ public class MaintenanceController {
     }
 
     @FXML
-    private void handleDelete() {
+    public void handleDelete() {
         if (selectedMaintenance != null) {
             // Ask for confirmation before deleting
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -289,7 +289,7 @@ public class MaintenanceController {
     
 
     @FXML
-    private void handleShowAverageCost() {
+    public void handleShowAverageCost() {
         // Display information on average cost
         double averageCost = calculateAverageCost(null);
         String averageCostMessage = String.format("Average Cost for Maintenance: $%.2f", averageCost);

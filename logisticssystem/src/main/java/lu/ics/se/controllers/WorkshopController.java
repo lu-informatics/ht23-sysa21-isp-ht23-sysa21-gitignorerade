@@ -69,7 +69,7 @@ public class WorkshopController {
     
 
     @FXML
-    private void initialize() {
+    public void initialize() {
 
         initializeWorkshopList();
         // Initialize workshop table
@@ -105,7 +105,7 @@ public class WorkshopController {
         }
     }
 @FXML
-    private void handleAddWorkshop(ActionEvent event) {
+    public void handleAddWorkshop(ActionEvent event) {
         String name = nameField.getText();
         String address = addressField.getText();
         String type = typeField.getText();
@@ -129,7 +129,7 @@ private void showAlert(String string, String string2) {
 }
 
 @FXML
-private void handleDeleteWorkshop(ActionEvent event) {
+public void handleDeleteWorkshop(ActionEvent event) {
 Workshop selectedWorkshop = workshopTable.getSelectionModel().getSelectedItem();
 
 if (selectedWorkshop != null) {
@@ -152,7 +152,7 @@ if (selectedWorkshop != null) {
 }
 
 @FXML
-private void handleEditWorkshop(ActionEvent event) {
+public void handleEditWorkshop(ActionEvent event) {
 Workshop selectedWorkshop = workshopTable.getSelectionModel().getSelectedItem();
 
 if (selectedWorkshop != null) {
@@ -197,7 +197,7 @@ editDialog.show();
 
 
 @FXML
-private void displayMostExpensiveWorkshop() {
+public void displayMostExpensiveWorkshop() {
 // Retrieve the most expensive workshop
 Workshop mostExpensiveWorkshop = findMostExpensiveWorkshop();
 
