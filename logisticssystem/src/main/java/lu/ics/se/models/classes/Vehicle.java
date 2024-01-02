@@ -9,6 +9,7 @@ public class Vehicle {
     private String vehicleBrand;
     private VehicleClass vehicleClass;
     private Locations location;
+    private Locations destination;
     private String vehicleName;
 
     public Vehicle(){
@@ -37,6 +38,9 @@ public class Vehicle {
     public String getVehicleName() {
         return vehicleName;
     }
+    public Locations getDestination() {
+        return destination;
+    }
     public void setVehicleIdentificationNumber(String vehicleIdentificationNumber) {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
     }
@@ -55,13 +59,16 @@ public class Vehicle {
     public void setVehicleName(String vehicleName) {
         this.vehicleName = vehicleName;
     }
+    public void setDestination(Locations destination) {
+        this.destination = destination;
+    }
     public String generateVehicleIdentificationNumber() {
         String vehicleIdentificationNumber = "";
-        if (this.vehicleClass == VehicleClass.VAN) {
+        if (this.vehicleClass == VehicleClass.Van) {
             vehicleIdentificationNumber = vehicleIdentificationNumber + "VN";
-        } else if (this.vehicleClass == VehicleClass.MEDIUMTRUCK) {
+        } else if (this.vehicleClass == VehicleClass.Mediumtruck) {
             vehicleIdentificationNumber = "MT";
-        } else if (this.vehicleClass == VehicleClass.LARGETRUCK) {
+        } else if (this.vehicleClass == VehicleClass.Largetruck) {
             vehicleIdentificationNumber = "LT";
         }
         vehicleIdentificationNumber = vehicleIdentificationNumber + "-";
@@ -87,15 +94,15 @@ public class Vehicle {
     }
     public double[] getAllowedCapacityRange(){
         double[] allowedCapacityRange = new double[2];
-        if (this.vehicleClass == VehicleClass.VAN){
+        if (this.vehicleClass == VehicleClass.Van){
             allowedCapacityRange[0] = 0;
             allowedCapacityRange[1] = 2000;
         }
-        else if (this.vehicleClass == VehicleClass.MEDIUMTRUCK){
+        else if (this.vehicleClass == VehicleClass.Mediumtruck){
             allowedCapacityRange[0] = 2000;
             allowedCapacityRange[1] = 8000;
         }
-        else if (this.vehicleClass == VehicleClass.LARGETRUCK){
+        else if (this.vehicleClass == VehicleClass.Largetruck){
             allowedCapacityRange[0] = 8000;
             allowedCapacityRange[1] = 20000;
         }

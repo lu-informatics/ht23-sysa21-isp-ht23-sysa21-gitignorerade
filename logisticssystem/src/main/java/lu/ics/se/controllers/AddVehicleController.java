@@ -38,8 +38,8 @@ public class AddVehicleController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        vehicleTypeChoiceBox.getItems().addAll("VAN", "MEDIUMTRUCK", "LARGETRUCK");
-        vehicleTypeChoiceBox.setValue("VAN");
+        vehicleTypeChoiceBox.getItems().addAll("Van", "Mediumtruck", "Largetruck");
+        vehicleTypeChoiceBox.setValue("Van");
 
         vehicleCapacitySlider.setMin(0);
         vehicleCapacitySlider.setMax(2000);
@@ -49,13 +49,13 @@ public class AddVehicleController implements Initializable {
 
         vehicleTypeChoiceBox.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
-                    if (newValue.equals("VAN")) {
+                    if (newValue.equals("Van")) {
                         vehicleCapacitySlider.setMin(0);
                         vehicleCapacitySlider.setMax(2000);
-                    } else if (newValue.equals("MEDIUMTRUCK")) {
+                    } else if (newValue.equals("Mediumtruck")) {
                         vehicleCapacitySlider.setMin(2000);
                         vehicleCapacitySlider.setMax(8000);
-                    } else if (newValue.equals("LARGETRUCK")) {
+                    } else if (newValue.equals("Largetruck")) {
                         vehicleCapacitySlider.setMin(8000);
                         vehicleCapacitySlider.setMax(20000);
                     }
@@ -71,7 +71,7 @@ public class AddVehicleController implements Initializable {
             pause.setOnFinished(event -> {
                 if (!newValue.matches("\\d*")) {
                     vehicleCargoCapacityTextField.setText(newValue.replaceAll("[^\\d]", ""));
-                }
+                }else {
                 int value = Integer.parseInt(newValue);
                 if (value < vehicleCapacitySlider.getMin()) {
                     vehicleCapacitySlider.setValue(vehicleCapacitySlider.getMin());
@@ -86,7 +86,7 @@ public class AddVehicleController implements Initializable {
                 } else {
                     vehicleCapacitySlider.setValue(value);
                 }
-            });
+            }});
             pause.playFromStart();
         });
     }
@@ -103,12 +103,12 @@ public class AddVehicleController implements Initializable {
         } else {
             vehicle.setvehicleBrand(vehicleBrandTextField.getText());
             vehicle.setCapacityinKg(Double.parseDouble(vehicleCargoCapacityTextField.getText()));
-            if (vehicleTypeChoiceBox.getValue().equals("VAN")) {
-                vehicle.setVehicleClass(VehicleClass.VAN);
-            } else if (vehicleTypeChoiceBox.getValue().equals("MEDIUMTRUCK")) {
-                vehicle.setVehicleClass(VehicleClass.MEDIUMTRUCK);
-            } else if (vehicleTypeChoiceBox.getValue().equals("LARGETRUCK")) {
-                vehicle.setVehicleClass(VehicleClass.LARGETRUCK);
+            if (vehicleTypeChoiceBox.getValue().equals("Van")) {
+                vehicle.setVehicleClass(VehicleClass.Van);
+            } else if (vehicleTypeChoiceBox.getValue().equals("Mediumtruck")) {
+                vehicle.setVehicleClass(VehicleClass.Mediumtruck);
+            } else if (vehicleTypeChoiceBox.getValue().equals("Largetruck")) {
+                vehicle.setVehicleClass(VehicleClass.Largetruck);
             }
             vehicle.setVehicleIdentificationNumber(vehicle.generateVehicleIdentificationNumber());
             vehicle.setVehicleName(vehicle.generateVehicleName(vehicle.getVehicleIdentificationNumber(), vehicle.getVehicleBrand()));

@@ -66,61 +66,104 @@ public class MainViewController implements Initializable {
     }
 
     @Override
-public void initialize(URL url, ResourceBundle rb) {
-    vehicleColumnID.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleIdentificationNumber"));
-    vehicleColumnBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleBrand"));
-    vehicleColumnCapacity.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("capacityinKg"));
-    vehicleColumnClass.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleClass"));
-    vehicleTable.setItems(Main.companyVehicleManifest.getVehicleManifest());
+    public void initialize(URL url, ResourceBundle rb) {
+        vehicleColumnID.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleIdentificationNumber"));
+        vehicleColumnBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleBrand"));
+        vehicleColumnCapacity.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("capacityinKg"));
+        vehicleColumnClass.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleClass"));
+        vehicleTable.setItems(Main.companyVehicleManifest.getVehicleManifest());
 
-    vehicleTable.setRowFactory(tv -> {
-        TableRow<Vehicle> row = new TableRow<>();
-        ContextMenu contextMenu = new ContextMenu();
+        vehicleTable.setRowFactory(tv -> {
+            TableRow<Vehicle> row = new TableRow<>();
+            ContextMenu contextMenu = new ContextMenu();
 
-        MenuItem editItem = new MenuItem("Edit Vehicle");
-        editItem.setOnAction(event -> {
-            try {
-                // Handle edit vehicle here
+            MenuItem editItem = new MenuItem("Edit Vehicle");
+            editItem.setOnAction(event -> {
+                try {
+                    // Handle edit vehicle here
+                    Vehicle vehicle = row.getItem();
+
+                    Stage stage = new Stage();
+                    stage.setTitle("Vehicle Editor");
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editvehicle.fxml"));
+                    Parent root = loader.load();
+
+                    stage.setScene(new Scene(root));
+                    stage.show();
+
+                    EditVehicleController controller = loader.getController();
+                    controller.setVehicle(vehicle);
+
+                    controller.setOnCloseListener(() -> {
+                        vehicleTable.refresh();
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            MenuItem removeItem = new MenuItem("Remove Vehicle");
+            removeItem.setOnAction(event -> {
+                try{
+                    Vehicle vehicle = row.getItem();
+
+                    Stage stage = new Stage();
+                    stage.setTitle("Vehicle Remover");
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/removevehicle.fxml"));
+                    Parent root = loader.load();
+
+                    stage.setScene(new Scene(root));
+                    stage.show();
+
+                    RemoveVehicleController controller = loader.getController();
+                    controller.setVehicle(vehicle);
+
+                    controller.setOnCloseListener(() -> {
+                        vehicleTable.refresh();
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            MenuItem scheduleMaintenanceItem = new MenuItem("Schedule Maintenance");
+            scheduleMaintenanceItem.setOnAction(event -> {
                 Vehicle vehicle = row.getItem();
+                // Handle schedule maintenance here
+            });
 
-                Stage stage = new Stage();
-                stage.setTitle("Vehicle Editor");
+            MenuItem setLocation = new MenuItem("Set Location");
+            setLocation.setOnAction(event -> {
+                try{
+                    Vehicle vehicle = row.getItem();
 
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editvehicle.fxml"));
-                Parent root = loader.load();
+                    Stage stage = new Stage();
+                    stage.setTitle("Location Picker");
 
-                stage.setScene(new Scene(root));
-                stage.show();
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/setlocation.fxml"));
+                    Parent root = loader.load();
 
-                EditVehicleController controller = loader.getController();
-                controller.setVehicle(vehicle);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                    stage.setScene(new Scene(root));
+                    stage.show();
+
+                    SetLocationController controller = loader.getController();
+                    controller.setVehicle(vehicle);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+
+            contextMenu.getItems().addAll(editItem, removeItem, scheduleMaintenanceItem, setLocation);
+
+            row.contextMenuProperty().bind(
+                    Bindings.when(row.emptyProperty())
+                            .then((ContextMenu)null)
+                            .otherwise(contextMenu)
+            );
+
+            return row;
         });
-
-        MenuItem removeItem = new MenuItem("Remove Vehicle");
-        removeItem.setOnAction(event -> {
-            Vehicle vehicle = row.getItem();
-            // Handle remove vehicle here
-        });
-
-        MenuItem scheduleMaintenanceItem = new MenuItem("Schedule Maintenance");
-        scheduleMaintenanceItem.setOnAction(event -> {
-            Vehicle vehicle = row.getItem();
-            // Handle schedule maintenance here
-        });
-
-        contextMenu.getItems().addAll(editItem, removeItem, scheduleMaintenanceItem);
-
-        row.contextMenuProperty().bind(
-            Bindings.when(row.emptyProperty())
-                .then((ContextMenu)null)
-                .otherwise(contextMenu)
-        );
-
-        return row;
-    });
     }
-
 }
