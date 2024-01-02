@@ -20,6 +20,11 @@ import lu.ics.se.models.classes.*;
 import lu.ics.se.models.enums.*;
 import java.util.ResourceBundle;
 import lu.ics.se.Main;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.MenuItem;
+import javafx.beans.binding.Bindings;
+
 
 
 
@@ -59,15 +64,63 @@ public class MainViewController implements Initializable {
 
         }
     }
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        vehicleColumnID.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleIdentificationNumber"));
-        vehicleColumnBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleBrand"));
-        vehicleColumnCapacity.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("capacityinKg"));
-        vehicleColumnClass.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleClass"));
-        vehicleTable.setItems(Main.companyVehicleManifest.getVehicleManifest());
+public void initialize(URL url, ResourceBundle rb) {
+    vehicleColumnID.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleIdentificationNumber"));
+    vehicleColumnBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleBrand"));
+    vehicleColumnCapacity.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("capacityinKg"));
+    vehicleColumnClass.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleClass"));
+    vehicleTable.setItems(Main.companyVehicleManifest.getVehicleManifest());
 
+    vehicleTable.setRowFactory(tv -> {
+        TableRow<Vehicle> row = new TableRow<>();
+        ContextMenu contextMenu = new ContextMenu();
+
+        MenuItem editItem = new MenuItem("Edit Vehicle");
+        editItem.setOnAction(event -> {
+            try {
+                // Handle edit vehicle here
+                Vehicle vehicle = row.getItem();
+
+                Stage stage = new Stage();
+                stage.setTitle("Vehicle Editor");
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editvehicle.fxml"));
+                Parent root = loader.load();
+
+                stage.setScene(new Scene(root));
+                stage.show();
+
+                EditVehicleController controller = loader.getController();
+                controller.setVehicle(vehicle);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        MenuItem removeItem = new MenuItem("Remove Vehicle");
+        removeItem.setOnAction(event -> {
+            Vehicle vehicle = row.getItem();
+            // Handle remove vehicle here
+        });
+
+        MenuItem scheduleMaintenanceItem = new MenuItem("Schedule Maintenance");
+        scheduleMaintenanceItem.setOnAction(event -> {
+            Vehicle vehicle = row.getItem();
+            // Handle schedule maintenance here
+        });
+
+        contextMenu.getItems().addAll(editItem, removeItem, scheduleMaintenanceItem);
+
+        row.contextMenuProperty().bind(
+            Bindings.when(row.emptyProperty())
+                .then((ContextMenu)null)
+                .otherwise(contextMenu)
+        );
+
+        return row;
+    });
     }
-
 
 }

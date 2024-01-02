@@ -1,5 +1,6 @@
 package lu.ics.se.models.classes;
 import lu.ics.se.models.enums.VehicleClass;
+import lu.ics.se.models.enums.Locations;
 import java.util.Random;
 
 public class Vehicle {
@@ -7,6 +8,8 @@ public class Vehicle {
     private double capacityinKg;
     private String vehicleBrand;
     private VehicleClass vehicleClass;
+    private Locations location;
+    private String vehicleName;
 
     public Vehicle(){
 
@@ -28,6 +31,12 @@ public class Vehicle {
     public VehicleClass getVehicleClass() {
         return vehicleClass;
     }
+    public Locations getLocation() {
+        return location;
+    }
+    public String getVehicleName() {
+        return vehicleName;
+    }
     public void setVehicleIdentificationNumber(String vehicleIdentificationNumber) {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
     }
@@ -39,6 +48,12 @@ public class Vehicle {
     }
     public void setVehicleClass(VehicleClass vehicleClass) {
         this.vehicleClass = vehicleClass;
+    }
+    public void setLocation(Locations location) {
+        this.location = location;
+    }
+    public void setVehicleName(String vehicleName) {
+        this.vehicleName = vehicleName;
     }
     public String generateVehicleIdentificationNumber() {
         String vehicleIdentificationNumber = "";
@@ -65,4 +80,26 @@ public class Vehicle {
         return vehicleIdentificationNumber;
 
     }
+    public String generateVehicleName(String vehicleIdentificationNumber, String vehicleBrand){
+        String vehicleName = "";
+        vehicleName = vehicleName + vehicleBrand + vehicleIdentificationNumber.substring(7, 9);
+        return vehicleName;
+    }
+    public double[] getAllowedCapacityRange(){
+        double[] allowedCapacityRange = new double[2];
+        if (this.vehicleClass == VehicleClass.VAN){
+            allowedCapacityRange[0] = 0;
+            allowedCapacityRange[1] = 2000;
+        }
+        else if (this.vehicleClass == VehicleClass.MEDIUMTRUCK){
+            allowedCapacityRange[0] = 2000;
+            allowedCapacityRange[1] = 8000;
+        }
+        else if (this.vehicleClass == VehicleClass.LARGETRUCK){
+            allowedCapacityRange[0] = 8000;
+            allowedCapacityRange[1] = 20000;
+        }
+        return allowedCapacityRange;
+    }
+
 }

@@ -111,6 +111,7 @@ public class AddVehicleController implements Initializable {
                 vehicle.setVehicleClass(VehicleClass.LARGETRUCK);
             }
             vehicle.setVehicleIdentificationNumber(vehicle.generateVehicleIdentificationNumber());
+            vehicle.setVehicleName(vehicle.generateVehicleName(vehicle.getVehicleIdentificationNumber(), vehicle.getVehicleBrand()));
             Main.companyVehicleManifest.addVehicle(vehicle);
             vehicleBrandTextField.clear();
             vehicleCargoCapacityTextField.clear();
