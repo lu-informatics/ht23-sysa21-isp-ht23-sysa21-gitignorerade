@@ -91,6 +91,12 @@ public class Workshop {
     public Iterable<ServiceHistory> getServiceHistories() {
         return null;
     }
+    public ServiceEvent[] getServiceEvents() {
+        return null;
+    }
+    public Object getName() {
+        return null;
+    }
     
 
 

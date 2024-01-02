@@ -74,6 +74,8 @@ public class ServiceActivityController {
  @FXML
  private Button deleteWorkshopButton;
 
+ @FXML
+ private Button clearServiceActivityFields;
 
  @FXML
  private TabPane maintenanceTabPane;
@@ -145,7 +147,10 @@ public class ServiceActivityController {
     
         @FXML
         private TableView<ServiceActivityController> serviceActivitiesTableView;
-    
+
+        @FXML
+        private Button clearServiceActivitiesTable;
+
         @FXML
         private TableColumn<ServiceActivityController, String> activityNameColumn;
 
@@ -170,54 +175,83 @@ public class ServiceActivityController {
     @FXML
     private TableView<ServiceHistory> serviceHistoryTableView;
 
-    public ServiceActivityController() {
-        // your code here
+    private VehicleManifest vehicleManifest;
+
+    public ServiceActivityController(String vin, String description, double cost, LocalDate serviceDate, String workshopName) {
+        this.vinField.setText(vin);
+        this.descriptionField.setText(description);
+        this.costField.setText(String.valueOf(cost));
+        this.serviceDateField.setValue(serviceDate);
+        this.workshopNameField.setText(workshopName);
     }
     
-        public ServiceActivityController(String vin, String description, double cost, LocalDate serviceDate,
-            String workshopName) {
+        public ServiceActivityController(String vin, String description, double cost, LocalDate serviceDate, Object name,
+            String partsReplaced) {
     }
-        // Other necessary methods and event handlers...
-        @FXML
-        public void initialize() {
-            // Initialize columns
-            vinColumn.setCellValueFactory(new PropertyValueFactory<>("vin"));
-            descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-            costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
-            serviceDateColumn.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
-            workshopNameColumn.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
-            partsReplacedColumn.setCellValueFactory(new PropertyValueFactory<>("partsReplaced"));
-    
-            // Set the selection listener for the table
-            serviceActivitiesTableView.getSelectionModel().selectedItemProperty().addListener(
-                    (observable, oldValue, newValue) -> showDetails(newValue));
-        }
-        @FXML
-        public void addServiceActivity() {
-            // Get values from the fields
-            String vin = vinField.getText();
-            LocalDate serviceDate = serviceDateField.getValue();
-            String description = descriptionField.getText();
-            double cost = Double.parseDouble(costField.getText());
-            String partsReplaced = partsReplacedField.getText();
-            String workshopName = workshopNameField.getText();
 
-            // Assuming you have a method to add service activities to the table
-            // (You should implement this method in your ServiceActivitiesTable class)
-            ServiceActivityController newActivity = new ServiceActivityController(vin, description, cost, serviceDate, workshopName);
-            newActivity.setPartsReplaced(partsReplaced); // Set partsReplaced
-            serviceActivitiesTableView.getItems().add(newActivity);
+    // Other necessary methods and event handlers...
+    @FXML
+    public void initialize() {
+    // Initialize columns
+    vinColumn.setCellValueFactory(new PropertyValueFactory<>("vin"));
+    descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+    costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
+    serviceDateColumn.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
+    workshopNameColumn.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
+    partsReplacedColumn.setCellValueFactory(new PropertyValueFactory<>("partsReplaced"));
 
-            // Clear the fields after adding the service activity
-            clearFields();
+    // Set the selection listener for the table
+    serviceActivitiesTableView.getSelectionModel().selectedItemProperty().addListener(
+            (observable, oldValue, newValue) -> showDetails(newValue));
+}
+
+    @FXML
+    public void clearServiceActivitiesTable() {
+    serviceActivitiesTableView.getItems().clear();
+    }
+
+    @FXML
+public void addServiceActivity() {
+    try {
+        // Get values from the fields
+        String vin = vinField.getText();
+        String workshopName = workshopNameField.getText();
+        String partsReplaced = partsReplacedField.getText();
+        String description = descriptionField.getText();
+        double cost = Double.parseDouble(costField.getText());
+        LocalDate serviceDate = serviceDateField.getValue();
+
+        // Validate inputs
+        if (vin.isEmpty() || workshopName.isEmpty() || partsReplaced.isEmpty() || description.isEmpty() || String.valueOf(cost).isEmpty() || serviceDate == null) {
+            showAlert("Error", "Please fill in all fields.");
+            return;
         }
-    
+
+        WorkshopList workshopList = new WorkshopList(); // Initialize the workshopList variable
+
+        Workshop selectedWorkshop = workshopList.getWorkshopByName(workshopName);
+        if (selectedWorkshop == null) {
+            showAlert("Error", "No workshop found with the entered name.");
+            return;
+        }
+
+        Vehicle selectedVehicle = vehicleManifest.getVehicleByVIN(vin);
+        if (selectedVehicle == null) {
+            showAlert("Error", "No vehicle found with the entered VIN.");
+            return;
+        }
+        ServiceActivityController newActivity = new ServiceActivityController(selectedVehicle.getVin(), description, cost, serviceDate, selectedWorkshop.getName(), partsReplaced); // Add the new service activity to the service activities table view
+        serviceActivitiesTableView.getItems().add(newActivity);
+
+        // Clear the input fields
+        clearServiceActivityFields();
+    } catch (Exception e) {
+        showAlert("Error", "An error occurred: " + e.getMessage());
+    }
+}
         // Add other methods and event handlers as needed...
     
-    private void setPartsReplaced(String partsReplaced) {
-        }
-    private void clearFields() {
-        }
+    
     private void showDetails(ServiceActivityController activity) {
         if (activity != null) {
             // Create and populate the details view
@@ -231,7 +265,17 @@ public class ServiceActivityController {
         }
     }
 
-    private AnchorPane createDetailsView(ServiceActivityController activity) {
+    @FXML 
+    public void clearServiceActivityFields() {
+        vinField.clear();
+        serviceDateField.setValue(null);
+        descriptionField.clear();
+        costField.clear();
+        partsReplacedField.clear();
+        workshopNameField.clear();
+
+        }
+        private AnchorPane createDetailsView(ServiceActivityController activity) {
         // Create a new AnchorPane for details view
         AnchorPane detailsView = new AnchorPane();
 

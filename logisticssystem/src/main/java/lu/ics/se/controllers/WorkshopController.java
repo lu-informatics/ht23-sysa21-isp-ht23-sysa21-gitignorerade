@@ -39,11 +39,20 @@ public class WorkshopController {
     private TextField typeField;
 
     @FXML
+    private Button clearWorkshopList;
+
+    @FXML
     private Button addWorkshopButton;
     @FXML
     private Button editWorkshopButton;
     @FXML
     private Button deleteWorkshopButton;
+
+    @FXML
+    private TableView<ServiceEvent> maintenanceTableView;
+
+    @FXML
+    private TableView<ServiceHistory> serviceHistoryTableView;
 
     
 
@@ -80,12 +89,28 @@ public class WorkshopController {
         workshopTable.setItems(getWorkshopData());
     }
 
-    // Remove the duplicate method declaration
-    // private ObservableList<Workshop> getWorkshopData() {
-    //     return FXCollections.observableArrayList(workshopList.getAllWorkshops());
-    // }
+    @FXML
+    public void clearWorkshopList(ActionEvent event) {
+        // Show confirmation dialog
+        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmationAlert.setTitle("Confirm Clear");
+        confirmationAlert.setHeaderText("Are you sure you want to clear the workshop list?");
+        confirmationAlert.setContentText("This action cannot be undone.");
 
-   
+        Optional<ButtonType> result = confirmationAlert.showAndWait();
+
+        if (result.isPresent() && result.get() == ButtonType.OK) {
+            // User confirmed clearing the workshop list
+            workshopList.clearWorkshopList();
+            workshopTable.setItems(getWorkshopData());
+        }
+    }
+    private void clearWorkshopColumns() {
+        nameField.clear();
+        addressField.clear();
+        typeField.clear();
+    }
+
     
     private void initializeWorkshopList() {
         // Initialize workshopList here. This might involve creating a new instance
@@ -122,10 +147,13 @@ workshopTable.setItems(getWorkshopData());
 clearWorkshopColumns();
 }
 
-private void clearWorkshopColumns() {
-}
 
-private void showAlert(String string, String string2) {
+private void showAlert(String title, String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
 }
 
 @FXML
@@ -178,7 +206,9 @@ saveButton.setOnAction(event -> {
     workshop.setWorkshopAddress(editedAddressField.getText());
     workshop.setType(editedTypeField.getText());
 
-    workshopTable.setItems(getWorkshopData());
+    // If your TableView is bound to an ObservableList, this line might not be necessary
+    // workshopTable.setItems(getWorkshopData());
+
     editDialog.close();
 });
 
@@ -214,32 +244,40 @@ showAlert3("No Workshops", "There are no workshops available.");
 }
 
 private double calculateTotalCostForWorkshop(Workshop workshop) {
-return 0.0;
+    double totalCost = 0.0;
+
+    for (ServiceEvent event : workshop.getServiceEvents()) {
+        // Assuming ServiceEvent has a method getCost that returns the cost of the event
+        totalCost += event.getCost();
+    }
+
+    return totalCost;
 }
 
 private Workshop findMostExpensiveWorkshop() {
-// Retrieve the list of all workshops
-ArrayList<Workshop> allWorkshops = workshopList.getAllWorkshops();
+    // Retrieve the list of all workshops
+    ArrayList<Workshop> allWorkshops = workshopList.getAllWorkshops();
 
-if (allWorkshops.isEmpty()) {
-return null; // Return null if there are no workshops available
-}
+    if (allWorkshops.isEmpty()) {
+        return null; // Return null if there are no workshops available
+    }
 
-Workshop mostExpensiveWorkshop = null;
-double maxCost = Double.MIN_VALUE;
+    Workshop mostExpensiveWorkshop = null;
+    double maxCost = Double.MIN_VALUE;
 
-// Iterate through all workshops to find the most expensive one
-for (Workshop workshop : allWorkshops) {
-double totalCost = calculateTotalCostForWorkshop(workshop);
-if (totalCost > maxCost) {
-    maxCost = totalCost;
-    mostExpensiveWorkshop = workshop;
-}
-}
+    // Iterate through all workshops to find the most expensive one
+    for (Workshop workshop : allWorkshops) {
+        double totalCost = calculateTotalCostForWorkshop(workshop);
+        if (totalCost > maxCost) {
+            maxCost = totalCost;
+            mostExpensiveWorkshop = workshop;
+        }
+    }
+
 
 // Check the maintenanceTableView
-TableView<ServiceEvent> maintenanceTableView = new TableView<>(); // Declare and initialize maintenanceTableView
-
+// Check the maintenanceTableView
+// Check the maintenanceTableView
 for (ServiceEvent event : maintenanceTableView.getItems()) {
     double totalCost = event.getEventCost();
     if (totalCost > maxCost) {
@@ -247,40 +285,46 @@ for (ServiceEvent event : maintenanceTableView.getItems()) {
         mostExpensiveWorkshop = new Workshop(
                 event.getEventWorkshopName(),
                 event.getEventWorkshopAddress(),
-                calculateTotalCostForWorkshop(event)
+                calculateTotalCostForWorkshop(event),
+                event.getEventWorkshopType()
         );
     }
 }
-TableView<ServiceHistory> serviceHistoryTableView = new TableView<>();
+
+
+// Check the serviceHistoryTableView
 for (ServiceHistory history : serviceHistoryTableView.getItems()) {
-double totalCost = Double.parseDouble(history.getCost());
-if (totalCost > maxCost) {
-    maxCost = totalCost;
-    mostExpensiveWorkshop = new Workshop(
+    double totalCost = Double.parseDouble(history.getCost());
+    if (totalCost > maxCost) {
+        maxCost = totalCost;
+        mostExpensiveWorkshop = new Workshop(
             history.getWorkshopName(),
             history.getWorkshopAddress(),
             calculateTotalCostForWorkshop2(history),
-            ""
-    );
+            history.getWorkshopType()
+        );
+    }
 }
-}
+
 return mostExpensiveWorkshop;
-
 }
 
-private String calculateTotalCostForWorkshop2(ServiceHistory history) {
-return null;
+private double calculateTotalCostForWorkshop2(ServiceHistory history) {
+    // Assuming ServiceHistory has a method getCost that returns the cost of the history
+    return Double.parseDouble(history.getCost());
 }
 
-private Object calculateTotalCostForWorkshop(ServiceEvent event) {
-return null;
+private double calculateTotalCostForWorkshop(ServiceEvent event) {
+    // Assuming ServiceEvent has a method getCost that returns the cost of the event
+    return event.getCost();
 }
+
 
 private void showAlert3(String title, String content) {
-Alert alert = new Alert(AlertType.INFORMATION);
-alert.setTitle(title);
-alert.setHeaderText(null);
-alert.setContentText(content);
-alert.showAndWait();
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(content);
+    alert.showAndWait();
 }
 }

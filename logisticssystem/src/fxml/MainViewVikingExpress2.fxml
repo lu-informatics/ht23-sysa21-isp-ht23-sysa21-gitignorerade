@@ -16,17 +16,9 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Viking Express">
-               <content>
-                  <ImageView fitHeight="572.0" fitWidth="698.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-14%20kl.%2017.45.28.png" />
-                     </image>
-                  </ImageView>
-               </content>
-          </Tab>
+          <Tab text="Viking Express" />
           <Tab text="Vehicle">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -37,9 +29,9 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="324.0" prefWidth="609.0">
                                        <children>
-                                          <ImageView fitHeight="342.0" fitWidth="606.0" layoutX="-4.0">
+                                          <ImageView fitHeight="341.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="129.0" layoutY="47.0" text="Vehicle Registration" textFill="WHITE">
@@ -100,7 +92,7 @@
                                        <children>
                                           <ImageView fitHeight="338.0" fitWidth="603.0" layoutX="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.20.07.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
                                           <ListView fx:id="workshopListView" layoutX="371.0" layoutY="21.0" prefHeight="223.0" prefWidth="200.0" />
@@ -121,7 +113,7 @@
                                        <children>
                                           <ImageView fitHeight="343.0" fitWidth="602.0" layoutX="-1.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="245.0" layoutY="46.0" text="Cost of service for all vehicles" textFill="WHITE">
@@ -171,7 +163,7 @@
                                        <children>
                                           <ImageView fitHeight="339.0" fitWidth="608.0" layoutX="-6.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.37.49.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.37.49.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="89.0" layoutY="14.0" text="Register workshop" textFill="WHITE">
@@ -199,7 +191,7 @@
                                        <children>
                                           <ImageView fitHeight="398.0" fitWidth="632.0" layoutX="-31.0" layoutY="-8.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.46.08.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
                                              </image>
                                           </ImageView>
                                           <TableView fx:id="workshopTable" layoutX="-4.0" layoutY="-2.0" prefHeight="341.0" prefWidth="295.0">
@@ -233,7 +225,7 @@
                                        <children>
                                           <ImageView fitHeight="338.0" fitWidth="603.0" layoutX="-2.0" layoutY="1.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.50.10.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="107.0" layoutY="67.0" text="Most expensive workshop" textFill="WHITE">
@@ -267,10 +259,10 @@
                                        <children>
                                           <ImageView fitHeight="345.0" fitWidth="764.0" layoutX="-148.0" layoutY="-1.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.55.07.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.50.10.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="179.0" layoutY="30.0" text="Schedule maintenance" textFill="WHITE">
+                                          <Label layoutX="177.0" layoutY="37.0" text="Schedule maintenance" textFill="WHITE">
                                              <font>
                                                 <Font size="29.0" />
                                              </font>
@@ -312,7 +304,7 @@
                                        <children>
                                           <ImageView fitHeight="341.0" fitWidth="612.0" layoutX="-11.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
                                              </image>
                                           </ImageView>
                                           <TableView fx:id="maintenanceTable" layoutX="233.0" layoutY="-2.0" prefHeight="343.0" prefWidth="367.0">
@@ -347,7 +339,7 @@
                                        <children>
                                           <ImageView fitHeight="342.0" fitWidth="607.0" layoutX="-2.0" layoutY="-3.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="141.0" layoutY="43.0" text="Maintenance specifications" textFill="WHITE">
@@ -403,7 +395,7 @@
                                        <children>
                                           <ImageView fitHeight="580.0" fitWidth="699.0" layoutX="-68.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.55.07.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.46.08.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="216.0" layoutY="9.0" text="Add service activity" textFill="WHITE">
@@ -481,7 +473,7 @@
                                        <children>
                                           <ImageView fitHeight="337.0" fitWidth="603.0" layoutX="-1.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.20.07.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="89.0" layoutY="79.0" text="Enter Vehicle VIN:" textFill="WHITE">
@@ -506,7 +498,7 @@
                                        <children>
                                           <ImageView fitHeight="352.0" fitWidth="610.0" layoutX="-1.0" layoutY="-1.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
+                                                <Image url="@../main/resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="69.0" layoutY="96.0" text="Enter workshop name:" textFill="WHITE">

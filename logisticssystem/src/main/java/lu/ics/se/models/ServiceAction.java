@@ -1,5 +1,6 @@
 package lu.ics.se.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class ServiceAction {
@@ -7,7 +8,7 @@ public class ServiceAction {
     private String actionDescription;
     private ArrayList<Part> partsReplaced;
 
-    public ServiceAction(){
+    public ServiceAction(String string, String description, double cost, LocalDate serviceDate, Object object, String partsReplaced2){
 
     }
     public ServiceAction(String actionName, String actionDescription){

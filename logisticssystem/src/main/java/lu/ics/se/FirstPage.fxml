@@ -21,7 +21,7 @@
                <content>
                   <ImageView fitHeight="572.0" fitWidth="698.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-14%20kl.%2017.45.28.png" />
+                        <Image url="@firstPicture1.png" />
                      </image>
                   </ImageView>
                </content>

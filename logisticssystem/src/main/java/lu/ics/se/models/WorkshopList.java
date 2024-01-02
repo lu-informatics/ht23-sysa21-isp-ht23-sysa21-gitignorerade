@@ -66,6 +66,9 @@ import javafx.util.Callback;
             return null;
         }
 
+        public void clearWorkshopList() {
+        }
+
         
     }
     

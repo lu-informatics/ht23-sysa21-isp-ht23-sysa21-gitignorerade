@@ -140,6 +140,9 @@ public ServiceHistory (String vin, Object object, String description, Object obj
     public Object getEventName() {
         return null;
     }
+    public String getWorkshopType() {
+        return null;
+    }
 
     
 }

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -15,19 +16,34 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <TabPane prefHeight="400.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+      <TabPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: white;" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Viking Express">
+            <Tab text="Viking Express">
                <content>
-                  <ImageView fitHeight="572.0" fitWidth="698.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-14%20kl.%2017.45.28.png" />
-                     </image>
-                  </ImageView>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TabPane prefHeight="372.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+                           <tabs>
+                              <Tab text="Welcome page">
+                                 <content>
+                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <ImageView fitHeight="497.0" fitWidth="699.0" layoutX="-74.0" layoutY="-18.0">
+                                             <image>
+                                                <Image url="@../../../../resources/firstPicture1.png" />
+                                             </image>
+                                          </ImageView>
+                                       </children>
+                                    </AnchorPane>
+                                 </content>
+                              </Tab>
+                           </tabs>
+                        </TabPane>
+                     </children>
+                  </AnchorPane>
                </content>
-          </Tab>
-          <Tab text="Vehicle" fx:controller="lu.ics.se.controllers.VehicleController1">
-   
+            </Tab>
+          <Tab text="Vehicle">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -37,9 +53,9 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="324.0" prefWidth="609.0">
                                        <children>
-                                          <ImageView fitHeight="342.0" fitWidth="606.0" layoutX="-4.0">
+                                          <ImageView fitHeight="341.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="129.0" layoutY="47.0" text="Vehicle Registration" textFill="WHITE">
@@ -71,7 +87,8 @@
                                           <TextField fx:id="vehicleTypeField" layoutX="286.0" layoutY="147.0" promptText="Vehicle type" />
                                           <TextField fx:id="locationField" layoutX="286.0" layoutY="181.0" promptText="Vehicle location" />
                                           <TextField fx:id="capacityField" layoutX="286.0" layoutY="216.0" promptText="capacity" />
-                                          <Button fx:id="addVehicle" layoutX="317.0" layoutY="264.0" mnemonicParsing="false" style="-fx-background-color: white;" text="Add Vehicle" />
+                                          <Button fx:id="addVehicle" layoutX="272.0" layoutY="261.0" mnemonicParsing="false" style="-fx-background-color: white;" text="Add Vehicle" />
+                                          <Button fx:id="clearVehicleFields" layoutX="367.0" layoutY="261.0" mnemonicParsing="false" onAction="#clearVehicleFields" style="-fx-background-color: white;" text="Clear Fields" />
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -80,7 +97,7 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="345.0" prefWidth="550.0">
                                        <children>
-                                          <TableView fx:id="vehicleTable" prefHeight="339.0" prefWidth="600.0">
+                                          <TableView fx:id="vehicleTable" prefHeight="287.0" prefWidth="600.0">
                                             <columns>
                                               <TableColumn fx:id="vinColumn" prefWidth="65.0" text="VIN" />
                                               <TableColumn fx:id="nameColumn" prefWidth="99.0" text="Vehicle name" />
@@ -90,6 +107,7 @@
                                                 <TableColumn fx:id="daysSinceLastServiceColumn" prefWidth="140.0" text="Days since last service" />
                                             </columns>
                                           </TableView>
+                                          <Button fx:id="clearVehicleList" layoutX="273.0" layoutY="299.0" mnemonicParsing="false" onAction="#clearVehicleList" style="-fx-background-color: black;" text="Clear List" textFill="WHITE" />
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -100,7 +118,7 @@
                                        <children>
                                           <ImageView fitHeight="338.0" fitWidth="603.0" layoutX="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.20.07.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
                                           <ListView fx:id="workshopListView" layoutX="371.0" layoutY="21.0" prefHeight="223.0" prefWidth="200.0" />
@@ -121,7 +139,7 @@
                                        <children>
                                           <ImageView fitHeight="343.0" fitWidth="602.0" layoutX="-1.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="245.0" layoutY="46.0" text="Cost of service for all vehicles" textFill="WHITE">
@@ -159,7 +177,7 @@
                   </AnchorPane>
             </content>
           </Tab>
-            <Tab text="Workshop" fx:controller="lu.ics.se.controllers.WorkshopController">
+            <Tab text="Workshop">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -171,7 +189,7 @@
                                        <children>
                                           <ImageView fitHeight="339.0" fitWidth="608.0" layoutX="-6.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.37.49.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.37.49.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="89.0" layoutY="14.0" text="Register workshop" textFill="WHITE">
@@ -199,10 +217,10 @@
                                        <children>
                                           <ImageView fitHeight="398.0" fitWidth="632.0" layoutX="-31.0" layoutY="-8.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.46.08.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
                                              </image>
                                           </ImageView>
-                                          <TableView fx:id="workshopTable" layoutX="-4.0" layoutY="-2.0" prefHeight="341.0" prefWidth="295.0">
+                                          <TableView fx:id="workshopTable" layoutX="-4.0" layoutY="-2.0" prefHeight="290.0" prefWidth="295.0">
                                             <columns>
                                               <TableColumn fx:id="workshopNameColumn" prefWidth="96.0" text="Name" />
                                               <TableColumn fx:id="workshopAddressColumn" minWidth="0.0" prefWidth="111.0" text="Address" />
@@ -224,6 +242,7 @@
                                                 <Font size="50.0" />
                                              </font>
                                           </Label>
+                                          <Button fx:id="clearWorkshopList" layoutX="110.0" layoutY="301.0" mnemonicParsing="false" onAction="#clearWorkshopList" style="-fx-background-color: white;" text="Clear List" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>
@@ -233,7 +252,7 @@
                                        <children>
                                           <ImageView fitHeight="338.0" fitWidth="603.0" layoutX="-2.0" layoutY="1.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.50.10.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="107.0" layoutY="67.0" text="Most expensive workshop" textFill="WHITE">
@@ -255,7 +274,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Maintenance" fx:controller="lu.ics.se.controllers.MaintenanceController">
+            <Tab text="Maintenance">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -267,10 +286,10 @@
                                        <children>
                                           <ImageView fitHeight="345.0" fitWidth="764.0" layoutX="-148.0" layoutY="-1.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.55.07.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.50.10.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="179.0" layoutY="30.0" text="Schedule maintenance" textFill="WHITE">
+                                          <Label layoutX="177.0" layoutY="37.0" text="Schedule maintenance" textFill="WHITE">
                                              <font>
                                                 <Font size="29.0" />
                                              </font>
@@ -297,12 +316,17 @@
                                           <TextField fx:id="vinField" layoutX="264.0" layoutY="92.0" promptText="VIN" />
                                           <TextField fx:id="workshopNameField" layoutX="263.0" layoutY="167.0" promptText="Name" />
                                           <TextField fx:id="costField" layoutX="262.0" layoutY="205.0" promptText="Cost" />
-                                          <Button fx:id="addMaintenanceButton" layoutX="252.0" layoutY="258.0" mnemonicParsing="false" onAction="#handleAddMaintenance" style="-fx-background-color: white;" text="Schedule maintenane">
+                                          <Button fx:id="handleAddMaintenance" layoutX="147.0" layoutY="256.0" mnemonicParsing="false" onAction="#handleAddMaintenance" style="-fx-background-color: white;" text="Schedule maintenane">
                                              <font>
                                                 <Font size="17.0" />
                                              </font>
                                           </Button>
                                           <DatePicker fx:id="maintenanceDatePicker" layoutX="263.0" layoutY="129.0" prefHeight="26.0" prefWidth="159.0" promptText="Date" />
+                                          <Button fx:id="clearMaintenanceFields" layoutX="348.0" layoutY="256.0" mnemonicParsing="false" onAction="#clearMaintenanceFields" style="-fx-background-color: white;" text="Clear Fields">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </Button>
                                        </children></AnchorPane>
                               </content>
                             </Tab>
@@ -312,10 +336,10 @@
                                        <children>
                                           <ImageView fitHeight="341.0" fitWidth="612.0" layoutX="-11.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
                                              </image>
                                           </ImageView>
-                                          <TableView fx:id="maintenanceTable" layoutX="233.0" layoutY="-2.0" prefHeight="343.0" prefWidth="367.0">
+                                          <TableView fx:id="maintenanceTable" layoutX="233.0" layoutY="-2.0" prefHeight="286.0" prefWidth="367.0">
                                             <columns>
                                               <TableColumn fx:id="vinColumn" prefWidth="61.313446044921875" text="VIN" />
                                               <TableColumn fx:id="maintenanceDateColumn" prefWidth="108.20770263671875" text="Maintenance date" />
@@ -338,6 +362,7 @@
                                                 <Font size="49.0" />
                                              </font>
                                           </Label>
+                                          <Button fx:id="clearMaintenanceList" layoutX="389.0" layoutY="298.0" mnemonicParsing="false" onAction="#clearMaintenanceList" style="-fx-background-color: white;" text="Clear List" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>
@@ -347,7 +372,7 @@
                                        <children>
                                           <ImageView fitHeight="342.0" fitWidth="607.0" layoutX="-2.0" layoutY="-3.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="141.0" layoutY="43.0" text="Maintenance specifications" textFill="WHITE">
@@ -376,7 +401,7 @@
                                           </Label>
                                           <ImageView fitHeight="170.0" fitWidth="4.0" layoutX="298.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2023.26.25.png" />
+                                                <Image url="@../../../../../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2023.26.25.png" />
                                              </image>
                                           </ImageView>
                                           <Button fx:id="showAverageCostButton" layoutX="123.0" layoutY="194.0" mnemonicParsing="false" onAction="#handleShowAverageCost" style="-fx-background-color: white;" text="Calculate average cost" />
@@ -391,7 +416,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Service Activity" fx:controller="lu.ics.se.controllers.ServiceActivityController">
+            <Tab text="Service Activity">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -403,7 +428,7 @@
                                        <children>
                                           <ImageView fitHeight="580.0" fitWidth="699.0" layoutX="-68.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.55.07.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.46.08.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="216.0" layoutY="9.0" text="Add service activity" textFill="WHITE">
@@ -440,8 +465,9 @@
                                           <TextField fx:id="costField" layoutX="383.0" layoutY="184.0" prefHeight="26.0" prefWidth="157.0" />
                                           <TextField fx:id="descriptionField" layoutX="383.0" layoutY="147.0" prefHeight="26.0" prefWidth="159.0" />
                                           <DatePicker fx:id="serviceDateField" layoutX="383.0" layoutY="110.0" prefHeight="26.0" prefWidth="158.0" />
-                                          <Button fx:id="addServiceActivityButton" layoutX="402.0" layoutY="303.0" mnemonicParsing="false" onAction="#addServiceActivity" style="-fx-background-color: white;" text="Add Service Activity" />
+                                          <Button fx:id="addServiceActivityButton" layoutX="335.0" layoutY="301.0" mnemonicParsing="false" onAction="#addServiceActivity" style="-fx-background-color: white;" text="Add Service Activity" />
                                           <TextField fx:id="workshopNameField" layoutX="384.0" layoutY="257.0" prefHeight="26.0" prefWidth="158.0" />
+                                          <Button fx:id="clearServiceActivityFields" layoutX="472.0" layoutY="301.0" mnemonicParsing="false" onAction="#clearServiceActivityFields" style="-fx-background-color: white;" text="Clear fields" />
                                        </children>
                                     </AnchorPane>
                               </content>
@@ -450,7 +476,7 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView fx:id="serviceActivitiesTableView" prefHeight="337.0" prefWidth="600.0">
+                                          <TableView fx:id="serviceActivitiesTableView" prefHeight="290.0" prefWidth="600.0">
                                             <columns>
                                               <TableColumn fx:id="vinColumn" prefWidth="90.0" text="VIN" />
                                               <TableColumn fx:id="serviceDateColumn" prefWidth="95.0" text="Service date" />
@@ -460,6 +486,7 @@
                                                 <TableColumn fx:id="workshopNameColumn" prefWidth="109.0" text="Workshop name" />
                                             </columns>
                                           </TableView>
+                                          <Button fx:id="clearServiceActivities" layoutX="266.0" layoutY="301.0" mnemonicParsing="false" onAction="#clearServiceActivities" style="-fx-background-color: black;" text="Clear List" textFill="WHITE" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>
@@ -469,7 +496,7 @@
                   </AnchorPane>
                </content>
             </Tab>
-            <Tab text="Service History" fx:controller="lu.ics.se.controllers.ServiceHistoryController">
+            <Tab text="Service History">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
@@ -481,7 +508,7 @@
                                        <children>
                                           <ImageView fitHeight="337.0" fitWidth="603.0" layoutX="-1.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.20.07.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="89.0" layoutY="79.0" text="Enter Vehicle VIN:" textFill="WHITE">
@@ -506,7 +533,7 @@
                                        <children>
                                           <ImageView fitHeight="352.0" fitWidth="610.0" layoutX="-1.0" layoutY="-1.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="69.0" layoutY="96.0" text="Enter workshop name:" textFill="WHITE">
@@ -515,7 +542,7 @@
                                              </font>
                                           </Label>
                                           <TextField fx:id="workshopNameTextField" layoutX="77.0" layoutY="137.0" />
-                                          <Button fx:id="loadWorkshopHistory" layoutX="95.0" layoutY="195.0" mnemonicParsing="false" onAction="#loadHistory" style="-fx-background-color: white;" text="Load history">
+                                          <Button fx:id="loadWorkshopHistory" layoutX="95.0" layoutY="195.0" mnemonicParsing="false" onAction="#loadWorkshopHistory" style="-fx-background-color: white;" text="Load history">
                                              <font>
                                                 <Font size="19.0" />
                                              </font>
@@ -529,7 +556,7 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView fx:id="serviceHistoryTableView" prefHeight="341.0" prefWidth="600.0">
+                                          <TableView fx:id="serviceHistoryTableView" prefHeight="295.0" prefWidth="600.0">
                                             <columns>
                                               <TableColumn fx:id="vinColumn" prefWidth="75.0" text="VIN" />
                                               <TableColumn fx:id="serviceDateColumn" prefWidth="118.0" text="Service date" />
@@ -539,6 +566,7 @@
                                                 <TableColumn fx:id="workshopNameColumn" prefWidth="128.0" text="Workshop name" />
                                             </columns>
                                           </TableView>
+                                          <Button fx:id="clearServiceHistory" layoutX="266.0" layoutY="302.0" mnemonicParsing="false" onAction="#clearServiceHistory" style="-fx-background-color: black;" text="Clear List" textFill="WHITE" />
                                        </children></AnchorPane>
                                  </content>
                               </Tab>

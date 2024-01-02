@@ -42,10 +42,15 @@ public class MaintenanceController {
     private DatePicker maintenanceDatePicker;
     
     @FXML
-    private Button addMaintenanceButton;
+    private Button handleAddMaintenance;
 
     @FXML
     private TableView<ServiceEvent> maintenanceTableView;
+
+    @FXML
+    private Button clearMaintenanceList;
+
+    
     @FXML
     private TableColumn<ServiceEvent, String> vehicleColumn;
     @FXML
@@ -57,6 +62,9 @@ public class MaintenanceController {
     private Label averageCostLabel;
     @FXML
     private Label mostExpensiveLabel;
+
+    @FXML
+    private Button clearMaintenanceFields;
 
     @FXML
     private Label vehicleLabel;
@@ -93,101 +101,105 @@ public class MaintenanceController {
     private VehicleManifest vehicleManifest;
 
     @FXML
-    public void initializeMaintenanceTableView() {
-        // Set up columns for maintenance table view
-        TableColumn<ServiceEvent, String> vinColumn = new TableColumn<>("VIN");
-        vinColumn.setCellValueFactory(new PropertyValueFactory<>("eventVin"));
+public void initializeMaintenanceTableView() {
+    // Set up columns for maintenance table view
+    TableColumn<ServiceEvent, String> vinColumn = new TableColumn<>("VIN");
+    vinColumn.setCellValueFactory(new PropertyValueFactory<>("eventVin"));
 
-        TableColumn<ServiceEvent, LocalDate> dateColumn = new TableColumn<>("Date");
-        dateColumn.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
+    TableColumn<ServiceEvent, LocalDate> dateColumn = new TableColumn<>("Date");
+    dateColumn.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
 
+    TableColumn<ServiceEvent, String> workshopColumn = new TableColumn<>("Workshop");
+    workshopColumn.setCellValueFactory(new PropertyValueFactory<>("eventWorkshopName"));
 
-        // ...
+    TableColumn<ServiceEvent, Double> costColumn = new TableColumn<>("Cost");
+    costColumn.setCellValueFactory(new PropertyValueFactory<>("eventCost"));
 
-        TableColumn<ServiceEvent, String> workshopColumn = new TableColumn<>("Workshop");
-        workshopColumn.setCellValueFactory(new PropertyValueFactory<>("eventWorkshopName"));
+    // Add columns to the table view
+    maintenanceTableView.getColumns().addAll(vinColumn, dateColumn, workshopColumn, costColumn);
 
-        TableColumn<ServiceEvent, Double> costColumn = new TableColumn<>("Cost");
-        costColumn.setCellValueFactory(new PropertyValueFactory<>("eventCost"));
+    // Add double-click event to open the edit/delete window
+    maintenanceTableView.setOnMouseClicked(this::handleMaintenanceDoubleClick);
 
-        // Create a list of columns
-        List<TableColumn<ServiceEvent, ?>> columns = new ArrayList<>();
+    // Load initial data into the table
+    refreshMaintenanceTable();
+}
 
-        columns.add(vinColumn);
-        columns.add(dateColumn);
-        columns.add(workshopColumn);
-        columns.add(costColumn);
-
-        // Add columns to the table view
-        maintenanceTableView.getColumns().addAll(columns);
-
-        // Add double-click event to open the edit/delete window
-        maintenanceTableView.setOnMouseClicked(this::handleMaintenanceDoubleClick);
-
-        // Load initial data into the table
-        refreshMaintenanceTable();
+private void refreshMaintenanceTable() {
+    ObservableList<ServiceEvent> serviceEvents = FXCollections.observableArrayList((Callback<ServiceEvent, Observable[]>) param -> new Observable[]{param.eventVinProperty(), param.eventDateProperty(), param.eventWorkshopNameProperty(), param.eventCostProperty()});
+    maintenanceTableView.setItems(serviceEvents);
+}
+    @FXML
+    public void clearMaintenanceList() {
+        // Clear the maintenance table view
+        maintenanceTableView.getItems().clear();
     }
-
-        private void refreshMaintenanceTable() {
-            ObservableList<ServiceEvent> serviceEvents = FXCollections.observableArrayList((Callback<ServiceEvent, Observable[]>) param -> new Observable[]{param.eventVinProperty(), param.eventDateProperty(), param.eventWorkshopNameProperty(), param.eventCostProperty()});
-            maintenanceTableView.setItems(serviceEvents);
-        }
-
     
     @FXML
-    public void handleAddMaintenance() {
-        try {
-            // Get input values from UI elements
-            TextField vinField = new TextField(); // Replace TextField with the appropriate type for vinField
-            String vehicleVin = vinField.getText();
-            TextInputControl workshopNameField = new TextField(); // Replace TextField with the appropriate type for workshopNameField
-            String workshopName = workshopNameField.getText();
-            String dateString = maintenanceDatePicker.getEditor().getText();
-            TextInputControl costField = new TextField(); // Replace TextField with the appropriate type for costField
-            double costFieldValue = Double.parseDouble(costField.getText());
+public void handleAddMaintenance() {
+    try {
+        // Get input values from UI elements
+        String vehicleVin = vinField.getText();
+        String workshopName = workshopNameField.getText();
+        String dateString = maintenanceDatePicker.getEditor().getText();
+        double costFieldValue = Double.parseDouble(costField.getText());
 
-            // Validate inputs
-            if (vehicleVin.isEmpty() || workshopName.isEmpty() || dateString.isEmpty() || String.valueOf(costFieldValue).isEmpty()) {
-                showAlert("Error", "Please fill in all fields.");
-                return;
-            }
-
-
-            // ...
-
-            WorkshopList workshopList = new WorkshopList(); // Initialize the workshopList variable
-
-            // Parse the date from the DatePicker
-            // Note: You should handle date parsing errors in a real-world application
-            LocalDate maintenanceDate = LocalDate.parse(dateString);
-
-            ServiceEvent newMaintenance = new ServiceEvent("Maintenance", "Maintenance Description",
-                0.0, maintenanceDate, workshopList.getWorkshopByName(workshopName),
-                vehicleManifest.getVehicleByVIN(vehicleVin), new ArrayList<>());
-
-            // Add the new maintenance to the vehicle's service events
-            Vehicle selectedVehicle = vehicleManifest.getVehicleByVIN(vehicleVin);
-            selectedVehicle.addServiceEvent(newMaintenance);
-
-            // Refresh the maintenance table view
-            refreshMaintenanceTable();
-
-
-
-
-            // Clear the input fields
-            clearMaintenanceFields();
-        } catch (Exception e) {
-            showAlert("Error", "An error occurred: " + e.getMessage());
+        // Validate inputs
+        if (vehicleVin.isEmpty() || workshopName.isEmpty() || dateString.isEmpty() || String.valueOf(costFieldValue).isEmpty()) {
+            showAlert("Error", "Please fill in all fields.");
+            return;
         }
+
+        WorkshopList workshopList = new WorkshopList(); // Initialize the workshopList variable
+
+        // Parse the date from the DatePicker
+        LocalDate maintenanceDate = LocalDate.parse(dateString);
+
+        Workshop selectedWorkshop = workshopList.getWorkshopByName(workshopName);
+        if (selectedWorkshop == null) {
+            showAlert("Error", "No workshop found with the entered name.");
+            return;
+        }
+
+        ServiceEvent newMaintenance = new ServiceEvent("Maintenance", "Maintenance Description",
+            costFieldValue, maintenanceDate, selectedWorkshop,
+            vehicleManifest.getVehicleByVIN(vehicleVin), new ArrayList<>());
+
+        // Add the new maintenance to the vehicle's service events
+        Vehicle selectedVehicle = vehicleManifest.getVehicleByVIN(vehicleVin);
+        if (selectedVehicle == null) {
+            showAlert("Error", "No vehicle found with the entered VIN.");
+            return;
+        }
+        selectedVehicle.addServiceEvent(newMaintenance);
+
+        // Add the new maintenance to the maintenance table view
+        maintenanceTableView.getItems().add(newMaintenance);
+
+        // Clear the input fields
+        clearMaintenanceFields();
+    } catch (Exception e) {
+        showAlert("Error", "An error occurred: " + e.getMessage());
+    }
+
+}
+    @FXML
+    public void clearMaintenanceFields() {
+        vinField.clear();
+        workshopNameField.clear();
+        maintenanceDatePicker.getEditor().clear();
+        costField.clear();
     }
 
     private void handleMaintenanceDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {
             // Handle double-click event to open the edit/delete window
-            selectedMaintenance = maintenanceTableView.getSelectionModel().getSelectedItem();
-            if (selectedMaintenance != null) {
+            ServiceEvent serviceEvent = maintenanceTableView.getSelectionModel().getSelectedItem();
+            if (serviceEvent != null) {
+                setMaintenance(serviceEvent);
                 openEditDeleteWindow();
+            } else {
+                showAlert("Error", "No maintenance selected.");
             }
         }
     }
@@ -256,6 +268,7 @@ public class MaintenanceController {
     }
 
     private void setMaintenance(ServiceEvent selectedMaintenance2) {
+        this.selectedMaintenance = selectedMaintenance2;
     }
 
     @FXML
@@ -279,41 +292,32 @@ public class MaintenanceController {
         }
     }
 
-    private void clearMaintenanceFields() {
-        vinField.clear();
-        workshopNameField.clear();
-        maintenanceDatePicker.getEditor().clear();
-        costField.clear();
-    }
+@FXML
+public void handleShowAverageCost() {
+    // Display information on average cost
+    double averageCost = calculateAverageCost();
+    String averageCostMessage = String.format("Average Cost for Maintenance: $%.2f", averageCost);
+    showAlert("Average Cost", averageCostMessage);
+}
 
-    
-
-    @FXML
-    public void handleShowAverageCost() {
-        // Display information on average cost
-        double averageCost = calculateAverageCost(null);
-        String averageCostMessage = String.format("Average Cost for Maintenance: $%.2f", averageCost);
-        showAlert("Average Cost", averageCostMessage);
-    }
-
-
-    public double calculateAverageCost(ActionEvent event) {
-        ObservableList<ServiceEvent> serviceEvents = maintenanceTableView.getItems();
-        if (serviceEvents.isEmpty()) {
-            return 0.0;
-        }
-
-        double totalCost = 0.0;
-        for (ServiceEvent serviceEvent : serviceEvents) {
-            totalCost += serviceEvent.getEventCost();
-        }
-
-        return totalCost / serviceEvents.size();
-    }
-    @FXML
-public void displayMostExpensiveMaintenance(ActionEvent event) {
+public double calculateAverageCost() {
     ObservableList<ServiceEvent> serviceEvents = maintenanceTableView.getItems();
-    
+    if (serviceEvents.isEmpty()) {
+        return 0.0;
+    }
+
+    double totalCost = 0.0;
+    for (ServiceEvent serviceEvent : serviceEvents) {
+        totalCost += serviceEvent.getEventCost();
+    }
+
+    return totalCost / serviceEvents.size();
+}
+
+@FXML
+public void displayMostExpensiveMaintenance() {
+    ObservableList<ServiceEvent> serviceEvents = maintenanceTableView.getItems();
+
     if (serviceEvents.isEmpty()) {
         showAlert("Most Expensive Maintenance", "No maintenance records available.");
         return;
@@ -332,34 +336,31 @@ public void displayMostExpensiveMaintenance(ActionEvent event) {
     }
 }
 
+private ServiceEvent findMostExpensiveMaintenance() {
+    ObservableList<ServiceEvent> serviceEvents = maintenanceTableView.getItems();
 
-    private ServiceEvent findMostExpensiveMaintenance() {
-        ObservableList<ServiceEvent> serviceEvents = maintenanceTableView.getItems();
-    
-        if (serviceEvents.isEmpty()) {
-            return null;
-        }
-    
-        ServiceEvent mostExpensiveEvent = null;
-        double highestCost = Double.MIN_VALUE;
-    
-        for (ServiceEvent serviceEvent : serviceEvents) {
-            if (serviceEvent.getEventCost() > highestCost) {
-                highestCost = serviceEvent.getEventCost();
-                mostExpensiveEvent = serviceEvent;
-            }
-        }
-    
-        return mostExpensiveEvent;
+    if (serviceEvents.isEmpty()) {
+        return null;
     }
-    
 
+    ServiceEvent mostExpensiveEvent = null;
+    double highestCost = Double.MIN_VALUE;
 
-    private void showAlert(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
+    for (ServiceEvent serviceEvent : serviceEvents) {
+        if (serviceEvent.getEventCost() > highestCost) {
+            highestCost = serviceEvent.getEventCost();
+            mostExpensiveEvent = serviceEvent;
+        }
     }
+
+    return mostExpensiveEvent;
+}
+
+private void showAlert(String title, String message) {
+    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+    alert.setTitle(title);
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
+}
 }

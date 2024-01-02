@@ -119,6 +119,9 @@ private Button showAverageCostButton;
 @FXML
 private Button showMostExpensiveButton;
 
+@FXML
+private Button clearServiceHistory;
+
 
 @FXML
 private TextField vinField;
@@ -217,11 +220,7 @@ private Vehicle findVehicleByVIN(String vin) {
         alert.showAndWait();
         }
         
-    @FXML
-    public void clearServiceHistory(ActionEvent event) {
-        serviceHistoryListView.getItems().clear();
-    }
-
+  
     private String formatServiceHistory(ServiceHistory serviceHistory) {
         // Customize the format based on your needs
         return serviceHistory.getServiceDate() + " | " +
@@ -356,6 +355,11 @@ private Vehicle findVehicleByVIN(String vin) {
     }
 
     
+    @FXML
+    public void clearServiceHistory(ActionEvent event) {
+        serviceHistoryListView.getItems().clear();
+    }
+
 
     @FXML
     public void initialize() {

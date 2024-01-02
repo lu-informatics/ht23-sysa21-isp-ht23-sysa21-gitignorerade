@@ -15,6 +15,8 @@ public class ServiceEvent {
     private Workshop eventWorkshop;
     private Vehicle eventVehicle;
     private ArrayList<ServiceAction> eventActions;
+    private String workshopType;
+
 
     public ServiceEvent() {
         eventActions = new ArrayList<ServiceAction>();
@@ -34,9 +36,15 @@ public class ServiceEvent {
     public String getEventName() {
         return eventName;
     }
+
     public String getEventDescription() {
         return eventDescription;
     }
+
+    public void setWorkshopType(String workshopType) {
+        this.workshopType = workshopType;
+    }
+
     public double getEventCost() {
         return eventCost;
     }
@@ -123,6 +131,18 @@ public class ServiceEvent {
         return null;
     }
     public Observable eventVinProperty() {
+        return null;
+    }
+    public double getCost() {
+        return 0;
+    }
+    public Object getWorkshopType() {
+        return this.workshopType;
+    }
+    public String getEventWorkshopType() {
+        return null;
+    }
+    public String getVin() {
         return null;
     }
 }
