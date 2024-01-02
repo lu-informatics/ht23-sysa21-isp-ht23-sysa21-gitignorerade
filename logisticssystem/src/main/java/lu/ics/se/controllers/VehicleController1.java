@@ -89,7 +89,7 @@ private ListView<String> workshopListView;
         
     
     public VehicleController1() {
-        this.vehicleManifest = new VehicleManifest();
+        this.vehicleManifest = VehicleManifest.getInstance();
     }
 
     @FXML

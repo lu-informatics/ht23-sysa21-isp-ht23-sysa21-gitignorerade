@@ -486,7 +486,7 @@
                                                 <TableColumn fx:id="workshopNameColumn" prefWidth="109.0" text="Workshop name" />
                                             </columns>
                                           </TableView>
-                                          <Button fx:id="clearServiceActivities" layoutX="266.0" layoutY="301.0" mnemonicParsing="false" onAction="#clearServiceActivities" style="-fx-background-color: black;" text="Clear List" textFill="WHITE" />
+                                          <Button fx:id="clearServiceActivitiesTable" layoutX="266.0" layoutY="301.0" mnemonicParsing="false" onAction="#clearServiceActivitiesTable" style="-fx-background-color: black;" text="Clear List" textFill="WHITE" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>

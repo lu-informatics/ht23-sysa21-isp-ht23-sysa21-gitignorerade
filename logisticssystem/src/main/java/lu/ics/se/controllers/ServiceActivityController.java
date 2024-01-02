@@ -5,11 +5,16 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.layout.AnchorPane;
-
+import javafx.scene.layout.GridPane;
 import lu.ics.se.models.*;
 
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import javafx.scene.layout.Pane;
 
 public class ServiceActivityController {
@@ -25,6 +30,11 @@ public class ServiceActivityController {
  private TextField daysSinceLastServiceField;
  @FXML
  private TextField vehicleTypeField;
+
+ private String description;
+ private Double cost;
+ private LocalDate serviceDate;
+ private String partsReplaced;
 
  @FXML
  private TableView<Vehicle> vehicleTable;
@@ -177,12 +187,14 @@ public class ServiceActivityController {
 
     private VehicleManifest vehicleManifest;
 
-    public ServiceActivityController(String vin, String description, double cost, LocalDate serviceDate, String workshopName) {
+    public ServiceActivityController(String vin, String description, double cost, LocalDate serviceDate, String workshopName, String partsReplaced) {
         this.vinField.setText(vin);
         this.descriptionField.setText(description);
         this.costField.setText(String.valueOf(cost));
         this.serviceDateField.setValue(serviceDate);
         this.workshopNameField.setText(workshopName);
+        this.partsReplacedField.setText(partsReplaced);
+        this.vehicleManifest = VehicleManifest.getInstance();
     }
     
         public ServiceActivityController(String vin, String description, double cost, LocalDate serviceDate, Object name,
@@ -213,13 +225,14 @@ public class ServiceActivityController {
     @FXML
 public void addServiceActivity() {
     try {
-        // Get values from the fields
-        String vin = vinField.getText();
-        String workshopName = workshopNameField.getText();
-        String partsReplaced = partsReplacedField.getText();
-        String description = descriptionField.getText();
-        double cost = Double.parseDouble(costField.getText());
-        LocalDate serviceDate = serviceDateField.getValue();
+        // Get values from the getter methods
+        String vin = getVin();
+        String workshopName = getWorkshopName();
+        String partsReplaced = getPartsReplaced();
+        String description = getDescription();
+        double cost = getCost();
+        LocalDate serviceDate = getServiceDate();
+
 
         // Validate inputs
         if (vin.isEmpty() || workshopName.isEmpty() || partsReplaced.isEmpty() || description.isEmpty() || String.valueOf(cost).isEmpty() || serviceDate == null) {
@@ -240,7 +253,8 @@ public void addServiceActivity() {
             showAlert("Error", "No vehicle found with the entered VIN.");
             return;
         }
-        ServiceActivityController newActivity = new ServiceActivityController(selectedVehicle.getVin(), description, cost, serviceDate, selectedWorkshop.getName(), partsReplaced); // Add the new service activity to the service activities table view
+
+        ServiceActivityController newActivity = new ServiceActivityController(vin, description, cost, serviceDate, workshopName, partsReplaced); // Add the new service activity to the service activities table view
         serviceActivitiesTableView.getItems().add(newActivity);
 
         // Clear the input fields
@@ -248,23 +262,9 @@ public void addServiceActivity() {
     } catch (Exception e) {
         showAlert("Error", "An error occurred: " + e.getMessage());
     }
-}
+}   
+    
         // Add other methods and event handlers as needed...
-    
-    
-    private void showDetails(ServiceActivityController activity) {
-        if (activity != null) {
-            // Create and populate the details view
-            AnchorPane detailsView = createDetailsView(activity);
-
-            // Set the details view in the placeholder
-            ((Pane) detailsPane).getChildren().setAll(detailsView);
-        } else {
-            // Clear the details view if no service activity is selected
-            ((Pane) detailsPane).getChildren().clear();
-        }
-    }
-
     @FXML 
     public void clearServiceActivityFields() {
         vinField.clear();
@@ -273,139 +273,204 @@ public void addServiceActivity() {
         costField.clear();
         partsReplacedField.clear();
         workshopNameField.clear();
-
-        }
-        private AnchorPane createDetailsView(ServiceActivityController activity) {
-        // Create a new AnchorPane for details view
-        AnchorPane detailsView = new AnchorPane();
-
-        // Populate details view with labels and buttons
-        // ... (similar to your previous createDetailsView method, but with partsReplaced)
-
-        // Set the details in the labels
-        Label vinLabel = new Label("VIN: " + activity.getVin());
-        vinLabel.setLayoutX(26.0);
-        vinLabel.setLayoutY(36.0);
-
-        // ... (similar labels for other fields, including partsReplaced)
-
-        // Add labels and buttons to the details view
-        detailsView.getChildren().addAll(vinLabel/* Other labels *//* Buttons */);
-
-        return detailsView;
-
-        
     }
+    
     @FXML
-    public void editServiceActivity() {
-        ServiceActivityController selectedActivity = serviceActivitiesTableView.getSelectionModel().getSelectedItem();
+public void showDetails(ServiceActivityController activity) {
+    if (activity != null) {
+        AnchorPane detailsView = createDetailsView(activity);
+        detailsPane.getChildren().setAll(detailsView);
+    } else {
+        detailsPane.getChildren().clear();
+    }
+}
 
-        if (selectedActivity != null) {
-            // Open a simple TextInputDialog for editing
-            TextInputDialog editDialog = new TextInputDialog(selectedActivity.getDescription());
-            editDialog.setTitle("Edit Service Activity");
-            editDialog.setHeaderText(null);
-            editDialog.setContentText("Enter new description:");
+private AnchorPane createDetailsView(ServiceActivityController activity) {
+    AnchorPane detailsView = new AnchorPane();
 
-            // Show the dialog and wait for user response
-            editDialog.showAndWait().ifPresent(newDescription -> {
-                // Update the selected activity
-                selectedActivity.setDescription(newDescription);
-                // Refresh the table to reflect the changes
-                serviceActivitiesTableView.refresh();
-            });
-        } else {
-            showAlert("Edit Error", "No service activity selected.");
-        }
+    // Create and add labels for each detail
+    Label vinLabel = new Label("VIN: " + activity.getVin());
+    vinLabel.setLayoutX(26.0);
+    vinLabel.setLayoutY(36.0);
+
+    Label descriptionLabel = new Label("Description: " + activity.getDescription());
+    Label costLabel = new Label("Cost: " + activity.getCost());
+    Label dateLabel = new Label("Service Date: " + activity.getServiceDate());
+    Label workshopLabel = new Label("Workshop: " + activity.getWorkshopName());
+    Label partsReplacedLabel = new Label("Parts Replaced: " + activity.getPartsReplaced());
+
+    detailsView.getChildren().addAll(vinLabel, descriptionLabel, costLabel, dateLabel, workshopLabel, partsReplacedLabel);
+    return detailsView;
+}
+
+@FXML
+public void editServiceActivity() {
+    ServiceActivityController selectedActivity = serviceActivitiesTableView.getSelectionModel().getSelectedItem();
+    if (selectedActivity != null) {
+        Dialog<Map<String, Object>> dialog = new Dialog<>();
+        dialog.setTitle("Edit Service Activity");
+        dialog.setHeaderText("Edit Service Activity Details");
+
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
+
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+
+        TextField descriptionField = new TextField(selectedActivity.getDescription());
+        TextField costField = new TextField(String.valueOf(selectedActivity.getCost()));
+        DatePicker serviceDatePicker = new DatePicker(selectedActivity.getServiceDate());
+        TextField partsReplacedField = new TextField(selectedActivity.getPartsReplaced());
+
+        grid.add(new Label("Description:"), 0, 0);
+        grid.add(descriptionField, 1, 0);
+        grid.add(new Label("Cost:"), 0, 1);
+        grid.add(costField, 1, 1);
+        grid.add(new Label("Service Date:"), 0, 2);
+        grid.add(serviceDatePicker, 1, 2);
+        grid.add(new Label("Parts Replaced:"), 0, 3);
+        grid.add(partsReplacedField, 1, 3);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                String description = descriptionField.getText();
+                String costText = costField.getText();
+                LocalDate serviceDate = serviceDatePicker.getValue();
+                String partsReplaced = partsReplacedField.getText();
+
+                // Validate inputs
+                if (description.isEmpty() || costText.isEmpty() || serviceDate == null || partsReplaced.isEmpty()) {
+                    showAlert("Error", "Please fill in all fields.");
+                    return null;
+                }
+
+                double cost;
+                try {
+                    cost = Double.parseDouble(costText);
+                } catch (NumberFormatException e) {
+                    showAlert("Error", "Cost must be a number.");
+                    return null;
+                }
+
+                Map<String, Object> results = new HashMap<>();
+                results.put("description", description);
+                results.put("cost", cost);
+                results.put("serviceDate", serviceDate);
+                results.put("partsReplaced", partsReplaced);
+                return results;
+            }
+            return null;
+        });
+
+        Optional<Map<String, Object>> result = dialog.showAndWait();
+        result.ifPresent(activityDetails -> {
+            selectedActivity.setDescription((String) activityDetails.get("description"));
+            selectedActivity.setCost((Double) activityDetails.get("cost"));
+            selectedActivity.setServiceDate((LocalDate) activityDetails.get("serviceDate"));
+            selectedActivity.setPartsReplaced((String) activityDetails.get("partsReplaced"));
+            serviceActivitiesTableView.refresh();
+        });
+    } else {
+        showAlert("Edit Error", "No service activity selected.");
+    }
+}
+       
+    private void setDescription(String description) {
+        this.description = description;
+    }
+    
+    private void setCost(Double cost) {
+        this.cost = cost;
+    }
+    
+    private void setServiceDate(LocalDate serviceDate) {
+        this.serviceDate = serviceDate;
+    }
+    
+    private void setPartsReplaced(String partsReplaced) {
+        this.partsReplaced = partsReplaced;
     }
 
-    private void setDescription(String newDescription) {
-    }
-    @FXML
-    public void markAsCompleted() {
-        ServiceActivityController selectedActivity = serviceActivitiesTableView.getSelectionModel().getSelectedItem();
 
-        if (selectedActivity != null) {
-            // Show a confirmation dialog
-            if (showConfirmationDialog("Mark as Completed Confirmation", "Mark this service activity as completed?")) {
-                // Remove the selected activity from the table
-                serviceActivitiesTableView.getItems().remove(selectedActivity);
+private String getVin() {
+    return vinField.getText();
+}
 
-                // Transfer the completed activity to the service history table
+private String getWorkshopName() {
+    return workshopNameField.getText();
+}
+
+private String getPartsReplaced() {
+    return partsReplacedField.getText();
+}
+
+private String getDescription() {
+    return descriptionField.getText();
+}
+
+private double getCost() {
+    return Double.parseDouble(costField.getText());
+}
+
+private LocalDate getServiceDate() {
+    return serviceDateField.getValue();
+}
+
+@FXML
+public void markAsCompleted() {
+    ServiceActivityController selectedActivity = serviceActivitiesTableView.getSelectionModel().getSelectedItem();
+    if (selectedActivity != null) {
+        if (showConfirmationDialog("Mark as Completed", "Mark this service activity as completed?")) {
+            serviceActivitiesTableView.getItems().remove(selectedActivity);
             transferToServiceHistory(selectedActivity);
         }
     } else {
-        showAlert("Mark as Completed Error", "No service activity selected.");
+        showAlert("Completion Error", "No service activity selected.");
     }
 }
-               
+
+private void transferToServiceHistory(ServiceActivityController completedActivity) {
+    ServiceHistory newHistoryEntry = new ServiceHistory(
+        completedActivity.getVin(),
+        completedActivity.getServiceDate(),
+        completedActivity.getDescription(),
+        completedActivity.getCost(),
+        completedActivity.getPartsReplaced(),
+        completedActivity.getWorkshopName()
+    );
+
+    serviceHistoryTableView.getItems().add(newHistoryEntry);
+}
 
 
-    
-    
-    private void transferToServiceHistory(ServiceActivityController completedActivity) {
-        // Assuming you have a method to add service history entries to the table
-        // (You should implement this method in your ServiceHistoryTable class)
-        ServiceHistory newHistoryEntry = new ServiceHistory(
-                completedActivity.getVin(),
-                completedActivity.getServiceDate(),
-                completedActivity.getDescription(),
-                completedActivity.getClass(),
-                completedActivity.getPartsReplaced(),
-                completedActivity.getWorkshopName()
-        );
-
-        TableView<ServiceHistory> serviceHistoryTableView = new TableView<>(); // Initialize the variable
-
-        serviceHistoryTableView.getItems().add(newHistoryEntry);
-    }
-
-    private Object getWorkshopName() {
-        return null;
-    }
-    private Object getPartsReplaced() {
-        return null;
-    }
-    private String getDescription() {
-        return null;
-    }
-    private Object getServiceDate() {
-        return null;
-    }
-    private String getVin() {
-        return null;
-    }
-    @FXML
-    public void removeServiceActivity() {
-        TableView<ServiceActivityController> serviceActivitiesTableView = new TableView<>(); // Initialize the variable
-        ServiceActivityController selectedActivity = serviceActivitiesTableView.getSelectionModel().getSelectedItem();
-
-        if (selectedActivity != null) {
-            // Show a confirmation dialog
-            if (showConfirmationDialog("Remove Confirmation", "Are you sure you want to remove this service activity?")) {
-                // Remove the selected activity from the table
-                serviceActivitiesTableView.getItems().remove(selectedActivity);
-            }
-        } else {
-            showAlert("Remove Error", "No service activity selected.");
+@FXML
+public void removeServiceActivity() {
+    ServiceActivityController selectedActivity = serviceActivitiesTableView.getSelectionModel().getSelectedItem();
+    if (selectedActivity != null) {
+        if (showConfirmationDialog("Remove Activity", "Remove this service activity?")) {
+            serviceActivitiesTableView.getItems().remove(selectedActivity);
         }
-    }
-
-    private boolean showConfirmationDialog(String title, String content) {
-        Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmation.setTitle(title);
-        confirmation.setHeaderText(null);
-        confirmation.setContentText(content);
-
-        return confirmation.showAndWait().filter(response -> response == ButtonType.OK).isPresent();
-    }
-    private void showAlert(String title, String content) {
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(content);
-        alert.showAndWait();
+    } else {
+        showAlert("Removal Error", "No service activity selected.");
     }
 }
 
+private boolean showConfirmationDialog(String title, String content) {
+    Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+    confirmation.setTitle(title);
+    confirmation.setContentText(content);
+    return confirmation.showAndWait().filter(response -> response == ButtonType.OK).isPresent();
+}
 
+private void showAlert(String title, String content) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle(title);
+    alert.setContentText(content);
+    alert.showAndWait();
+}
+}
+
+// Other methods (markAsCompleted, transferToServiceHistory, removeServiceActivity, showAlert, showConfirmationDialog) remain unchanged.

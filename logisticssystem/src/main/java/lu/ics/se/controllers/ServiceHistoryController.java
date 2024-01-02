@@ -142,6 +142,8 @@ private Button clearServiceHistoryView;
 @FXML
 private Button loadVehicleServiceHistory;
 
+@FXML
+private VehicleManifest vehicleManifest;
 
 @FXML
 private Button loadWorkshopHistory;
@@ -153,42 +155,50 @@ private ListView<String> vehicleServiceHistoryListView;
 
     private static List<ServiceHistory> serviceHistories;
 
+   
+    public ServiceHistoryController() {
+        this.serviceHistories = new ArrayList<>();
+        this.vehicleManifest = VehicleManifest.getInstance();
+    }
+
     public static void setServiceHistories(List<ServiceHistory> histories) {
         serviceHistories = histories;
     }
-    @FXML
-public void vinField(ActionEvent event) {
-    String vin = vinField.getText().trim();
 
-    if (validateVIN(vin)) {
-        // VIN is valid, find the vehicle
-        Vehicle vehicle = findVehicleByVIN(vin);
-        if (vehicle != null) {
-            // Vehicle found, load the service history
-            loadVehicleServiceHistory(event); // Remove the second argument 'vehicle'
+    @FXML
+    public void vinField(ActionEvent event) {
+        String vin = vinField.getText().trim();
+
+        if (validateVIN(vin)) {
+            // VIN is valid, find the vehicle
+            Vehicle vehicle = findVehicleByVIN(vin);
+            if (vehicle != null) {
+                // Vehicle found, load the service history
+                loadVehicleServiceHistory(event); // Remove the second argument 'vehicle'
+            } else {
+                // Vehicle not found
+                showAlert("Vehicle Not Found", "No vehicle found with the entered VIN.", vin);
+            }
         } else {
-            // Vehicle not found
-            showAlert("Vehicle Not Found", "No vehicle found with the entered VIN.", vin);
+            // VIN is not valid
+            showAlert("Invalid VIN", "The entered VIN is not valid.", vin);
         }
-    } else {
-        // VIN is not valid
-        showAlert("Invalid VIN", "The entered VIN is not valid.", vin);
     }
-}
     private boolean validateVIN(String vin) {
-    // Implement VIN validation logic here
-    return vin.length() == 8; // Example validation: check VIN length
-}
-private Vehicle findVehicleByVIN(String vin) {
-    VehicleManifest vehicleManifest = new VehicleManifest(); // Initialize the vehicleManifest variable
-    List<Vehicle> vehicles = vehicleManifest.getCompanyOwnedVehicles();
-    for (Vehicle vehicle : vehicles) {
-        if (vehicle.getVehicleIdentificationNumber().equals(vin)) {
-            return vehicle;
-        }
+        // Implement VIN validation logic here
+        return vin.length() == 8; // Example validation: check VIN length
     }
-    return null;
-}
+
+    private Vehicle findVehicleByVIN(String vin) {
+        List<Vehicle> vehicles = vehicleManifest.getCompanyOwnedVehicles();
+        for (Vehicle vehicle : vehicles) {
+            if (vehicle.getVehicleIdentificationNumber().equals(vin)) {
+                return vehicle;
+            }
+        }
+        return null;
+    }
+
     @FXML
     public void loadVehicleServiceHistory(ActionEvent event) {
         String vin = vinField.getText().trim();

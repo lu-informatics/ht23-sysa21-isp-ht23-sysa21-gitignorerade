@@ -100,6 +100,10 @@ public class MaintenanceController {
 
     private VehicleManifest vehicleManifest;
 
+    public MaintenanceController() {
+        vehicleManifest = VehicleManifest.getInstance();
+    }
+
     @FXML
 public void initializeMaintenanceTableView() {
     // Set up columns for maintenance table view

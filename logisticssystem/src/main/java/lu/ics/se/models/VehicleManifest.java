@@ -1,4 +1,3 @@
-
 package lu.ics.se.models;
 
 import java.util.ArrayList;
@@ -8,9 +7,17 @@ import javafx.util.Callback;
 
 public class VehicleManifest {
     private ArrayList<Vehicle> companyOwnedVehicles;
+    private static VehicleManifest instance;
     
-    public VehicleManifest() {
+    private VehicleManifest() {
         companyOwnedVehicles = new ArrayList<Vehicle>();
+    }
+
+    public static VehicleManifest getInstance() {
+        if (instance == null) {
+            instance = new VehicleManifest();
+        }
+        return instance;
     }
 
     private boolean isVINUnique(String vin) {

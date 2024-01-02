@@ -2,6 +2,7 @@ package lu.ics.se.models;
 import java.util.Date;
 
 import javafx.beans.Observable;
+import lu.ics.se.controllers.ServiceActivityController;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -143,6 +144,9 @@ public class ServiceEvent {
         return null;
     }
     public String getVin() {
+        return null;
+    }
+    public ServiceActivityController getServiceAction() {
         return null;
     }
 }
