@@ -58,7 +58,7 @@ public class Vehicle {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
     }
     public void setvehicleBrand(String vehicleBrand) {
-        this.vehicleBrand = vehicleBrand;
+        this.vehicleBrand = vehicleBrand.toLowerCase();
     }
     public void setCapacityinKg(double capacityinKg) {
         this.capacityinKg = capacityinKg;

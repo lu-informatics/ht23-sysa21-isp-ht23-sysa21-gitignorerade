@@ -134,6 +134,7 @@ public class EditVehicleController implements Initializable {
         public void handleCloseEditorButtonAction(){
             Stage stage = (Stage) closeEditorButton.getScene().getWindow();
             vehicle.setVehicleIdentificationNumber(vehicle.generateVehicleIdentificationNumber());
+            vehicle.setVehicleName(vehicle.generateVehicleName(vehicle.getVehicleIdentificationNumber(), vehicle.getVehicleBrand()));
             stage.close();
             if (onCloseListener != null){
                 onCloseListener.onClose();

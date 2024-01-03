@@ -218,13 +218,17 @@ public class MainViewController implements Initializable {
                 stage.setTitle("Maintenance History and Schedule Maintenance");
 
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/servicehistoryaccesser.fxml"));
-                Parent root = null;
+                Parent root = loader.load();
 
                 stage.setScene(new Scene(root));
                 stage.show();
 
                 ServiceHistoryAccesserController controller = loader.getController();
                 controller.setVehicle(vehicle);
+
+                controller.setOnCloseListener(() -> {
+                        vehicleTable.refresh();
+                    });
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -247,6 +251,10 @@ public class MainViewController implements Initializable {
 
                     SetLocationController controller = loader.getController();
                     controller.setVehicle(vehicle);
+
+                    controller.setOnCloseListener(() -> {
+                        vehicleTable.refresh();
+                    });
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

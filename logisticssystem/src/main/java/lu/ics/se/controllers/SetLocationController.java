@@ -23,6 +23,14 @@ public class SetLocationController implements Initializable {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
     }
+    public interface OnCloseListener{
+        void onClose();
+    }
+    private OnCloseListener onCloseListener;
+
+    public void setOnCloseListener(OnCloseListener onCloseListener) {
+        this.onCloseListener = onCloseListener;
+    }
 
     @FXML
     private ChoiceBox<String> selectLocationChoiceBox;
@@ -45,6 +53,9 @@ public class SetLocationController implements Initializable {
         alert.showAndWait();
 
         Stage stage = (Stage)setLocationButton.getScene().getWindow();
+        if (onCloseListener != null) {
+            onCloseListener.onClose();
+        }
         stage.close();
 
     }
