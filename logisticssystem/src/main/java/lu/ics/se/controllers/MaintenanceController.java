@@ -39,6 +39,7 @@ public class MaintenanceController {
     @FXML
     private TabPane maintenanceTabPane;
 
+    private WorkshopList workshopList;
     @FXML
     private TextField vehicleNameTextField;
     @FXML
@@ -139,10 +140,14 @@ public void initializeMaintenanceTableView() {
 }
 
 private void refreshMaintenanceTable() {
-    ObservableList<ServiceEvent> serviceEvents = FXCollections.observableArrayList((Callback<ServiceEvent, Observable[]>) param -> new Observable[]{param.eventVinProperty(), param.eventDateProperty(), param.eventWorkshopNameProperty(), param.eventCostProperty()});
-    maintenanceTableView.setItems(serviceEvents);
+    ObservableList<ServiceEvent> serviceEvents = FXCollections.observableArrayList();
 
+    for (Vehicle vehicle : vehicleManifest.getVehicles()) {
+        serviceEvents.addAll(vehicle.getServiceEvents());
     }
+
+    maintenanceTableView.setItems(serviceEvents);
+}
     
     @FXML
 public void handleAddMaintenance() {
@@ -170,7 +175,7 @@ public void handleAddMaintenance() {
             return;
         }
 
-        WorkshopList workshopList = new WorkshopList(); // Initialize the workshopList variable
+        WorkshopList workshopList = WorkshopList.getInstance();
 
         // Parse the date from the DatePicker
         LocalDate maintenanceDate = LocalDate.parse(dateString);
@@ -190,7 +195,9 @@ public void handleAddMaintenance() {
 
         // Add the new maintenance to the maintenance table view
         maintenanceTableView.getItems().add(newMaintenance);
-
+        
+        refreshMaintenanceTable();
+        
         // Clear the input fields
         clearMaintenanceFields();
     } catch (Exception e) {

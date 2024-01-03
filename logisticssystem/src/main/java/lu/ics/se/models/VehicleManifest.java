@@ -1,6 +1,7 @@
 package lu.ics.se.models;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javafx.collections.FXCollections;
@@ -67,9 +68,6 @@ public class VehicleManifest {
         return null;
     }
 
-    public Vehicle getVehicleByVIN(String vehicleVin) {
-        return null;
-    } 
 
 @Override
 public boolean equals(Object obj) {
@@ -88,6 +86,21 @@ private String getVehicleIdentificationNumber() {
     // return vehicleIdentificationNumber;
     // Replace this implementation with the appropriate code based on your Vehicle class implementation
     return null;
+}
+
+public Vehicle getVehicleByVIN(String vin) {
+    List<Vehicle> vehicles = VehicleManifest.getInstance().getCompanyOwnedVehicles();
+    for (Vehicle vehicle : vehicles) {
+        if (vehicle.getVehicleIdentificationNumber().equals(vin)) {
+            return vehicle;
+        }
+    }
+    return null;
+}
+
+
+public List<Vehicle> getVehicles() {
+    return new ArrayList<>(companyOwnedVehicles);
 }
 
 }    

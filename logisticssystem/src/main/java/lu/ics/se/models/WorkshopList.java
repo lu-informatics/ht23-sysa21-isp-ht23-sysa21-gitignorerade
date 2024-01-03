@@ -5,12 +5,19 @@ import java.util.List;
 import javafx.util.Callback;
 
     public class WorkshopList {
-        private ArrayList<Workshop> workshopsAvailable;
+        private static ArrayList<Workshop> workshopsAvailable;
+        private static WorkshopList instance = null;
         
         public WorkshopList() {
             workshopsAvailable = new ArrayList<Workshop>();
+            
         }
-
+        public static WorkshopList getInstance() {
+            if (instance == null) {
+                instance = new WorkshopList();
+            }
+            return instance;
+        }
         public Workshop getMostExpensiveWorkshop() {
             if (workshopsAvailable.isEmpty()) {
                 // Handle the case where there are no workshops available
@@ -30,7 +37,7 @@ import javafx.util.Callback;
         
             return mostExpensiveWorkshop;
         }
-        
+
         public double calculateTotalCostForWorkshop(Workshop workshop) {
             double totalCost = 0;
         
