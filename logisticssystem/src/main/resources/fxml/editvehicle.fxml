@@ -7,7 +7,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="380.0" prefWidth="343.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.EditVehicleController">
    <children>
       <Label layoutX="110.0" layoutY="27.0" text="Vehicle Editor">
@@ -23,12 +22,12 @@
       <TextField fx:id="changesToBeMadeTextField" layoutX="148.0" layoutY="248.0" promptText="Enter edits here" />
       <ChoiceBox fx:id="selectVehicleClassChoiceBox" layoutX="148.0" layoutY="248.0" prefWidth="150.0" />
       <ChoiceBox fx:id="selectKindOfEditChoiceBox" layoutX="14.0" layoutY="248.0" prefHeight="25.0" prefWidth="124.0" />
-      <Button fx:id="closeEditorButton" layoutX="180.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleCloseEditorButton" prefHeight="25.0" prefWidth="118.0" text="Close Editor">
+      <Button fx:id="closeEditorButton" layoutX="180.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleCloseEditorButtonAction" prefHeight="25.0" prefWidth="118.0" text="Close Editor">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="applyChangesButton" layoutX="20.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleApplyChangesButton" prefHeight="28.0" prefWidth="131.0" text="Apply Changes">
+      <Button fx:id="applyChangesButton" layoutX="20.0" layoutY="309.0" mnemonicParsing="false" onAction="#handleApplyChangesButtonAction" prefHeight="28.0" prefWidth="131.0" text="Apply Changes">
          <font>
             <Font name="Inter Regular" size="14.0" />
          </font>
