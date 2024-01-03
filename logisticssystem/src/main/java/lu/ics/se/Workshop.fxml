@@ -1,78 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.DatePicker?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TableColumn?>
 
-
-                  <AnchorPane  xmlns:fx="http://javafx.com/fxml" fx:controller="lu.ics.se.controllers.WorkshopController" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0"  xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.WorkshopController">
+    <!-- Your content here -->
                      <children>
-                        <TabPane prefHeight="372.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane layoutX="92.0" layoutY="52.0" prefHeight="568.5" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
                             <Tab text="Add workshop">
                               <content>
-                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="192.0" prefWidth="255.0">
+                                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="339.0" fitWidth="608.0" layoutX="-6.0">
+                                          <ImageView fitHeight="551.0" fitWidth="896.0" layoutX="-44.0" layoutY="-4.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.37.49.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.37.49.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="89.0" layoutY="14.0" text="Register workshop" textFill="WHITE">
+                                          <Label layoutX="117.0" layoutY="30.0" text="Register workshop" textFill="WHITE">
+                                             <font>
+                                                <Font size="37.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="107.0" layoutY="161.0" text="Workshop Name:" textFill="WHITE">
+                                             <font>
+                                                <Font size="25.0" />
+                                             </font></Label>
+                                          <Label layoutX="78.0" layoutY="207.0" text="Workshop Address:" textFill="WHITE">
+                                             <font>
+                                                <Font size="25.0" />
+                                             </font>
+                                          </Label>
+                                          <Label layoutX="112.0" layoutY="258.0" text="Workshop Type:" textFill="WHITE">
+                                             <font>
+                                                <Font size="25.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="nameFieldW" layoutX="295.0" layoutY="165.0" prefHeight="26.0" prefWidth="118.0" promptText="Name" />
+                                          <TextField fx:id="addressFieldW" layoutX="296.0" layoutY="211.0" prefHeight="26.0" prefWidth="117.0" promptText="Address" />
+                                          <ComboBox fx:id="workshopTypeField" layoutX="295.0" layoutY="260.0" onAction="#workshopTypeField" prefHeight="26.0" prefWidth="118.0" promptText="Type" style="-fx-background-color: white;" />
+                                          <Button fx:id="addWorkshopButton" layoutX="154.0" layoutY="354.0" mnemonicParsing="false" onAction="#handleAddWorkshop" prefHeight="59.0" prefWidth="222.0" style="-fx-background-color: white;" text="Add Workshop">
                                              <font>
                                                 <Font size="27.0" />
                                              </font>
-                                          </Label>
-                                          <Label layoutX="100.0" layoutY="85.0" text="Workshop Name:" textFill="WHITE" />
-                                          <Label layoutX="88.0" layoutY="123.0" text="Workshop Address:" textFill="WHITE" />
-                                          <Label layoutX="105.0" layoutY="160.0" text="Workshop Type:" textFill="WHITE" />
-                                          <Button fx:id="addWorkshopButton" layoutX="107.0" layoutY="233.0" mnemonicParsing="false" onAction="#handleAddWorkshop" prefHeight="37.0" prefWidth="174.0" style="-fx-background-color: white;" text="Add Workshop">
-                                             <font>
-                                                <Font size="19.0" />
-                                             </font>
                                           </Button>
-                                          <TextField fx:id="nameField" layoutX="199.0" layoutY="81.0" prefHeight="25.0" prefWidth="104.0" promptText="Name" />
-                                          <TextField fx:id="typeField" layoutX="199.0" layoutY="157.0" prefHeight="25.0" prefWidth="104.0" promptText="Internal/external" />
-                                          <TextField fx:id="addressField" layoutX="199.0" layoutY="119.0" prefHeight="25.0" prefWidth="104.0" promptText="Address" />
                                        </children></AnchorPane>
                               </content>
                             </Tab>
-                            <Tab text="View workshops">
+                            <Tab text="View workshop">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="398.0" fitWidth="632.0" layoutX="-31.0" layoutY="-8.0">
+                                          <ImageView fitHeight="558.0" fitWidth="1005.0" layoutX="-192.0" layoutY="-11.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.46.08.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
                                              </image>
                                           </ImageView>
-                                          <TableView fx:id="workshopTable" layoutX="-4.0" layoutY="-2.0" prefHeight="341.0" prefWidth="295.0">
-                                            <columns>
-                                              <TableColumn fx:id="workshopNameColumn" prefWidth="96.0" text="Name" />
-                                              <TableColumn fx:id="workshopAddressColumn" minWidth="0.0" prefWidth="111.0" text="Address" />
-                                                <TableColumn fx:id="workshopTypeColumn" minWidth="0.0" prefWidth="87.0" text="Type" />
-                                            </columns>
+                                          <TableView fx:id="workshopTable" layoutY="-2.0" prefHeight="446.0" prefWidth="412.0">
+                                             <columns>
+                                                <TableColumn fx:id="workshopNameColumnW" prefWidth="126.75327062606812" text="Name" />
+                                                <TableColumn fx:id="workshopAddressColumnW" minWidth="0.0" prefWidth="113.44991302490234" text="Address" />
+                                                <TableColumn fx:id="workshopTypeColumnW" minWidth="0.0" prefWidth="108.50001525878906" text="Type" />
+                                             </columns>
                                           </TableView>
-                                          <Label layoutX="411.0" layoutY="33.0" text="View " textFill="WHITE">
+                                          <Label layoutX="537.0" layoutY="79.0" text="View " textFill="WHITE">
                                              <font>
                                                 <Font size="50.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="402.0" layoutY="94.0" text="Work-" textFill="WHITE">
+                                          <Label layoutX="528.0" layoutY="146.0" text="Work-" textFill="WHITE">
                                              <font>
                                                 <Font size="50.0" />
                                              </font>
                                           </Label>
-                                          <Label layoutX="404.0" layoutY="159.0" text="shops" textFill="WHITE">
+                                          <Label layoutX="524.0" layoutY="212.0" text="shops" textFill="WHITE">
                                              <font>
                                                 <Font size="50.0" />
                                              </font>
@@ -80,23 +90,23 @@
                                        </children></AnchorPane>
                               </content>
                             </Tab>
-                              <Tab text="Most expensive workshops">
+                              <Tab text="Most expensive workshop">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="338.0" fitWidth="603.0" layoutX="-2.0" layoutY="1.0">
+                                          <ImageView fitHeight="561.0" fitWidth="872.0" layoutX="-40.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.50.10.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="107.0" layoutY="67.0" text="Most expensive workshop" textFill="WHITE">
+                                          <Label layoutX="154.0" layoutY="156.0" text="Most expensive workshop" textFill="WHITE">
                                              <font>
-                                                <Font size="35.0" />
+                                                <Font size="46.0" />
                                              </font>
                                           </Label>
-                                          <Button fx:id="displayMostExpensiveWorkshopButton" layoutX="127.0" layoutY="157.0" mnemonicParsing="false" onAction="#displayMostExpensiveWorkshop" prefHeight="60.0" prefWidth="341.0" style="-fx-background-color: white;" text="Display most expensive workshop">
+                                          <Button fx:id="displayMostExpensiveWorkshopButton" layoutX="188.0" layoutY="284.0" mnemonicParsing="false" onAction="#displayMostExpensiveWorkshop" prefHeight="82.0" prefWidth="422.0" style="-fx-background-color: white;" text="Display most expensive workshop">
                                              <font>
-                                                <Font size="22.0" />
+                                                <Font size="26.0" />
                                              </font>
                                           </Button>
                                        </children></AnchorPane>
@@ -106,4 +116,4 @@
                         </TabPane>
                      </children>
                   </AnchorPane>
-             
+              

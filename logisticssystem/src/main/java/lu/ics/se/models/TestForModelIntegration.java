@@ -7,9 +7,8 @@ public class TestForModelIntegration {
 
     public static void main(String[] args) {
         // Create workshops
-        Workshop internalWorkshop = new Workshop("Internal Workshop", "123 Main St", true, true, true, true);
-        Workshop externalWorkshop = new Workshop("External Workshop", "456 Oak St", false, true, true, true);
-
+        Workshop internalWorkshop = new Workshop("Internal Workshop", "Address 1", "Internal", true, true, false);
+        Workshop externalWorkshop = new Workshop("External Workshop", "Address 2", "External", false, true, true);
         // Create vehicles
         Vehicle largeTruck = new Vehicle("VIN123", "Volvo FH16", "Location 1", 5000, "Large truck", 30);
         Vehicle mediumTruck = new Vehicle("VIN456", "Ford F150", "Location 2", 3000, "Medium truck", 20);
@@ -47,7 +46,7 @@ public class TestForModelIntegration {
         van.setServiceHistory(serviceHistory);
 
         // Create a vehicle manifest
-        VehicleManifest vehicleManifest = new VehicleManifest();
+        VehicleManifest vehicleManifest = VehicleManifest.getInstance();
         vehicleManifest.addVehicle(largeTruck);
         vehicleManifest.addVehicle(mediumTruck);
         vehicleManifest.addVehicle(van);

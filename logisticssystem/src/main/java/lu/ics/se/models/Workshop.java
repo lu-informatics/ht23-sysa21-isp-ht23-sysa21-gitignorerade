@@ -5,22 +5,26 @@ import java.util.ArrayList;
 public class Workshop {
     private String workshopName;
     private String workshopAddress;
-    private boolean isInternal;
+    private String type;
     private boolean servicesVans;
     private boolean servicesMediumTrucks;
     private boolean servicesLargeTrucks;
     private ArrayList<ServiceEvent> serviceEvent;
 
-    public Workshop(String name, String address, String type, String string){
-        serviceEvent = new ArrayList<ServiceEvent>();
-    }
-    public Workshop(String workshopName, String workshopAddress, boolean isInternal, boolean servicesVans, boolean servicesMediumTrucks, boolean servicesLargeTrucks) {
-        this.workshopName = workshopName;
-        this.workshopAddress = workshopAddress;
-        this.isInternal = isInternal;
+    public Workshop(String name, String address, String type, boolean servicesVans, boolean servicesMediumTrucks, boolean servicesLargeTrucks) {
+        this.workshopName = name;
+        this.workshopAddress = address;
+        this.type = type;
         this.servicesVans = servicesVans;
         this.servicesMediumTrucks = servicesMediumTrucks;
         this.servicesLargeTrucks = servicesLargeTrucks;
+        serviceEvent = new ArrayList<ServiceEvent>();
+    }
+
+    public Workshop(String name, String address, String type){
+        this.workshopName = name;
+        this.workshopAddress = address;
+        this.type = type;
         serviceEvent = new ArrayList<ServiceEvent>();
     }
     public Workshop(String eventWorkshopName, String eventWorkshopAddress, Object calculateTotalCostForWorkshop) {
@@ -41,8 +45,11 @@ public class Workshop {
     public String getWorkshopAddress() {
         return workshopAddress;
     }
-    public boolean getIsInternal() {
-        return isInternal;
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
     }
     public boolean getServicesVans() {
         return servicesVans;
@@ -62,9 +69,7 @@ public class Workshop {
     public void setWorkshopAddress(String workshopAddress) {
         this.workshopAddress = workshopAddress;
     }
-    public void setIsInternal(boolean isInternal) {
-        this.isInternal = isInternal;
-    }
+
     public void setServicesVans(boolean servicesVans) {
         this.servicesVans = servicesVans;
     }
@@ -80,11 +85,9 @@ public class Workshop {
     public void addServiceEvent(ServiceEvent serviceEvent){
         serviceEvent.add(serviceEvent);
     }
-    public String getType() {
-        return null;
-    }
-    public void setType(String text) {
-    }
+ 
+    
+
     public ServiceHistory[] getServiceHistory() {
         return null;
     }
@@ -96,6 +99,9 @@ public class Workshop {
     }
     public Object getName() {
         return null;
+    }
+    public boolean getIsInternal() {
+        return false;
     }
     
 

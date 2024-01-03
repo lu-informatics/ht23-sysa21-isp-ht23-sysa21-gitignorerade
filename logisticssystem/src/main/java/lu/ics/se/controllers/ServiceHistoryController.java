@@ -1,5 +1,6 @@
 package lu.ics.se.controllers;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -124,13 +125,13 @@ private Button clearServiceHistory;
 
 
 @FXML
-private TextField vinField;
+private TextField vinFieldSH;
 
 @FXML
 private TextField costField;
 
 @FXML
-private TextField workshopNameTextField;
+private TextField workshopNameTextFieldSH;
 
 
 @FXML
@@ -149,78 +150,62 @@ private VehicleManifest vehicleManifest;
 private Button loadWorkshopHistory;
 @FXML
 private ListView<String> vehicleServiceHistoryListView;
+private static List<ServiceHistory> serviceHistories;
 
 @FXML
     private ListView<String> serviceHistoryListView;
 
-    private static List<ServiceHistory> serviceHistories;
 
-   
+
     public ServiceHistoryController() {
         this.serviceHistories = new ArrayList<>();
         this.vehicleManifest = VehicleManifest.getInstance();
     }
 
-    public static void setServiceHistories(List<ServiceHistory> histories) {
+    public void setServiceHistories(List<ServiceHistory> histories) {
         serviceHistories = histories;
     }
 
-    @FXML
-    public void vinField(ActionEvent event) {
-        String vin = vinField.getText().trim();
-
-        if (validateVIN(vin)) {
-            // VIN is valid, find the vehicle
-            Vehicle vehicle = findVehicleByVIN(vin);
-            if (vehicle != null) {
-                // Vehicle found, load the service history
-                loadVehicleServiceHistory(event); // Remove the second argument 'vehicle'
-            } else {
-                // Vehicle not found
-                showAlert("Vehicle Not Found", "No vehicle found with the entered VIN.", vin);
-            }
-        } else {
-            // VIN is not valid
-            showAlert("Invalid VIN", "The entered VIN is not valid.", vin);
-        }
-    }
-    private boolean validateVIN(String vin) {
-        // Implement VIN validation logic here
-        return vin.length() == 8; // Example validation: check VIN length
-    }
-
-    private Vehicle findVehicleByVIN(String vin) {
+    
+    
+    private Vehicle getVehicleByVIN(String vin) {
         List<Vehicle> vehicles = vehicleManifest.getCompanyOwnedVehicles();
-        for (Vehicle vehicle : vehicles) {
-            if (vehicle.getVehicleIdentificationNumber().equals(vin)) {
-                return vehicle;
+        if (vehicles != null) {
+            for (Vehicle vehicle : vehicles) {
+                if (vehicle.getVehicleIdentificationNumber().equals(vin)) {
+                    return vehicle;
+                }
             }
         }
         return null;
     }
 
     @FXML
-    public void loadVehicleServiceHistory(ActionEvent event) {
-        String vin = vinField.getText().trim();
-
-        // Retrieve the service histories based on the VIN
-        List<ServiceHistory> vehicleServiceHistories = findServiceHistoriesByVIN(vin);
-
-        if (!vehicleServiceHistories.isEmpty()) {
-            // Clear previous entries
-            serviceHistoryListView.getItems().clear();
-
-            // Iterate through service histories and populate the list view
-            for (ServiceHistory serviceHistory : vehicleServiceHistories) {
-                // Convert ServiceHistory object to a displayable string and add to the list view
-                serviceHistoryListView.getItems().add(formatServiceHistory(serviceHistory));
+public void loadVehicleServiceHistory(ActionEvent event) {
+    String vin = vinFieldSH.getText();
+    if (vin != null && !vin.trim().isEmpty()) {
+        vin = vin.trim();
+        if (validateVIN(vin)) {
+            Vehicle vehicle = getVehicleByVIN(vin);
+            if (vehicle != null) {
+                List<ServiceHistory> vehicleServiceHistories = findServiceHistoriesByVIN(vin);
+                vehicleServiceHistoryListView.getItems().clear();
+                if (vehicleServiceHistories != null && !vehicleServiceHistories.isEmpty()) {
+                    for (ServiceHistory serviceHistory : vehicleServiceHistories) {
+                        vehicleServiceHistoryListView.getItems().add(formatServiceHistory(serviceHistory));
+                    }
+                } else {
+                    vehicleServiceHistoryListView.getItems().add("Service history not found for the vehicle");
+                }
+            } else {
+                showAlert("Vehicle Not Found", "No vehicle found with the entered VIN.", vin);
             }
         } else {
-            // Handle the case when no service history is found
-            serviceHistoryListView.getItems().clear();
-            serviceHistoryListView.getItems().add("Service history not found for the vehicle");
+            showAlert("Invalid VIN", "The entered VIN is not valid.", vin);
         }
     }
+}
+
 
     private void showAlert(String title, String header, String content) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -228,7 +213,12 @@ private ListView<String> vehicleServiceHistoryListView;
         alert.setHeaderText(header);
         alert.setContentText(content);
         alert.showAndWait();
-        }
+    }
+    private boolean validateVIN(String vin) {
+        // Add more validation logic if needed
+        return vin.length() == 8;
+    }
+
         
   
     private String formatServiceHistory(ServiceHistory serviceHistory) {
@@ -241,18 +231,16 @@ private ListView<String> vehicleServiceHistoryListView;
     }
 
     private List<ServiceHistory> findServiceHistoriesByVIN(String vin) {
-        // Implement this method based on your data structure
         List<ServiceHistory> matchingHistories = new ArrayList<>();
-
-        for (ServiceHistory history : serviceHistories) {
-            if (history.getVin().equalsIgnoreCase(vin)) {
-                matchingHistories.add(history);
+        if (serviceHistories != null) {
+            for (ServiceHistory history : serviceHistories) {
+                if (history.getVin().equals(vin)) {
+                    matchingHistories.add(history);
+                }
             }
         }
-
         return matchingHistories;
     }
-
     @FXML
     public void clearVehicleServiceHistory(ActionEvent event) {
         vehicleServiceHistoryListView.getItems().clear();
@@ -270,9 +258,9 @@ private ListView<String> vehicleServiceHistoryListView;
     
         // Handler for showing workshop history
         @FXML
-        public void loadHistory(ActionEvent event) {
+        public void loadWorkshopHistory(ActionEvent event) {
             clearServiceHistoryView(event);
-            String workshopName = workshopNameTextField.getText().trim();
+            String workshopName = workshopNameTextFieldSH.getText().trim();
     
             Workshop workshop = workshopList.getWorkshopByName(workshopName);
             if (workshop == null) {
@@ -323,93 +311,83 @@ private ListView<String> vehicleServiceHistoryListView;
             alert.showAndWait();
         }
     
+    @FXML
+    private TableView<ServiceHistory> serviceHistoryTableView; // Assuming this is linked to your FXML file
+
+    @FXML
+    private TableColumn<ServiceHistory, String> workshopNameColumnSH; // Assuming this is linked to your FXML file
     
+    @FXML
+    private TableColumn<ServiceHistory, String> workshopTypeColumnSH; // Assuming this is linked to your FXML file
 
-    // You need to have a reference to your WorkshopList or WorkshopService to get the workshops
-    // For this example, I assume you have a WorkshopList instance in the main application class.
+    @FXML
+    private TableColumn<ServiceHistory, String> vinColumnSH; // Assuming this is linked to your FXML file
 
-    // For simplicity, I'm using a non-static reference. In a real application, you might want to use dependency injection.
-    // Remove the duplicate field declaration
-    // private WorkshopList workshopList;
+    @FXML
+    private TableColumn<ServiceHistory, String> serviceDateColumnSH; // Assuming this is linked to your FXML file
 
-    // Setter method for WorkshopList (to be set from the main application)
-    
-    // Existing code...
+    @FXML
+    private TableColumn<ServiceHistory, String> descriptionColumnSH; // Assuming this is linked to your FXML file
 
-    // Add a new method to initialize the service history table with cell value factories
     private void initializeServiceHistoryTable() {
-        vinColumn.setCellValueFactory(new PropertyValueFactory<>("vin"));
+    // Define columns
+    TableColumn<ServiceHistory, String> vinColumnSH = new TableColumn<>("VIN");
+    vinColumnSH.setCellValueFactory(new PropertyValueFactory<>("vin"));
 
-        TableColumn<ServiceHistory, String> serviceDateColumn = new TableColumn<>();
-        serviceDateColumn.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
+    TableColumn<ServiceHistory, String> serviceDateColumnSH = new TableColumn<>("Service Date");
+    serviceDateColumnSH.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
 
-        TableColumn<ServiceHistory, String> descriptionColumn = new TableColumn<>();
-        descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+    TableColumn<ServiceHistory, String> descriptionColumnSH = new TableColumn<>("Description");
+    descriptionColumnSH.setCellValueFactory(new PropertyValueFactory<>("description"));
 
-        TableColumn<ServiceHistory, String> costColumn = new TableColumn<>();
-        costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
+    TableColumn<ServiceHistory, String> costColumnSH = new TableColumn<>("Cost");
+    costColumnSH.setCellValueFactory(new PropertyValueFactory<>("cost"));
 
-        TableColumn<ServiceHistory, String> partsReplacedColumn = new TableColumn<>();
-        partsReplacedColumn.setCellValueFactory(new PropertyValueFactory<>("partsReplaced"));
+    TableColumn<ServiceHistory, String> partsReplacedColumnSH = new TableColumn<>("Parts Replaced");
+    partsReplacedColumnSH.setCellValueFactory(new PropertyValueFactory<>("partsReplaced"));
 
-        workshopNameColumn.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
+    TableColumn<ServiceHistory, String> workshopNameColumnSH = new TableColumn<>("Workshop Name");
+    workshopNameColumnSH.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
+    // Add columns to table
+    serviceHistoryTableView.getColumns().setAll(vinColumnSH, serviceDateColumnSH, descriptionColumnSH, costColumnSH, partsReplacedColumnSH, workshopNameColumnSH);
 
-        TableView<ServiceHistory> serviceHistoryTableView = new TableView<>(); // Initialize the variable
+    // Set items to serviceHistories
+    serviceHistoryTableView.setItems(FXCollections.observableArrayList(serviceHistories));
 
-        // Add a double-click listener to the service history table
-        serviceHistoryTableView.setOnMouseClicked(event -> {
-            if (event.getClickCount() == 2) {
-                handleServiceHistoryDoubleClick(serviceHistoryTableView);
-            }
-        });
-    }
+    // Handle double click
+    serviceHistoryTableView.setOnMouseClicked(event -> {
+        if (event.getClickCount() == 2) {
+            handleServiceHistoryDoubleClick();
+        }
+    });
+}
+@FXML
+public void initialize() {
+    // Existing code...
+    initializeServiceHistoryTable();
+}
 
-    
-    @FXML
-    public void clearServiceHistory(ActionEvent event) {
-        serviceHistoryListView.getItems().clear();
-    }
+private void handleServiceHistoryDoubleClick() {
+    ServiceHistory selectedHistoryEntry = serviceHistoryTableView.getSelectionModel().getSelectedItem();
 
-
-    @FXML
-    public void initialize() {
-        // Existing code...
-        initializeServiceHistoryTable();
-    }
-
-    private void handleServiceHistoryDoubleClick(TableView<ServiceHistory> serviceHistoryTableView) {
-        ServiceHistory selectedHistoryEntry = serviceHistoryTableView.getSelectionModel().getSelectedItem();
-    
-        if (selectedHistoryEntry != null) {
-            // Show a confirmation dialog
-            if (showConfirmationDialog("Remove Service History Entry",
-                    "Are you sure you want to remove this service history entry?")) {
-                // Remove the selected history entry from the table
-                serviceHistoryTableView.getItems().remove(selectedHistoryEntry);
-            }
+    if (selectedHistoryEntry != null) {
+        if (showConfirmationDialog("Remove Service History Entry", "Are you sure you want to remove this service history entry?")) {
+            serviceHistories.remove(selectedHistoryEntry); // Assuming serviceHistories is your data source
+            serviceHistoryTableView.getItems().remove(selectedHistoryEntry);
         }
     }
-    
+}
 
-    
-    private boolean showConfirmationDialog(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-    
-        Optional<ButtonType> result = alert.showAndWait();
-        alert.close(); // Close the dialog
-    
-        return result.isPresent() && result.get() == ButtonType.OK;
-    }
+private boolean showConfirmationDialog(String title, String message) {
+    return new Alert(Alert.AlertType.CONFIRMATION, message, ButtonType.OK, ButtonType.CANCEL)
+            .showAndWait()
+            .filter(response -> response == ButtonType.OK)
+            .isPresent();
+}
+   
 }
     
-    
-    
-    
-    
-    
+
     
     
 

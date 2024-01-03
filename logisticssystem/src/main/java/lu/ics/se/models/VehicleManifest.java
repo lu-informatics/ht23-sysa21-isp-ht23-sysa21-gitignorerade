@@ -1,17 +1,21 @@
 package lu.ics.se.models;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
+import javafx.collections.FXCollections;
 
 import javafx.collections.ObservableList;
 import javafx.util.Callback;
 
 public class VehicleManifest {
-    private ArrayList<Vehicle> companyOwnedVehicles;
+    private ObservableList<Vehicle> companyOwnedVehicles;
     private static VehicleManifest instance;
     
     private VehicleManifest() {
-        companyOwnedVehicles = new ArrayList<Vehicle>();
+        companyOwnedVehicles = FXCollections.observableArrayList();
     }
+    
 
     public static VehicleManifest getInstance() {
         if (instance == null) {
@@ -38,7 +42,7 @@ public class VehicleManifest {
         return totalCost;
     }
     
-    public ArrayList<Vehicle> getCompanyOwnedVehicles() {
+    public ObservableList<Vehicle> getCompanyOwnedVehicles() {
         return companyOwnedVehicles;
         
     }
@@ -46,7 +50,7 @@ public class VehicleManifest {
         if (isVINUnique(vehicle.getVehicleIdentificationNumber())) {
             companyOwnedVehicles.add(vehicle);
         } else {
-            System.out.println("Error: Vehicle with VIN " + vehicle.getVehicleIdentificationNumber() + " already exists.");
+            // Handle the case where the VIN is not unique
         }
     }
     
@@ -66,8 +70,27 @@ public class VehicleManifest {
     public Vehicle getVehicleByVIN(String vehicleVin) {
         return null;
     } 
+
+@Override
+public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Vehicle vehicle = (Vehicle) obj;
+    return Objects.equals(getVehicleIdentificationNumber(), vehicle.getVehicleIdentificationNumber());
 }
-    
+
+private String getVehicleIdentificationNumber() {
+    // Implement the getter method to return the vehicleIdentificationNumber field
+    // You can access the field directly or use a getter method if it exists in the Vehicle class
+    // For example:
+    // return vehicle.getVehicleIdentificationNumber();
+    // or
+    // return vehicleIdentificationNumber;
+    // Replace this implementation with the appropriate code based on your Vehicle class implementation
+    return null;
+}
+
+}    
 
 
 

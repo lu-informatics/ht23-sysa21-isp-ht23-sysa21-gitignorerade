@@ -12,7 +12,7 @@
                 <!-- Viking Express Tab -->
                 <Tab text="Viking Express">
                     <content>
-                        <fx:include source="FirstPage.fxml"/>
+                        <fx:include source="FirstPage.fxml" />
                     </content>
                 </Tab>
 

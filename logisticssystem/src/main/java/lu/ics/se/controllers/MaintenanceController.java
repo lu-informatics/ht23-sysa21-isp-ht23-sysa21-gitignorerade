@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.fxml.FXMLLoader;
 
@@ -20,13 +21,15 @@ import lu.ics.se.models.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.Optional;
 
 
 import java.io.IOException;
 
 import java.util.List;
+import java.util.Map;
+
 import javafx.beans.Observable;
 import javafx.util.Callback;
 import javafx.event.ActionEvent; // Add this import statement
@@ -39,7 +42,7 @@ public class MaintenanceController {
     @FXML
     private TextField vehicleNameTextField;
     @FXML
-    private DatePicker maintenanceDatePicker;
+    private DatePicker maintenanceDatePickerM;
     
     @FXML
     private Button handleAddMaintenance;
@@ -52,11 +55,17 @@ public class MaintenanceController {
 
     
     @FXML
-    private TableColumn<ServiceEvent, String> vehicleColumn;
+    private TableColumn<ServiceEvent, String> vinColumnM;
+
     @FXML
-    private TableColumn<ServiceEvent, String> dateColumn;
+    private TableColumn<ServiceEvent, String> workshopNameColumnM;
+
     @FXML
-    private TableColumn<ServiceEvent, String> workshopColumn;
+    private TableColumn<ServiceEvent, String> maintenanceDateColumnM;
+
+
+    @FXML
+    private TableColumn<ServiceEvent, String> costColumnM;
 
     @FXML
     private Label averageCostLabel;
@@ -83,15 +92,15 @@ public class MaintenanceController {
 
 
     @FXML
-    private TextField vinField;
+    private TextField vinFieldM;
 
     @FXML
-    private TextField costField;
+    private TextField costFieldM;
 
 
 
     @FXML
-    private TextField workshopNameField;
+    private TextField workshopNameFieldM;
 
     @FXML
     private ListView<String> vehicleServiceHistoryListView;
@@ -107,20 +116,20 @@ public class MaintenanceController {
     @FXML
 public void initializeMaintenanceTableView() {
     // Set up columns for maintenance table view
-    TableColumn<ServiceEvent, String> vinColumn = new TableColumn<>("VIN");
-    vinColumn.setCellValueFactory(new PropertyValueFactory<>("eventVin"));
+    TableColumn<ServiceEvent, String> vinColumnM = new TableColumn<>("VIN");
+    vinColumnM.setCellValueFactory(new PropertyValueFactory<>("eventVin"));
 
-    TableColumn<ServiceEvent, LocalDate> dateColumn = new TableColumn<>("Date");
-    dateColumn.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
+    TableColumn<ServiceEvent, LocalDate> maintenanceDateColumnM = new TableColumn<>("Date");
+    maintenanceDateColumnM.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
 
-    TableColumn<ServiceEvent, String> workshopColumn = new TableColumn<>("Workshop");
-    workshopColumn.setCellValueFactory(new PropertyValueFactory<>("eventWorkshopName"));
+    TableColumn<ServiceEvent, String> workshopNameColumn = new TableColumn<>("Workshop");
+    workshopNameColumn.setCellValueFactory(new PropertyValueFactory<>("eventWorkshopName"));
 
-    TableColumn<ServiceEvent, Double> costColumn = new TableColumn<>("Cost");
-    costColumn.setCellValueFactory(new PropertyValueFactory<>("eventCost"));
+    TableColumn<ServiceEvent, Double> costColumnM = new TableColumn<>("Cost");
+    costColumnM.setCellValueFactory(new PropertyValueFactory<>("eventCost"));
 
     // Add columns to the table view
-    maintenanceTableView.getColumns().addAll(vinColumn, dateColumn, workshopColumn, costColumn);
+    maintenanceTableView.getColumns().addAll(vinColumnM, maintenanceDateColumnM, workshopNameColumnM, costColumnM);
 
     // Add double-click event to open the edit/delete window
     maintenanceTableView.setOnMouseClicked(this::handleMaintenanceDoubleClick);
@@ -132,25 +141,32 @@ public void initializeMaintenanceTableView() {
 private void refreshMaintenanceTable() {
     ObservableList<ServiceEvent> serviceEvents = FXCollections.observableArrayList((Callback<ServiceEvent, Observable[]>) param -> new Observable[]{param.eventVinProperty(), param.eventDateProperty(), param.eventWorkshopNameProperty(), param.eventCostProperty()});
     maintenanceTableView.setItems(serviceEvents);
-}
-    @FXML
-    public void clearMaintenanceList() {
-        // Clear the maintenance table view
-        maintenanceTableView.getItems().clear();
+
     }
     
     @FXML
 public void handleAddMaintenance() {
     try {
         // Get input values from UI elements
-        String vehicleVin = vinField.getText();
-        String workshopName = workshopNameField.getText();
-        String dateString = maintenanceDatePicker.getEditor().getText();
-        double costFieldValue = Double.parseDouble(costField.getText());
+        String vehicleVin = vinFieldM.getText();
+        String workshopName = workshopNameFieldM.getText();
+        String dateString = maintenanceDatePickerM.getEditor().getText();
+        double costFieldValue = Double.parseDouble(costFieldM.getText());
 
         // Validate inputs
         if (vehicleVin.isEmpty() || workshopName.isEmpty() || dateString.isEmpty() || String.valueOf(costFieldValue).isEmpty()) {
             showAlert("Error", "Please fill in all fields.");
+            return;
+        }
+
+        // Check if the vehicle is decommissioned
+        Vehicle selectedVehicle = vehicleManifest.getVehicleByVIN(vehicleVin);
+        if (selectedVehicle == null) {
+            showAlert("Error", "No vehicle found with the entered VIN.");
+            return;
+        }
+        if (selectedVehicle.isDecommissioned()) {
+            showAlert("Error", "The selected vehicle is decommissioned and cannot receive maintenance.");
             return;
         }
 
@@ -167,14 +183,9 @@ public void handleAddMaintenance() {
 
         ServiceEvent newMaintenance = new ServiceEvent("Maintenance", "Maintenance Description",
             costFieldValue, maintenanceDate, selectedWorkshop,
-            vehicleManifest.getVehicleByVIN(vehicleVin), new ArrayList<>());
+            selectedVehicle, new ArrayList<>());
 
         // Add the new maintenance to the vehicle's service events
-        Vehicle selectedVehicle = vehicleManifest.getVehicleByVIN(vehicleVin);
-        if (selectedVehicle == null) {
-            showAlert("Error", "No vehicle found with the entered VIN.");
-            return;
-        }
         selectedVehicle.addServiceEvent(newMaintenance);
 
         // Add the new maintenance to the maintenance table view
@@ -185,14 +196,13 @@ public void handleAddMaintenance() {
     } catch (Exception e) {
         showAlert("Error", "An error occurred: " + e.getMessage());
     }
-
 }
     @FXML
     public void clearMaintenanceFields() {
-        vinField.clear();
-        workshopNameField.clear();
-        maintenanceDatePicker.getEditor().clear();
-        costField.clear();
+        vinFieldM.clear();
+        workshopNameFieldM.clear();
+        maintenanceDatePickerM.getEditor().clear();
+        costFieldM.clear();
     }
 
     private void handleMaintenanceDoubleClick(MouseEvent event) {
@@ -242,34 +252,69 @@ public void handleAddMaintenance() {
     // Remove the unused method updateLabels()
 
 
-
     @FXML
     public void handleEdit() {
-        if (selectedMaintenance != null) {
-            try {
-                // Load the FXML file for the edit window
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/lu/ics/se/views/EditMaintenance.fxml"));
-                Parent root = loader.load();
+    ServiceEvent selectedMaintenance = maintenanceTableView.getSelectionModel().getSelectedItem(); // replace 'maintenanceTableView' with your TableView's ID
+    if (selectedMaintenance != null) {
+        Dialog<Map<String, Object>> dialog = new Dialog<>();
+        dialog.setTitle("Edit Maintenance");
+        dialog.setHeaderText("Edit Maintenance Details");
 
-                // Set the selected maintenance in the edit controller
-                MaintenanceController editController = loader.getController();
-                editController.setMaintenance(selectedMaintenance);
+        ButtonType saveButtonType = new ButtonType("Save", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(saveButtonType, ButtonType.CANCEL);
 
-                // Create a new stage for the edit window
-                Stage stage = new Stage();
-                stage.setTitle("Edit Maintenance");
-                stage.setScene(new Scene(root));
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-                // Show the edit window and wait for it to be closed
-                stage.showAndWait();
+        DatePicker serviceDatePicker = new DatePicker(selectedMaintenance.getServiceDate());
+        TextField costField = new TextField(String.valueOf(selectedMaintenance.getCost()));
 
-                // Refresh the maintenance table view after editing
-                refreshMaintenanceTable();
-            } catch (IOException e) {
-                showAlert("Error", "An error occurred while opening the edit window.");
+        grid.add(new Label("Service Date:"), 0, 0);
+        grid.add(serviceDatePicker, 1, 0);
+        grid.add(new Label("Cost:"), 0, 1);
+        grid.add(costField, 1, 1);
+
+        dialog.getDialogPane().setContent(grid);
+
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == saveButtonType) {
+                LocalDate serviceDate = serviceDatePicker.getValue();
+                String costText = costField.getText();
+
+                // Validate inputs
+                if (serviceDate == null || costText.isEmpty()) {
+                    showAlert("Error", "Please fill in all fields.");
+                    return null;
+                }
+
+                double cost;
+                try {
+                    cost = Double.parseDouble(costText);
+                } catch (NumberFormatException e) {
+                    showAlert("Error", "Cost must be a number.");
+                    return null;
+                }
+
+                Map<String, Object> results = new HashMap<>();
+                results.put("serviceDate", serviceDate);
+                results.put("cost", cost);
+                return results;
             }
-        }
+            return null;
+        });
+
+        Optional<Map<String, Object>> result = dialog.showAndWait();
+        result.ifPresent(maintenanceDetails -> {
+            selectedMaintenance.setServiceDate((LocalDate) maintenanceDetails.get("serviceDate"));
+            selectedMaintenance.setCost((Double) maintenanceDetails.get("cost"));
+            maintenanceTableView.refresh(); // replace 'maintenanceTableView' with your TableView's ID
+        });
+    } else {
+        showAlert("Edit Error", "No maintenance selected.");
     }
+}
+
 
     private void setMaintenance(ServiceEvent selectedMaintenance2) {
         this.selectedMaintenance = selectedMaintenance2;

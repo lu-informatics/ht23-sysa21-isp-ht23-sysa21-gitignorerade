@@ -25,18 +25,16 @@ public class WorkshopController {
     @FXML
     private TableView<Workshop> workshopTable;
     @FXML
-    private TableColumn<Workshop, String> workshopNameColumn;
+    private TableColumn<Workshop, String> workshopNameColumnW;
     @FXML
-    private TableColumn<Workshop, String> workshopAddressColumn;
+    private TableColumn<Workshop, String> workshopAddressColumnW;
     @FXML
-    private TableColumn<Workshop, String> workshopTypeColumn;
+    private TableColumn<Workshop, String> workshopTypeColumnW;
 
     @FXML
-    private TextField nameField;
+    private TextField nameFieldW;
     @FXML
-    private TextField addressField;
-    @FXML
-    private TextField typeField;
+    private TextField addressFieldW;
 
     @FXML
     private Button clearWorkshopList;
@@ -48,6 +46,8 @@ public class WorkshopController {
     @FXML
     private Button deleteWorkshopButton;
 
+    @FXML
+    private ComboBox<String> workshopTypeField;
     @FXML
     private TableView<ServiceEvent> maintenanceTableView;
 
@@ -77,76 +77,72 @@ public class WorkshopController {
         // rest of the class
     
 
-    @FXML
-    public void initialize() {
-
-        initializeWorkshopList();
-        // Initialize workshop table
-        workshopNameColumn.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
-        workshopAddressColumn.setCellValueFactory(new PropertyValueFactory<>("workshopAddress"));
-        workshopTypeColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-
-        workshopTable.setItems(getWorkshopData());
-    }
-
-    @FXML
-    public void clearWorkshopList(ActionEvent event) {
-        // Show confirmation dialog
-        Alert confirmationAlert = new Alert(Alert.AlertType.CONFIRMATION);
-        confirmationAlert.setTitle("Confirm Clear");
-        confirmationAlert.setHeaderText("Are you sure you want to clear the workshop list?");
-        confirmationAlert.setContentText("This action cannot be undone.");
-
-        Optional<ButtonType> result = confirmationAlert.showAndWait();
-
-        if (result.isPresent() && result.get() == ButtonType.OK) {
-            // User confirmed clearing the workshop list
-            workshopList.clearWorkshopList();
+        
+        public void initialize() {
+            initializeWorkshopList();
+        
+            // Initialize workshop table
+            workshopNameColumnW.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
+            workshopAddressColumnW.setCellValueFactory(new PropertyValueFactory<>("workshopAddress"));
+            workshopTypeColumnW.setCellValueFactory(new PropertyValueFactory<>("type"));
+        
             workshopTable.setItems(getWorkshopData());
+        
+            // Initialize workshop type ComboBox
+            workshopTypeField.setItems(FXCollections.observableArrayList("Internal", "External"));
+
+            workshopTable.setRowFactory(tv -> {
+                TableRow<Workshop> row = new TableRow<>();
+                row.setOnMouseClicked(event -> {
+                    if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                        openEditWorkshopDialog(row.getItem());
+                    }
+                });
+                return row;
+            });
         }
-    }
-    private void clearWorkshopColumns() {
-        nameField.clear();
-        addressField.clear();
-        typeField.clear();
-    }
-
-    
-    private void initializeWorkshopList() {
-        // Initialize workshopList here. This might involve creating a new instance
-        // or fetching it from another source depending on your application's design.
-        workshopList = new WorkshopList();
-
-        // If your WorkshopList requires some initial data or setup, do it here
-        // For example, you might load workshops from a database or a file
-    }
-
-    private ObservableList<Workshop> getWorkshopData() {
-        if (workshopList != null) {
-            return FXCollections.observableArrayList(workshopList.getAllWorkshops());
-        } else {
-            // Handle the case where workshopList is null
-            return FXCollections.observableArrayList();
+        
+        
+        private void clearWorkshopColumns() {
+            nameFieldW.clear();
+            addressFieldW.clear();
+            workshopTypeField.setValue(null); // Clear the ComboBox selection
         }
-    }
-@FXML
+        
+        private void initializeWorkshopList() {
+            // Initialize workshopList here. This might involve creating a new instance
+            // or fetching it from another source depending on your application's design.
+            workshopList = new WorkshopList();
+        
+            // If your WorkshopList requires some initial data or setup, do it here
+            // For example, you might load workshops from a database or a file
+        }
+        
+        private ObservableList<Workshop> getWorkshopData() {
+            if (workshopList != null) {
+                return FXCollections.observableArrayList(workshopList.getAllWorkshops());
+            } else {
+                // Handle the case where workshopList is null
+                return FXCollections.observableArrayList();
+            }
+        }
+    @FXML
     public void handleAddWorkshop(ActionEvent event) {
-        String name = nameField.getText();
-        String address = addressField.getText();
-        String type = typeField.getText();
-
-        if (name.isEmpty() || address.isEmpty() || type.isEmpty()) {
-        showAlert("Error", "Please fill in all fields.");
+        String name = nameFieldW.getText();
+        String address = addressFieldW.getText();
+        String type = workshopTypeField.getValue(); // Get the selected value from the ComboBox
+    
+        if (name.isEmpty() || address.isEmpty() || type == null) {
+            showAlert("Error", "Please fill in all fields.");
             return;
-}
-
-Workshop newWorkshop = new Workshop(name, address, type);
-workshopList.addWorkshop(newWorkshop);
-
-workshopTable.setItems(getWorkshopData());
-clearWorkshopColumns();
-}
-
+        }
+    
+        Workshop newWorkshop = new Workshop(name, address, type);
+        workshopList.addWorkshop(newWorkshop);
+    
+        workshopTable.setItems(getWorkshopData());
+        clearWorkshopColumns();
+    }
 
 private void showAlert(String title, String message) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -154,6 +150,12 @@ private void showAlert(String title, String message) {
     alert.setHeaderText(null);
     alert.setContentText(message);
     alert.showAndWait();
+}
+
+@FXML
+public void workshopTypeField(ActionEvent event) {
+    String selectedType = workshopTypeField.getValue();
+    // Do something with selectedType...
 }
 
 @FXML
@@ -178,52 +180,50 @@ if (selectedWorkshop != null) {
     showAlert("Error", "Please select a workshop to delete.");
 }
 }
-
 @FXML
 public void handleEditWorkshop(ActionEvent event) {
-Workshop selectedWorkshop = workshopTable.getSelectionModel().getSelectedItem();
+    Workshop selectedWorkshop = workshopTable.getSelectionModel().getSelectedItem();
 
-if (selectedWorkshop != null) {
-    openEditWorkshopDialog(selectedWorkshop);
-} else {
-    showAlert("Error", "Please select a workshop to edit.");
-}
+    if (selectedWorkshop != null) {
+        openEditWorkshopDialog(selectedWorkshop);
+    } else {
+        showAlert("Error", "Please select a workshop to edit.");
+    }
 }
 
 private void openEditWorkshopDialog(Workshop workshop) {
-Stage editDialog = new Stage();
-editDialog.initModality(Modality.APPLICATION_MODAL);
-editDialog.setTitle("Edit Workshop");
+    Stage editDialog = new Stage();
+    editDialog.initModality(Modality.APPLICATION_MODAL);
+    editDialog.setTitle("Edit Workshop");
 
-VBox dialogVBox = new VBox(20);
-TextField editedNameField = new TextField(workshop.getWorkshopName());
-TextField editedAddressField = new TextField(workshop.getWorkshopAddress());
-TextField editedTypeField = new TextField(workshop.getType());
-Button saveButton = new Button("Save Changes");
+    VBox dialogVBox = new VBox(20);
+    TextField editedNameField = new TextField(workshop.getWorkshopName());
+    TextField editedAddressField = new TextField(workshop.getWorkshopAddress());
+    Label workshopTypeLabel = new Label(workshop.getType());
+    Button saveButton = new Button("Save Changes");
 
-saveButton.setOnAction(event -> {
-    workshop.setWorkshopName(editedNameField.getText());
-    workshop.setWorkshopAddress(editedAddressField.getText());
-    workshop.setType(editedTypeField.getText());
+    saveButton.setOnAction(event -> {
+        workshop.setWorkshopName(editedNameField.getText());
+        workshop.setWorkshopAddress(editedAddressField.getText());
+        // workshop type is not set here because it's not editable
 
-    // If your TableView is bound to an ObservableList, this line might not be necessary
-    // workshopTable.setItems(getWorkshopData());
+        // If your TableView is bound to an ObservableList, this line might not be necessary
+        // workshopTable.setItems(getWorkshopData());
 
-    editDialog.close();
-});
+        editDialog.close();
+    });
 
-dialogVBox.getChildren().addAll(
-        new Label("Name: "), editedNameField,
-        new Label("Address: "), editedAddressField,
-        new Label("Type: "), editedTypeField,
-        saveButton
-);
+    dialogVBox.getChildren().addAll(
+            new Label("Name: "), editedNameField,
+            new Label("Address: "), editedAddressField,
+            new Label("Type: "), workshopTypeLabel,
+            saveButton
+    );
 
-Scene dialogScene = new Scene(dialogVBox, 300, 200);
-editDialog.setScene(dialogScene);
-editDialog.show();
+    Scene dialogScene = new Scene(dialogVBox, 300, 200);
+    editDialog.setScene(dialogScene);
+    editDialog.show();
 }
-
 
 
 @FXML

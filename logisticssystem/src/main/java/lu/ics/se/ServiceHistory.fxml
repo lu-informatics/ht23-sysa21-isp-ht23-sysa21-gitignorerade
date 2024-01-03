@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -13,79 +14,107 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-                  <AnchorPane  xmlns:fx="http://javafx.com/fxml" fx:controller="lu.ics.se.controllers.ServiceHistoryController" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.ServiceHistoryController">
+    <!-- Your content here -->
                      <children>
-                        <TabPane prefHeight="373.0" prefWidth="600.0" tabClosingPolicy="UNAVAILABLE">
+                        <TabPane layoutX="168.0" layoutY="117.0" prefHeight="568.5" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <tabs>
-                            <Tab text="Vehicle Service History">
+                            <Tab text="Vehicle service history">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="337.0" fitWidth="603.0" layoutX="-1.0">
+                                          <ImageView fitHeight="544.0" fitWidth="987.0" layoutX="-93.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.20.07.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="89.0" layoutY="79.0" text="Enter Vehicle VIN:" textFill="WHITE">
+                                          <ListView fx:id="vehicleServiceHistoryListView" layoutX="482.0" layoutY="56.0" prefHeight="313.0" prefWidth="273.0" />
+                                          <Button fx:id="clearVehicleServiceHistory" layoutX="548.0" layoutY="408.0" mnemonicParsing="false" onAction="#clearVehicleServiceHistory" style="-fx-background-color: white;" text="Clear List">
                                              <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="vinField" layoutX="80.0" layoutY="111.0" promptText="VIN" />
-                                          <Button fx:id="loadVehicleServiceHistory" layoutX="90.0" layoutY="174.0" mnemonicParsing="false" onAction="#loadVehicleServiceHistory" prefWidth="134.0" style="-fx-background-color: white;" text="Load history">
-                                             <font>
-                                                <Font size="18.0" />
+                                                <Font size="27.0" />
                                              </font>
                                           </Button>
-                                          <ListView fx:id="vehicleServiceHistoryListView" layoutX="357.0" layoutY="25.0" prefHeight="223.0" prefWidth="200.0" />
-                                          <Button fx:id="clearVehicleServiceHistory" layoutX="423.0" layoutY="267.0" mnemonicParsing="false" onAction="#clearVehicleServiceHistory" style="-fx-background-color: white;" text="Clear List" />
+                                          <Label layoutX="67.0" layoutY="138.0" text="Enter Vehicle VIN:" textFill="WHITE">
+                                             <font>
+                                                <Font size="29.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="vinFieldSH" layoutX="72.0" layoutY="196.0" promptText="VIN">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font>
+                                          </TextField>
+                                          <Button fx:id="loadVehicleServiceHistory" layoutX="71.0" layoutY="307.0" mnemonicParsing="false" onAction="#loadVehicleServiceHistory" prefWidth="210.0" style="-fx-background-color: white;" text="Load history">
+                                             <font>
+                                                <Font size="27.0" />
+                                             </font>
+                                          </Button>
                                        </children></AnchorPane>
                               </content>
                             </Tab>
-                            <Tab text="Workshop Service History">
+                            <Tab text="Workshop service history">
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="352.0" fitWidth="610.0" layoutX="-1.0" layoutY="-1.0">
+                                          <ImageView fitHeight="568.0" fitWidth="875.0" layoutX="-33.0" layoutY="-3.0">
                                              <image>
-                                                <Image url="@../../../../../../Desktop/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
-                                          <Label layoutX="69.0" layoutY="96.0" text="Enter workshop name:" textFill="WHITE">
+                                          <ListView fx:id="serviceHistoryListView" layoutX="477.0" layoutY="65.0" prefHeight="318.0" prefWidth="280.0" />
+                                          <Button fx:id="clearServiceHistoryView" layoutX="551.0" layoutY="423.0" mnemonicParsing="false" onAction="#clearServiceHistoryView" style="-fx-background-color: white;" text="Clear list">
                                              <font>
-                                                <Font size="19.0" />
-                                             </font>
-                                          </Label>
-                                          <TextField fx:id="workshopNameTextField" layoutX="77.0" layoutY="137.0" />
-                                          <Button fx:id="loadWorkshopHistory" layoutX="95.0" layoutY="195.0" mnemonicParsing="false" onAction="#loadHistory" style="-fx-background-color: white;" text="Load history">
-                                             <font>
-                                                <Font size="19.0" />
+                                                <Font size="27.0" />
                                              </font>
                                           </Button>
-                                          <ListView fx:id="serviceHistoryListView" layoutX="348.0" layoutY="33.0" prefHeight="229.0" prefWidth="218.0" />
-                                          <Button fx:id="clearServiceHistoryView" layoutX="425.0" layoutY="280.0" mnemonicParsing="false" onAction="#clearServiceHistoryView" style="-fx-background-color: white;" text="Clear list" />
+                                          <Label layoutX="56.0" layoutY="150.0" text="Enter workshop name:" textFill="WHITE">
+                                             <font>
+                                                <Font size="29.0" />
+                                             </font>
+                                          </Label>
+                                          <TextField fx:id="workshopNameTextFieldSH" layoutX="88.0" layoutY="207.0" promptText="Workshop name">
+                                             <font>
+                                                <Font size="17.0" />
+                                             </font></TextField>
+                                          <Button fx:id="loadWorkshopHistory" layoutX="109.0" layoutY="299.0" mnemonicParsing="false" onAction="#loadWorkshopHistory" style="-fx-background-color: white;" text="Load history">
+                                             <font>
+                                                <Font size="27.0" />
+                                             </font>
+                                          </Button>
                                        </children></AnchorPane>
                               </content>
                             </Tab>
-                              <Tab text="View all Service History">
+                              <Tab text="View all service history">
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <TableView fx:id="serviceHistoryTableView" prefHeight="341.0" prefWidth="600.0">
-                                            <columns>
-                                              <TableColumn fx:id="vinColumn" prefWidth="75.0" text="VIN" />
-                                              <TableColumn fx:id="serviceDateColumn" prefWidth="118.0" text="Service date" />
-                                                <TableColumn fx:id="descriptionColumn" prefWidth="106.0" text="Description" />
-                                                <TableColumn fx:id="costColumn" prefWidth="71.0" text="Cost" />
-                                                <TableColumn fx:id="partsReplacedColumn" prefWidth="100.0" text="Parts replaced" />
-                                                <TableColumn fx:id="workshopNameColumn" prefWidth="128.0" text="Workshop name" />
-                                            </columns>
+                                          <ImageView fitHeight="614.0" fitWidth="951.0" layoutX="-6.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
+                                             </image>
+                                          </ImageView>
+                                          <TableView fx:id="serviceHistoryTableView" layoutX="-10.0" layoutY="106.0" prefHeight="432.0" prefWidth="822.0">
+                                             <columns>
+                                                <TableColumn fx:id="vinColumnSH" prefWidth="144.7512402534485" text="VIN" />
+                                                <TableColumn fx:id="serviceDateColumnSH" prefWidth="136.44815063476562" text="Service date" />
+                                                <TableColumn fx:id="descriptionColumnSH" prefWidth="116.37811279296875" text="Description" />
+                                                <TableColumn fx:id="costColumnSH" prefWidth="96.05441284179688" text="Cost" />
+                                                <TableColumn fx:id="partsReplacedColumnSH" prefWidth="122.94561767578125" text="Parts replaced" />
+                                                <TableColumn fx:id="workshopNameColumnSH" prefWidth="179.94561767578125" text="Workshop name" />
+                                             </columns>
                                           </TableView>
-                                       </children></AnchorPane>
+                                          <Label layoutX="190.0" layoutY="27.0" text="View all service history" textFill="WHITE">
+                                             <font>
+                                                <Font size="47.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                       </AnchorPane>
                                  </content>
                               </Tab>
                           </tabs>
                         </TabPane>
                      </children>
                   </AnchorPane>
-               
+              

@@ -149,6 +149,13 @@ public class ServiceEvent {
     public ServiceActivityController getServiceAction() {
         return null;
     }
+    public LocalDate getServiceDate() {
+        return null;
+    }
+    public void setServiceDate(LocalDate localDate) {
+    }
+    public void setCost(Double double1) {
+    }
 }
     
 

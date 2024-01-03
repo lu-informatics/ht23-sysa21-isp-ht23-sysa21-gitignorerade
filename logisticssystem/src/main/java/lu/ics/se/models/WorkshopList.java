@@ -1,5 +1,6 @@
 package lu.ics.se.models;
 import java.util.ArrayList;
+import java.util.List;
 
 import javafx.util.Callback;
 
@@ -29,14 +30,16 @@ import javafx.util.Callback;
         
             return mostExpensiveWorkshop;
         }
-    
+        
         public double calculateTotalCostForWorkshop(Workshop workshop) {
             double totalCost = 0;
-    
-            for (ServiceEvent event : workshop.getServiceEvent()) {
-                totalCost += event.getEventCost();
+        
+            if(workshop.getServiceEvent() != null) {
+                for (ServiceEvent event : workshop.getServiceEvent()) {
+                    totalCost += event.getEventCost();
+                }
             }
-    
+        
             return totalCost;
         }
     
@@ -50,8 +53,9 @@ import javafx.util.Callback;
         }
 
         public ArrayList<Workshop> getAllWorkshops() {
-            return workshopsAvailable;
+            return new ArrayList<>(workshopsAvailable);
         }
+        
 
         public Workshop getWorkshopByName(String workshopName) {
             for (Workshop workshop : workshopsAvailable) {
@@ -61,12 +65,16 @@ import javafx.util.Callback;
             }
             return null; // Handle the case when no workshop is found
         }
-
-        public Callback getAllWorkshopNames() {
-            return null;
+        public List<String> getAllWorkshopNames() {
+        List<String> names = new ArrayList<>();
+        for (Workshop workshop : workshopsAvailable) {
+        names.add(workshop.getWorkshopName());
         }
+        return names;
+}
 
         public void clearWorkshopList() {
+            workshopsAvailable.clear();
         }
 
         

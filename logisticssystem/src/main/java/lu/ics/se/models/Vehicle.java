@@ -1,43 +1,45 @@
-package lu.ics.se.models;
 
+    package lu.ics.se.models;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ObservableValue;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.Random;
 import java.util.UUID;
 
-import javafx.beans.value.ObservableValue;
-
 public class Vehicle {
-    private String vehicleIdentificationNumber;
-    private String vehicleName;
-    private String location;
-    private double capacityInKg;
-    private String vehicleType;
-    private double daysSinceLastService;
+    private SimpleStringProperty vehicleIdentificationNumber;
+    private SimpleStringProperty vehicleName;
+    private SimpleStringProperty location;
+    private SimpleDoubleProperty capacityInKg;
+    private SimpleStringProperty vehicleType;
+    private SimpleDoubleProperty daysSinceLastService;
     private ArrayList<ServiceEvent> serviceEvent;
     private ServiceHistory serviceHistory;
     private int numberOfPartsReplaced;
     
     private static final int MAX_PARTS_REPLACED = 100;
-
     private static final double TOTAL_COST_THRESHOLD = 100000;   
 
+    public Vehicle(String string, String string2, String string3, double d, String string5) {
+        this(string, string2, string3, d, string5, 0); // Assuming the 6th parameter is daysSinceLastService
+    }
 
-    public Vehicle(String string, String string2, String string3, double d, String string5){
-   }
     public Vehicle(String vehicleIdentificationNumber, String vehicleName, String location, double capacityinKg, String vehicleType, double daysSinceLastService) {
-        this.vehicleIdentificationNumber = generateUniqueVIN();
-        this.vehicleName = vehicleName;
-        this.location = location;
-        this.capacityInKg = capacityinKg;
-        this.daysSinceLastService = daysSinceLastService;
+        this.vehicleIdentificationNumber = new SimpleStringProperty(generateUniqueVIN());
+        this.vehicleName = new SimpleStringProperty(vehicleName);
+        this.location = new SimpleStringProperty(location);
+        this.capacityInKg = new SimpleDoubleProperty(capacityinKg);
+        this.daysSinceLastService = new SimpleDoubleProperty(daysSinceLastService);
         this.serviceEvent = new ArrayList<ServiceEvent>();
         this.serviceHistory = new ServiceHistory(vehicleType, daysSinceLastService, vehicleType, daysSinceLastService, daysSinceLastService, daysSinceLastService);
 
-        
-
         // Check if the provided type is valid
         if (isValidType(vehicleType)) {
-            this.vehicleType = vehicleType;
+            this.vehicleType = new SimpleStringProperty(vehicleType);
         } else {
             throw new IllegalArgumentException("Invalid vehicle type: " + vehicleType);
         }
@@ -71,22 +73,31 @@ public class Vehicle {
         return workshops;
     }
 
-
     private String generateUniqueVIN() {
-        return UUID.randomUUID().toString();
-    }
+    // Create a new instance of Random
+    Random random = new Random();
+
+    // Generate a random 8-digit number
+    int number = random.nextInt(90000000) + 10000000;
+
+    // Convert the number to a string and return it
+    return Integer.toString(number);
+}
+    
 
     public boolean isLargeTruck() {
-        return "Large truck".equalsIgnoreCase(vehicleType);
+        return "Large truck".equalsIgnoreCase(vehicleType.get());
     }
 
     public void setCapacityInKg(double capacityInKg) {
         if (capacityInKg >= 0) {
-            this.capacityInKg = capacityInKg;
+            this.capacityInKg.set(capacityInKg);
         } else {
             throw new IllegalArgumentException("Capacity cannot be negative");
         }
     }
+
+
 
     public int getNumberOfPartsReplaced() {
         int numberOfPartsReplaced = 0;
@@ -181,26 +192,11 @@ public class Vehicle {
         return isDecommissioned;
     }
 
-    public String getVehicleIdentificationNumber() {
-        return vehicleIdentificationNumber;
-    }
-
     // Define the getServiceEvents() method in the ServiceHistory class
     public ArrayList<ServiceEvent> getServiceEvents() {
         return serviceEvent;
     }
 
-    public void setVehicleIdentificationNumber(String vehicleIdentificationNumber) {
-        this.vehicleIdentificationNumber = vehicleIdentificationNumber;
-    }
-
-    public double getDaysSinceLastService() {
-        return daysSinceLastService;
-    }
-
-    public void setDaysSinceLastService(double daysSinceLastService) {
-        this.daysSinceLastService = daysSinceLastService;
-    }
 
     public ArrayList<ServiceEvent> getServiceEvent() {
         return serviceEvent;
@@ -218,33 +214,8 @@ public class Vehicle {
         this.serviceHistory = serviceHistory;
     }
 
-    public String getVehicleName() {
-        return vehicleName;
-    }
+    
 
-    public void setVehicleName(String vehicleName){
-        this.vehicleName = vehicleName;
-    }   
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location){
-        this.location = location;
-    }
-
-    public double getCapacityInKg() {
-        return capacityInKg;
-    }
-
-    public String getVehicleType() {
-        return vehicleType;
-    }
-
-    public void setVehicleType(String vehicleType){
-        this.vehicleType = vehicleType;
-    }
 
     public void addServiceEvent(ServiceEvent serviceEvent){
         this.serviceEvent.add(serviceEvent);
@@ -260,26 +231,97 @@ public class Vehicle {
     public void setNumberOfPartsReplaced(int numberOfPartsReplaced){
         this.numberOfPartsReplaced = numberOfPartsReplaced;
     }
-    public ObservableValue<String> vehicleNameProperty() {
-        return null;
-    }
-    public Object vehicleIdentificationNumberProperty() {
-        return null;
-    }
+   
+   
+    
     public Object getCapacity() {
         return null;
     }
-    public ObservableValue<String> locationProperty() {
-        return null;
-    }
-    public Object capacityProperty() {
-        return null;
-    }
-    public Object daysSinceLastServiceProperty() {
-        return null;
-    }
+   
+   
+    
     public String getVin() {
         return null;
     }
-   
+    public void setDecommissioned(boolean b) {
+    }
+    public String getVehicleIdentificationNumber() {
+        return vehicleIdentificationNumber.get();
+    }
+
+    public String getVehicleName() {
+        return vehicleName.get();
+    }
+
+    public String getLocation() {
+        return location.get();
+    }
+
+    public double getCapacityInKg() {
+        return capacityInKg.get();
+    }
+
+    public String getVehicleType() {
+        return vehicleType.get();
+    }
+
+    public double getDaysSinceLastService() {
+        return daysSinceLastService.get();
+    }
+
+    // Standard setters
+    public void setVehicleIdentificationNumber(String vin) {
+        this.vehicleIdentificationNumber.set(vin);
+    }
+
+    public void setVehicleName(String name) {
+        this.vehicleName.set(name);
+    }
+
+    public void setLocation(String loc) {
+        this.location.set(loc);
+    }
+
+    public void setVehicleType(String type) {
+        this.vehicleType.set(type);
+    }
+
+    public void setDaysSinceLastService(double days) {
+        this.daysSinceLastService.set(days);
+    }
+    public ObservableValue<String> vehicleIdentificationNumberProperty() {
+        return vehicleIdentificationNumber;
+    }
+
+    public ObservableValue<String> vehicleNameProperty() {
+        return vehicleName;
+    }
+
+    public ObservableValue<String> locationProperty() {
+        return location;
+    }
+
+    public ObservableValue<Number> capacityProperty() {
+        return capacityInKg;
+    }
+
+    public ObservableValue<String> vehicleTypeProperty() {
+        return vehicleType;
+    }
+
+    public ObservableValue<Number> daysSinceLastServiceProperty() {
+        return daysSinceLastService;
+    }
+
+    @Override
+public boolean equals(Object obj) {
+    if (this == obj) return true;
+    if (obj == null || getClass() != obj.getClass()) return false;
+    Vehicle vehicle = (Vehicle) obj;
+    return Objects.equals(vehicleIdentificationNumber, vehicle.vehicleIdentificationNumber);
+}
+@Override
+public int hashCode() {
+    return Objects.hash(vehicleIdentificationNumber.get());
+}
 }

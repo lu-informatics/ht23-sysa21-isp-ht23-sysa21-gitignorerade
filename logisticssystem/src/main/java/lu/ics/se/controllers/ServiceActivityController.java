@@ -92,21 +92,7 @@ public class ServiceActivityController {
 
  @FXML
  private TextField vehicleNameTextField;
- @FXML
- private DatePicker maintenanceDatePicker;
  
- @FXML
- private Button addMaintenanceButton;
-
- @FXML
- private TableView<ServiceEvent> maintenanceTableView;
- @FXML
- private TableColumn<ServiceEvent, String> vehicleColumn;
- @FXML
- private TableColumn<ServiceEvent, String> dateColumn;
- @FXML
- private TableColumn<ServiceEvent, String> workshopColumn;
-
  @FXML
  private Label averageCostLabel;
  @FXML
@@ -130,28 +116,25 @@ public class ServiceActivityController {
 
 
  @FXML
- private TextField vinField;
+ private TextField vinFieldSA;
 
  @FXML
- private TextField costField;
+ private TextField costFieldSA;
 
  @FXML
- private TextField workshopNameField;
-
- @FXML
- private ListView<String> vehicleServiceHistoryListView;
+ private TextField workshopNameFieldSA;
 
  
         @FXML
-        private DatePicker serviceDateField;
+        private DatePicker serviceDateFieldSA;
     
         @FXML
-        private TextField descriptionField;
+        private TextField descriptionFieldSA;
     
 
     
         @FXML
-        private TextField partsReplacedField;
+        private TextField partsReplacedFieldSA;
     
        
     
@@ -159,25 +142,25 @@ public class ServiceActivityController {
         private TableView<ServiceActivityController> serviceActivitiesTableView;
 
         @FXML
-        private Button clearServiceActivitiesTable;
-
+        private TableColumn<ServiceActivityController, String> vinColumnSA;
+        
         @FXML
-        private TableColumn<ServiceActivityController, String> activityNameColumn;
+        private TableColumn<ServiceActivityController, String> workshopNameColumnSA;
 
         
     @FXML
-    private TableColumn<ServiceActivityController, String> descriptionColumn;
+    private TableColumn<ServiceActivityController, String> descriptionColumnSA;
 
     @FXML
-    private TableColumn<ServiceActivityController, Double> costColumn;
+    private TableColumn<ServiceActivityController, Double> costColumnSA;
 
     @FXML
-    private TableColumn<ServiceActivityController, LocalDate> serviceDateColumn;
+    private TableColumn<ServiceActivityController, LocalDate> serviceDateColumnSA;
 
 
 
     @FXML
-    private TableColumn<ServiceActivityController, String> partsReplacedColumn;
+    private TableColumn<ServiceActivityController, String> partsReplacedColumnSA;
 
     @FXML
     private AnchorPane detailsPane;
@@ -188,34 +171,48 @@ public class ServiceActivityController {
     private VehicleManifest vehicleManifest;
 
     public ServiceActivityController(String vin, String description, double cost, LocalDate serviceDate, String workshopName, String partsReplaced) {
-        this.vinField.setText(vin);
-        this.descriptionField.setText(description);
-        this.costField.setText(String.valueOf(cost));
-        this.serviceDateField.setValue(serviceDate);
-        this.workshopNameField.setText(workshopName);
-        this.partsReplacedField.setText(partsReplaced);
+        this.vinFieldSA.setText(vin);
+        this.descriptionFieldSA.setText(description);
+        this.costFieldSA.setText(String.valueOf(cost));
+        this.serviceDateFieldSA.setValue(serviceDate);
+        this.workshopNameFieldSA.setText(workshopName);
+        this.partsReplacedFieldSA.setText(partsReplaced);
         this.vehicleManifest = VehicleManifest.getInstance();
     }
     
         public ServiceActivityController(String vin, String description, double cost, LocalDate serviceDate, Object name,
             String partsReplaced) {
     }
-
+    public ServiceActivityController() {
+        // no-arg constructor
+    }
     // Other necessary methods and event handlers...
     @FXML
     public void initialize() {
     // Initialize columns
-    vinColumn.setCellValueFactory(new PropertyValueFactory<>("vin"));
-    descriptionColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-    costColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
-    serviceDateColumn.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
-    workshopNameColumn.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
-    partsReplacedColumn.setCellValueFactory(new PropertyValueFactory<>("partsReplaced"));
+    vinColumnSA.setCellValueFactory(new PropertyValueFactory<>("vin"));
+    descriptionColumnSA.setCellValueFactory(new PropertyValueFactory<>("description"));
+    costColumnSA.setCellValueFactory(new PropertyValueFactory<>("cost"));
+    serviceDateColumnSA.setCellValueFactory(new PropertyValueFactory<>("serviceDate"));
+    workshopNameColumnSA.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
+    partsReplacedColumnSA.setCellValueFactory(new PropertyValueFactory<>("partsReplaced"));
 
     // Set the selection listener for the table
     serviceActivitiesTableView.getSelectionModel().selectedItemProperty().addListener(
             (observable, oldValue, newValue) -> showDetails(newValue));
+
+    // Add double-click event handler
+    serviceActivitiesTableView.setRowFactory(tv -> {
+        TableRow<ServiceActivityController> row = new TableRow<>();
+        row.setOnMouseClicked(event -> {
+            if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                editServiceActivity();
+            }
+        });
+        return row;
+    });
 }
+    
 
     @FXML
     public void clearServiceActivitiesTable() {
@@ -225,18 +222,28 @@ public class ServiceActivityController {
     @FXML
 public void addServiceActivity() {
     try {
-        // Get values from the getter methods
-        String vin = getVin();
-        String workshopName = getWorkshopName();
-        String partsReplaced = getPartsReplaced();
-        String description = getDescription();
-        double cost = getCost();
-        LocalDate serviceDate = getServiceDate();
-
+        // Get values directly from the fields
+        String vin = vinFieldSA.getText();
+        String workshopName = workshopNameFieldSA.getText();
+        String partsReplaced = partsReplacedFieldSA.getText();
+        String description = descriptionFieldSA.getText();
+        double cost = Double.parseDouble(costFieldSA.getText());
+        LocalDate serviceDate = serviceDateFieldSA.getValue();
 
         // Validate inputs
         if (vin.isEmpty() || workshopName.isEmpty() || partsReplaced.isEmpty() || description.isEmpty() || String.valueOf(cost).isEmpty() || serviceDate == null) {
             showAlert("Error", "Please fill in all fields.");
+            return;
+        }
+
+        // Check if the vehicle is decommissioned
+        Vehicle selectedVehicle = vehicleManifest.getVehicleByVIN(vin);
+        if (selectedVehicle == null) {
+            showAlert("Error", "No vehicle found with the entered VIN.");
+            return;
+        }
+        if (selectedVehicle.isDecommissioned()) {
+            showAlert("Error", "The selected vehicle is decommissioned and cannot receive service.");
             return;
         }
 
@@ -248,12 +255,6 @@ public void addServiceActivity() {
             return;
         }
 
-        Vehicle selectedVehicle = vehicleManifest.getVehicleByVIN(vin);
-        if (selectedVehicle == null) {
-            showAlert("Error", "No vehicle found with the entered VIN.");
-            return;
-        }
-
         ServiceActivityController newActivity = new ServiceActivityController(vin, description, cost, serviceDate, workshopName, partsReplaced); // Add the new service activity to the service activities table view
         serviceActivitiesTableView.getItems().add(newActivity);
 
@@ -262,17 +263,16 @@ public void addServiceActivity() {
     } catch (Exception e) {
         showAlert("Error", "An error occurred: " + e.getMessage());
     }
-}   
-    
+}
         // Add other methods and event handlers as needed...
     @FXML 
     public void clearServiceActivityFields() {
-        vinField.clear();
-        serviceDateField.setValue(null);
-        descriptionField.clear();
-        costField.clear();
-        partsReplacedField.clear();
-        workshopNameField.clear();
+        vinFieldSA.clear();
+        serviceDateFieldSA.setValue(null);
+        descriptionFieldSA.clear();
+        costFieldSA.clear();
+        partsReplacedFieldSA.clear();
+        workshopNameFieldSA.clear();
     }
     
     @FXML
@@ -396,27 +396,27 @@ public void editServiceActivity() {
 
 
 private String getVin() {
-    return vinField.getText();
+    return vinFieldSA.getText();
 }
 
 private String getWorkshopName() {
-    return workshopNameField.getText();
+    return workshopNameFieldSA.getText();
 }
 
 private String getPartsReplaced() {
-    return partsReplacedField.getText();
+    return partsReplacedFieldSA.getText();
 }
 
 private String getDescription() {
-    return descriptionField.getText();
+    return descriptionFieldSA.getText();
 }
 
 private double getCost() {
-    return Double.parseDouble(costField.getText());
+    return Double.parseDouble(costFieldSA.getText());
 }
 
 private LocalDate getServiceDate() {
-    return serviceDateField.getValue();
+    return serviceDateFieldSA.getValue();
 }
 
 @FXML
