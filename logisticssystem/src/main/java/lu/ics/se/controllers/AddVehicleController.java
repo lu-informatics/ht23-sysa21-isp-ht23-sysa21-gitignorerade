@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.scene.control.TextField;
 import lu.ics.se.Main;
@@ -112,6 +113,7 @@ public class AddVehicleController implements Initializable {
             }
             vehicle.setVehicleIdentificationNumber(vehicle.generateVehicleIdentificationNumber());
             vehicle.setVehicleName(vehicle.generateVehicleName(vehicle.getVehicleIdentificationNumber(), vehicle.getVehicleBrand()));
+            vehicle.setScheduledMaintenance(LocalDate.now().plusMonths(6));
             Main.companyVehicleManifest.addVehicle(vehicle);
             vehicleBrandTextField.clear();
             vehicleCargoCapacityTextField.clear();

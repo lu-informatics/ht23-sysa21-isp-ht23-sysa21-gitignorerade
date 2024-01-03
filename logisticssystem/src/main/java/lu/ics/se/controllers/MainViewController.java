@@ -128,7 +128,7 @@ public class MainViewController implements Initializable {
                 }
             });
 
-            MenuItem scheduleMaintenanceItem = new MenuItem("Schedule Maintenance");
+            MenuItem scheduleMaintenanceItem = new MenuItem("Handle Maintenance");
             scheduleMaintenanceItem.setOnAction(event -> {
                 Vehicle vehicle = row.getItem();
                 // Handle schedule maintenance here

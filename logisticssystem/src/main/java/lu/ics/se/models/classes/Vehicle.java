@@ -2,6 +2,8 @@ package lu.ics.se.models.classes;
 import lu.ics.se.models.enums.VehicleClass;
 import lu.ics.se.models.enums.Locations;
 import java.util.Random;
+import java.time.LocalDate;
+import lu.ics.se.Main;
 
 public class Vehicle {
     private String vehicleIdentificationNumber;
@@ -11,6 +13,7 @@ public class Vehicle {
     private Locations location;
     private Locations destination;
     private String vehicleName;
+    private LocalDate scheduledMaintenance;
 
     public Vehicle(){
 
@@ -41,6 +44,9 @@ public class Vehicle {
     public Locations getDestination() {
         return destination;
     }
+    public LocalDate getScheduledMaintenance() {
+        return scheduledMaintenance;
+    }
     public void setVehicleIdentificationNumber(String vehicleIdentificationNumber) {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
     }
@@ -62,6 +68,9 @@ public class Vehicle {
     public void setDestination(Locations destination) {
         this.destination = destination;
     }
+    public void setScheduledMaintenance(LocalDate scheduledMaintenance) {
+        this.scheduledMaintenance = scheduledMaintenance;
+    }
     public String generateVehicleIdentificationNumber() {
         String vehicleIdentificationNumber = "";
         if (this.vehicleClass == VehicleClass.Van) {
@@ -73,7 +82,8 @@ public class Vehicle {
         }
         vehicleIdentificationNumber = vehicleIdentificationNumber + "-";
         vehicleIdentificationNumber = vehicleIdentificationNumber + this.vehicleBrand.substring(0, 2).toUpperCase();
-
+        boolean isUnique;
+       do{ 
         Random randomNumber = new Random();
         Integer num1 = randomNumber.nextInt(10);
         Integer num2 = randomNumber.nextInt(10);
@@ -83,7 +93,14 @@ public class Vehicle {
         Integer num6 = randomNumber.nextInt(10);
 
         vehicleIdentificationNumber = vehicleIdentificationNumber + "-"  + num1.toString() + num2.toString() + num3.toString() + num4.toString() + num5.toString() + num6.toString();
-
+        isUnique = true;
+        for (Vehicle vehicle : Main.companyVehicleManifest.getVehicleManifest()) {
+            if (vehicle.getVehicleIdentificationNumber().equals(vehicleIdentificationNumber)) {
+                isUnique = false;
+                break;
+            }
+        }
+        } while (!isUnique);
         return vehicleIdentificationNumber;
 
     }
