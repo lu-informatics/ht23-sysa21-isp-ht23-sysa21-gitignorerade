@@ -26,26 +26,25 @@ import javafx.scene.control.MenuItem;
 import javafx.beans.binding.Bindings;
 import java.time.LocalDate;
 import javafx.scene.control.CheckBox;
-
-
-
+import javafx.beans.binding.DoubleBinding;
+import javafx.collections.ObservableList;
 
 public class MainViewController implements Initializable {
-    
-    @FXML 
-    private Button VehicleAddButton;
+
+    @FXML
+    private Button vehicleAddButton;
 
     @FXML
     private CheckBox vehicleIdCheckBox;
 
     @FXML
-    private CheckBox BrandCheckBox;
+    private CheckBox brandCheckBox;
 
     @FXML
-    private CheckBox apacityCheckBox;
+    private CheckBox capacityCheckBox;
 
     @FXML
-    private CheckBox ClassCheckBox;
+    private CheckBox classCheckBox;
 
     @FXML
     private CheckBox scheduledMaintenanceCheckBox;
@@ -87,7 +86,7 @@ public class MainViewController implements Initializable {
     private TableColumn<Vehicle, String> vehicleColumnName;
 
     @FXML
-    public void handleVehicleAddButtonAction(){
+    public void handleVehicleAddButtonAction() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addvehicle.fxml"));
             Parent root = loader.load();
@@ -102,13 +101,118 @@ public class MainViewController implements Initializable {
 
         }
     }
+
+    private void updateColumnWidths() {
+        ObservableList<TableColumn<Vehicle, ?>> columns = vehicleTable.getColumns();
+
+        DoubleBinding columnWidth = vehicleTable.widthProperty().divide(columns.size());
+
+        for (TableColumn<Vehicle, ?> column : columns) {
+            column.prefWidthProperty().bind(columnWidth);
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         vehicleColumnID.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleIdentificationNumber"));
         vehicleColumnBrand.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleBrand"));
         vehicleColumnCapacity.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("capacityinKg"));
         vehicleColumnClass.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleClass"));
+        vehicleColumnLocation.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("location"));
+        vehicleColumnLastMaintenance
+                .setCellValueFactory(new PropertyValueFactory<Vehicle, LocalDate>("lastMaintenance"));
+        vehicleColumnScheduledMaintenance
+                .setCellValueFactory(new PropertyValueFactory<Vehicle, LocalDate>("scheduledMaintenance"));
+        vehicleColumnName.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleName"));
         vehicleTable.setItems(Main.companyVehicleManifest.getVehicleManifest());
+
+        vehicleTable.getColumns().remove(vehicleColumnLocation);
+        vehicleTable.getColumns().remove(vehicleColumnLastMaintenance);
+        vehicleTable.getColumns().remove(vehicleColumnScheduledMaintenance);
+        vehicleTable.getColumns().remove(vehicleColumnName);
+
+        updateColumnWidths();
+
+        vehicleIdCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                if (!vehicleTable.getColumns().contains(vehicleColumnID)) {
+                    vehicleTable.getColumns().add(vehicleColumnID);
+                }
+            } else {
+                vehicleTable.getColumns().remove(vehicleColumnID);
+            }
+            updateColumnWidths();
+        });
+        brandCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                if (!vehicleTable.getColumns().contains(vehicleColumnBrand)) {
+                    vehicleTable.getColumns().add(vehicleColumnBrand);
+                }
+            } else {
+                vehicleTable.getColumns().remove(vehicleColumnBrand);
+            }
+            updateColumnWidths();
+        });
+        capacityCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                if (!vehicleTable.getColumns().contains(vehicleColumnCapacity)) {
+                    vehicleTable.getColumns().add(vehicleColumnCapacity);
+                }
+            } else {
+                vehicleTable.getColumns().remove(vehicleColumnCapacity);
+            }
+            updateColumnWidths();
+        });
+        classCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                if (!vehicleTable.getColumns().contains(vehicleColumnClass)) {
+                    vehicleTable.getColumns().add(vehicleColumnClass);
+                }
+            } else {
+                vehicleTable.getColumns().remove(vehicleColumnClass);
+            }
+            updateColumnWidths();
+        });
+        scheduledMaintenanceCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                if (!vehicleTable.getColumns().contains(vehicleColumnScheduledMaintenance)) {
+                    vehicleTable.getColumns().add(vehicleColumnScheduledMaintenance);
+                }
+            } else {
+                vehicleTable.getColumns().remove(vehicleColumnScheduledMaintenance);
+            }
+            updateColumnWidths();
+        });
+        lastMaintenanceCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                if (!vehicleTable.getColumns().contains(vehicleColumnLastMaintenance)) {
+                    vehicleTable.getColumns().add(vehicleColumnLastMaintenance);
+                }
+            } else {
+                vehicleTable.getColumns().remove(vehicleColumnLastMaintenance);
+            }
+            updateColumnWidths();
+        });
+        locationCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                if (!vehicleTable.getColumns().contains(vehicleColumnLocation)) {
+                    vehicleTable.getColumns().add(vehicleColumnLocation);
+                }
+            } else {
+                vehicleTable.getColumns().remove(vehicleColumnLocation);
+            }
+            updateColumnWidths();
+        });
+        vehicleNameCheckBox.selectedProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue) {
+                if (!vehicleTable.getColumns().contains(vehicleColumnName)) {
+                    vehicleTable.getColumns().add(vehicleColumnName);
+                }
+            } else {
+                vehicleTable.getColumns().remove(vehicleColumnName);
+            }
+            updateColumnWidths();
+        });
 
         vehicleTable.setRowFactory(tv -> {
             TableRow<Vehicle> row = new TableRow<>();
@@ -142,7 +246,7 @@ public class MainViewController implements Initializable {
 
             MenuItem removeItem = new MenuItem("Remove Vehicle");
             removeItem.setOnAction(event -> {
-                try{
+                try {
                     Vehicle vehicle = row.getItem();
 
                     Stage stage = new Stage();
@@ -173,7 +277,7 @@ public class MainViewController implements Initializable {
 
             MenuItem setLocation = new MenuItem("Set Location");
             setLocation.setOnAction(event -> {
-                try{
+                try {
                     Vehicle vehicle = row.getItem();
 
                     Stage stage = new Stage();
@@ -196,9 +300,8 @@ public class MainViewController implements Initializable {
 
             row.contextMenuProperty().bind(
                     Bindings.when(row.emptyProperty())
-                            .then((ContextMenu)null)
-                            .otherwise(contextMenu)
-            );
+                            .then((ContextMenu) null)
+                            .otherwise(contextMenu));
 
             return row;
         });

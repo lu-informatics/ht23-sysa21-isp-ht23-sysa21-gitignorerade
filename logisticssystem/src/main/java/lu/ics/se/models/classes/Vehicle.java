@@ -4,6 +4,7 @@ import lu.ics.se.models.enums.Locations;
 import java.util.Random;
 import java.time.LocalDate;
 import lu.ics.se.Main;
+import java.time.temporal.ChronoUnit;
 
 public class Vehicle {
     private String vehicleIdentificationNumber;
@@ -50,6 +51,9 @@ public class Vehicle {
     public ServiceHistory getServiceHistory() {
         return serviceHistory;
     }
+    public LocalDate getLastMaintenance() {
+        return lastMaintenance;
+    }
     public void setVehicleIdentificationNumber(String vehicleIdentificationNumber) {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
     }
@@ -73,6 +77,17 @@ public class Vehicle {
     }
     public void setServiceHistory(ServiceHistory serviceHistory) {
         this.serviceHistory = serviceHistory;
+    }
+    public void setLastMaintenance(){
+        LocalDate currentDate = LocalDate.now();
+        LocalDate closestDate = null;
+        for (ServiceEvents event : this.serviceHistory.getServiceHistory()) {
+            LocalDate eventDate = event.getEventDate();
+            if (closestDate == null || Math.abs(ChronoUnit.DAYS.between(currentDate, eventDate)) < Math.abs(ChronoUnit.DAYS.between(currentDate, closestDate))) {
+                closestDate = eventDate;
+            }
+    }
+        this.lastMaintenance = closestDate;
     }
     public String generateVehicleIdentificationNumber() {
         String vehicleIdentificationNumber = "";
