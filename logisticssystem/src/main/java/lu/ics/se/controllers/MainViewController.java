@@ -161,7 +161,7 @@ public class MainViewController implements Initializable {
             MenuItem editItem = new MenuItem("Edit Vehicle");
             editItem.setOnAction(event -> {
                 try {
-                    // Handle edit vehicle here
+                    
                     Vehicle vehicle = row.getItem();
 
                     Stage stage = new Stage();
@@ -209,10 +209,26 @@ public class MainViewController implements Initializable {
                 }
             });
 
-            MenuItem scheduleMaintenanceItem = new MenuItem("Handle Maintenance");
+            MenuItem scheduleMaintenanceItem = new MenuItem("Access Maintenance History and" + "\n" +  "Schedule Maintenance");
             scheduleMaintenanceItem.setOnAction(event -> {
+                try{
                 Vehicle vehicle = row.getItem();
-                // Handle schedule maintenance here
+                
+                Stage stage = new Stage();
+                stage.setTitle("Maintenance History and Schedule Maintenance");
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/servicehistoryaccesser.fxml"));
+                Parent root = null;
+
+                stage.setScene(new Scene(root));
+                stage.show();
+
+                ServiceHistoryAccesserController controller = loader.getController();
+                controller.setVehicle(vehicle);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             });
 
             MenuItem setLocation = new MenuItem("Set Location");
