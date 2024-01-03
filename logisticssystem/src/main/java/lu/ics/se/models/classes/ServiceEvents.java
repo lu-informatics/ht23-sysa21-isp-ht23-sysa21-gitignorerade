@@ -1,15 +1,16 @@
 package lu.ics.se.models.classes;
 import java.util.ArrayList;
+import java.time.LocalDate;
 
 public class ServiceEvents {
     private Vehicle vehicleServiced;
-    private String eventDate;
+    private LocalDate eventDate;
     private ArrayList<ServiceAction> serviceActions;
 
     public ServiceEvents(){
         this.serviceActions = new ArrayList<>();
     }
-    public ServiceEvents(Vehicle vehicleServiced, String eventDate) {
+    public ServiceEvents(Vehicle vehicleServiced, LocalDate eventDate) {
         this.vehicleServiced = vehicleServiced;
         this.eventDate = eventDate;
         this.serviceActions = new ArrayList<>();
@@ -17,7 +18,7 @@ public class ServiceEvents {
     public Vehicle getVehicleServiced() {
         return vehicleServiced;
     }
-    public String getEventDate() {
+    public LocalDate getEventDate() {
         return eventDate;
     }
     public ArrayList<ServiceAction> getServiceActions() {
@@ -26,7 +27,7 @@ public class ServiceEvents {
     public void setVehicleServiced(Vehicle vehicleServiced) {
         this.vehicleServiced = vehicleServiced;
     }
-    public void setEventDate(String eventDate) {
+    public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
     }
     public void setServiceActions(ArrayList<ServiceAction> serviceActions) {

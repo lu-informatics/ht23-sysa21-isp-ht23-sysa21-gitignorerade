@@ -33,7 +33,8 @@
 -->
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.TableColumn?>
@@ -47,20 +48,36 @@
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="993.0" prefWidth="768.0">
                <children>
-                  <Button fx:id="VehicleAddButton" layoutX="22.0" layoutY="36.0" mnemonicParsing="false" onAction="#handleVehicleAddButtonAction" prefHeight="35.0" prefWidth="175.0" text="Add new Vehicle">
+                  <Button fx:id="VehicleAddButton" layoutX="551.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleVehicleAddButtonAction" prefHeight="35.0" prefWidth="175.0" text="Add new Vehicle">
                      <font>
                         <Font name="Inter Bold" size="16.0" />
                      </font>
                   </Button>
-                  <ButtonBar layoutX="75.0" layoutY="110.0" prefHeight="40.0" prefWidth="200.0" />
-                  <TableView fx:id="vehicleTable" layoutX="14.0" layoutY="230.0" prefHeight="665.0" prefWidth="741.0">
+                  <TableView fx:id="vehicleTable" layoutX="14.0" layoutY="130.0" prefHeight="770.0" prefWidth="741.0">
                     <columns>
-                      <TableColumn fx:id="vehicleColumnID" prefWidth="184.0" text="Vehicle ID" />
-                      <TableColumn fx:id="vehicleColumnClass" prefWidth="184.0" text="Class" />
-                        <TableColumn fx:id="vehicleColumnCapacity" prefWidth="184.0" text="Capacity" />
-                        <TableColumn fx:id="vehicleColumnBrand" prefWidth="184.0" text="Brand" />
+                      <TableColumn fx:id="vehicleColumnID" prefWidth="140.0" text="Vehicle ID" visible="false" />
+                      <TableColumn fx:id="vehicleColumnClass" prefWidth="140.0" text="Class" visible="false" />
+                        <TableColumn fx:id="vehicleColumnCapacity" prefWidth="140.0" text="Capacity" visible="false" />
+                        <TableColumn fx:id="vehicleColumnBrand" prefWidth="140.0" text="Brand" visible="false" />
+                        <TableColumn fx:id="vehicleColumnScheduledMaintenance" prefWidth="75.0" text="Scheduled Maintenance" />
+                        <TableColumn fx:id="vehicleColumnLastMaintenance" prefWidth="75.0" text="Last Maintenance" />
+                        <TableColumn fx:id="vehicleColumnLocation" prefWidth="75.0" text="Location" />
+                        <TableColumn fx:id="vehicleColumnName" prefWidth="75.0" text="Name" />
                     </columns>
                   </TableView>
+                  <CheckBox fx:id="classCheckBox" layoutX="14.0" layoutY="87.0" mnemonicParsing="false" text="Class" />
+                  <CheckBox fx:id="vehicleIdCheckBox" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" text="Vehicle ID" />
+                  <CheckBox fx:id="brandCheckBox" layoutX="104.0" layoutY="87.0" mnemonicParsing="false" text="Brand" />
+                  <CheckBox fx:id="capacityCheckBox" layoutX="104.0" layoutY="64.0" mnemonicParsing="false" text="Capacity" />
+                  <CheckBox fx:id="lastMaintenanceCheckBox" layoutX="194.0" layoutY="87.0" mnemonicParsing="false" text="Last Maintenance" />
+                  <CheckBox fx:id="scheduledMaintenanceCheckBox" layoutX="194.0" layoutY="64.0" mnemonicParsing="false" text="Scheduled Maintenance" />
+                  <Label layoutX="14.0" layoutY="37.0" text="Display Settings">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Label>
+                  <CheckBox fx:id="vehicleNameCheckBox" layoutX="350.0" layoutY="87.0" mnemonicParsing="false" text="Vehicle Name" />
+                  <CheckBox fx:id="locationCheckBox" layoutX="350.0" layoutY="64.0" mnemonicParsing="false" text="Location" />
                </children></AnchorPane>
       </content>
     </Tab>

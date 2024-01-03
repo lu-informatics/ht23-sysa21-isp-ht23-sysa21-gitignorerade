@@ -11,17 +11,20 @@ public class Vehicle {
     private String vehicleBrand;
     private VehicleClass vehicleClass;
     private Locations location;
-    private Locations destination;
     private String vehicleName;
     private LocalDate scheduledMaintenance;
+    private LocalDate lastMaintenance;
+    private ServiceHistory serviceHistory;
 
     public Vehicle(){
+        this.serviceHistory = new ServiceHistory();
 
     }
     public Vehicle(String vehicleBrand, double capacityinKg, VehicleClass vehicleClass) {
         this.vehicleBrand = vehicleBrand;
         this.capacityinKg = capacityinKg;
         this.vehicleClass = vehicleClass;
+        this.serviceHistory = new ServiceHistory();
     }
     public String getVehicleIdentificationNumber() {
         return vehicleIdentificationNumber;
@@ -41,11 +44,11 @@ public class Vehicle {
     public String getVehicleName() {
         return vehicleName;
     }
-    public Locations getDestination() {
-        return destination;
-    }
     public LocalDate getScheduledMaintenance() {
         return scheduledMaintenance;
+    }
+    public ServiceHistory getServiceHistory() {
+        return serviceHistory;
     }
     public void setVehicleIdentificationNumber(String vehicleIdentificationNumber) {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
@@ -65,11 +68,11 @@ public class Vehicle {
     public void setVehicleName(String vehicleName) {
         this.vehicleName = vehicleName;
     }
-    public void setDestination(Locations destination) {
-        this.destination = destination;
-    }
     public void setScheduledMaintenance(LocalDate scheduledMaintenance) {
         this.scheduledMaintenance = scheduledMaintenance;
+    }
+    public void setServiceHistory(ServiceHistory serviceHistory) {
+        this.serviceHistory = serviceHistory;
     }
     public String generateVehicleIdentificationNumber() {
         String vehicleIdentificationNumber = "";

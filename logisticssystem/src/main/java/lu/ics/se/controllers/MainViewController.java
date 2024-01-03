@@ -24,6 +24,8 @@ import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.MenuItem;
 import javafx.beans.binding.Bindings;
+import java.time.LocalDate;
+import javafx.scene.control.CheckBox;
 
 
 
@@ -32,6 +34,30 @@ public class MainViewController implements Initializable {
     
     @FXML 
     private Button VehicleAddButton;
+
+    @FXML
+    private CheckBox vehicleIdCheckBox;
+
+    @FXML
+    private CheckBox BrandCheckBox;
+
+    @FXML
+    private CheckBox apacityCheckBox;
+
+    @FXML
+    private CheckBox ClassCheckBox;
+
+    @FXML
+    private CheckBox scheduledMaintenanceCheckBox;
+
+    @FXML
+    private CheckBox lastMaintenanceCheckBox;
+
+    @FXML
+    private CheckBox locationCheckBox;
+
+    @FXML
+    private CheckBox vehicleNameCheckBox;
 
     @FXML
     private TableView<Vehicle> vehicleTable;
@@ -49,6 +75,18 @@ public class MainViewController implements Initializable {
     private TableColumn<Vehicle, String> vehicleColumnClass;
 
     @FXML
+    private TableColumn<Vehicle, String> vehicleColumnLocation;
+
+    @FXML
+    private TableColumn<Vehicle, LocalDate> vehicleColumnLastMaintenance;
+
+    @FXML
+    private TableColumn<Vehicle, LocalDate> vehicleColumnScheduledMaintenance;
+
+    @FXML
+    private TableColumn<Vehicle, String> vehicleColumnName;
+
+    @FXML
     public void handleVehicleAddButtonAction(){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addvehicle.fxml"));
@@ -64,7 +102,6 @@ public class MainViewController implements Initializable {
 
         }
     }
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         vehicleColumnID.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleIdentificationNumber"));
