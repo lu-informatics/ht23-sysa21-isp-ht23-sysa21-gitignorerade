@@ -5,7 +5,7 @@ public class ServiceAction {
     private String actionDescription;
     private int numberOfPartsReplaced;
     private int costOfPartsReplaced;
-    private int numberOfHoursWorked;
+    private int costOfService;
 
     public ServiceAction(){
 
@@ -15,7 +15,7 @@ public class ServiceAction {
         this.actionDescription = actionDescription;
         this.numberOfPartsReplaced = numberOfPartsReplaced;
         this.costOfPartsReplaced = costOfPartsReplaced;
-        this.numberOfHoursWorked = numberOfHoursWorked;
+        this.costOfService= numberOfHoursWorked;
     }
     public String getActionName() {
         return actionName;
@@ -29,8 +29,8 @@ public class ServiceAction {
     public int getCostOfPartsReplaced() {
         return costOfPartsReplaced;
     }
-    public int getNumberOfHoursWorked() {
-        return numberOfHoursWorked;
+    public int getCostOfService() {
+        return costOfService;
     }
     public void setActionName(String actionName) {
         this.actionName = actionName;
@@ -44,8 +44,8 @@ public class ServiceAction {
     public void setCostOfPartsReplaced(int costOfPartsReplaced) {
         this.costOfPartsReplaced = costOfPartsReplaced;
     }
-    public void setNumberOfHoursWorked(int numberOfHoursWorked) {
-        this.numberOfHoursWorked = numberOfHoursWorked;
+    public void setCostOfService(int numberOfHoursWorked) {
+        this.costOfService = numberOfHoursWorked;
     }
     
 

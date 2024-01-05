@@ -58,7 +58,7 @@ public class Vehicle {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
     }
     public void setvehicleBrand(String vehicleBrand) {
-        this.vehicleBrand = vehicleBrand.toLowerCase();
+        this.vehicleBrand = vehicleBrand.toUpperCase();
     }
     public void setCapacityinKg(double capacityinKg) {
         this.capacityinKg = capacityinKg;
@@ -124,7 +124,7 @@ public class Vehicle {
     }
     public String generateVehicleName(String vehicleIdentificationNumber, String vehicleBrand){
         String vehicleName = "";
-        vehicleName = vehicleName + vehicleBrand + vehicleIdentificationNumber.substring(7, 9);
+        vehicleName = vehicleName + vehicleBrand + vehicleIdentificationNumber.substring(6, 8);
         return vehicleName;
     }
     public double[] getAllowedCapacityRange(){
