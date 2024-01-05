@@ -429,9 +429,9 @@ public void listWorkshops(ActionEvent event) {
     if (validateVIN(vin)) {
         Vehicle vehicle = getVehicleByVIN(vin);
         if (vehicle != null) {
-            List<lu.ics.se.models.Workshop> workshops = vehicle.getWorkshopsServicedIn();
-            for (lu.ics.se.models.Workshop workshop : workshops) {
-                workshopsListView.getItems().add(workshop.getWorkshopName());
+            List<String> workshops = vehicle.getWorkshopsServicedIn();
+            for (String workshop : workshops) {
+                workshopsListView.getItems().add(workshop);
             }
         } else {
             workshopsListView.getItems().add("Vehicle not found");

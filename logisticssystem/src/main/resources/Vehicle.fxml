@@ -23,9 +23,9 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="567.0" fitWidth="984.0" layoutX="-103.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fitHeight="1567.0" fitWidth="984.0" layoutX="-103.0" layoutY="-13.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="153.0" layoutY="62.0" text="Vehicle Registration" textFill="WHITE">
@@ -75,9 +75,9 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="598.0" fitWidth="960.0" layoutX="-2.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fitHeight="898.0" fitWidth="960.0" layoutX="-2.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
                                              </image>
                                           </ImageView>
                                           <TableView fx:id="vehicleTable" layoutX="-3.0" layoutY="158.0" prefHeight="387.0" prefWidth="815.0">
@@ -103,9 +103,9 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="546.0" fitWidth="930.0" layoutX="-43.0" layoutY="-4.0">
+                                          <ImageView fitHeight="576.0" fitWidth="930.0" layoutX="-43.0" layoutY="-4.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
                                           <ListView fx:id="workshopListView" layoutX="479.0" layoutY="63.0" prefHeight="329.0" prefWidth="265.0" />
@@ -137,9 +137,9 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="554.0" fitWidth="878.0" layoutX="-77.0" layoutY="-4.0">
+                                          <ImageView fitHeight="599.0" fitWidth="878.0" layoutX="-77.0" layoutY="-4.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="317.0" layoutY="99.0" text="Cost of service for all vehicles" textFill="WHITE">

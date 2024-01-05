@@ -18,13 +18,12 @@ import javafx.fxml.FXMLLoader;
 
 import lu.ics.se.models.*;
 
-
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
-
-
 import java.io.IOException;
 
 import java.util.List;
@@ -50,10 +49,12 @@ public class MaintenanceController {
 
     @FXML
     private TableView<ServiceEvent> maintenanceTableView;
+    
 
     @FXML
     private Button clearMaintenanceList;
 
+    private ObservableList<ServiceEvent> serviceEvents = FXCollections.observableArrayList();
     
     @FXML
     private TableColumn<ServiceEvent, String> vinColumnM;
@@ -62,11 +63,11 @@ public class MaintenanceController {
     private TableColumn<ServiceEvent, String> workshopNameColumnM;
 
     @FXML
-    private TableColumn<ServiceEvent, String> maintenanceDateColumnM;
+    private TableColumn<ServiceEvent, LocalDate> maintenanceDateColumnM;
 
 
     @FXML
-    private TableColumn<ServiceEvent, String> costColumnM;
+    private TableColumn<ServiceEvent, Double> costColumnM;
 
     @FXML
     private Label averageCostLabel;
@@ -91,6 +92,7 @@ public class MaintenanceController {
     @FXML
     private Button displayMostExpensiveMaintenance;
 
+    private Vehicle vehicle;
 
     @FXML
     private TextField vinFieldM;
@@ -110,75 +112,86 @@ public class MaintenanceController {
 
     private VehicleManifest vehicleManifest;
 
-    public MaintenanceController() {
-        vehicleManifest = VehicleManifest.getInstance();
-    }
-
-    @FXML
-public void initializeMaintenanceTableView() {
-    // Set up columns for maintenance table view
-    TableColumn<ServiceEvent, String> vinColumnM = new TableColumn<>("VIN");
-    vinColumnM.setCellValueFactory(new PropertyValueFactory<>("eventVin"));
-
-    TableColumn<ServiceEvent, LocalDate> maintenanceDateColumnM = new TableColumn<>("Date");
-    maintenanceDateColumnM.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
-
-    TableColumn<ServiceEvent, String> workshopNameColumn = new TableColumn<>("Workshop");
-    workshopNameColumn.setCellValueFactory(new PropertyValueFactory<>("eventWorkshopName"));
-
-    TableColumn<ServiceEvent, Double> costColumnM = new TableColumn<>("Cost");
-    costColumnM.setCellValueFactory(new PropertyValueFactory<>("eventCost"));
-
-    // Add columns to the table view
-    maintenanceTableView.getColumns().addAll(vinColumnM, maintenanceDateColumnM, workshopNameColumnM, costColumnM);
-
-    // Add double-click event to open the edit/delete window
-    maintenanceTableView.setOnMouseClicked(this::handleMaintenanceDoubleClick);
-
-    // Load initial data into the table
-    refreshMaintenanceTable();
-}
-
-private void refreshMaintenanceTable() {
-    ObservableList<ServiceEvent> serviceEvents = FXCollections.observableArrayList();
-
-    for (Vehicle vehicle : vehicleManifest.getVehicles()) {
-        serviceEvents.addAll(vehicle.getServiceEvents());
-    }
-
-    maintenanceTableView.setItems(serviceEvents);
-}
     
+
+    public MaintenanceController() {
+        vehicleManifest = VehicleManifest.getInstance();    
+        workshopList = WorkshopList.getInstance();
+        
+    }
+    @FXML 
+    public void initialize() {
+        initializeMaintenanceTableView();
+   
+    }
+
     @FXML
+    public void initializeMaintenanceTableView() {
+        vinColumnM.setCellValueFactory(new PropertyValueFactory<>("eventVin"));
+        maintenanceDateColumnM.setCellValueFactory(new PropertyValueFactory<>("eventDate"));
+        workshopNameColumnM.setCellValueFactory(new PropertyValueFactory<>("eventWorkshopName"));
+        costColumnM.setCellValueFactory(new PropertyValueFactory<>("eventCost"));
+    
+        maintenanceTableView.setOnMouseClicked(this::handleMaintenanceDoubleClick);
+        refreshMaintenanceTable();
+    
+        ObservableList<ServiceEvent> serviceEvents = FXCollections.observableArrayList();
+    
+        // Get all vehicles from the VehicleManifest
+        List<Vehicle> vehicles = vehicleManifest.getAllVehicles();
+        System.out.println("Vehicles: " + vehicles);  // Debug statement 1
+    
+        // For each vehicle, get all its ServiceEvents and add them to the ObservableList
+        for (Vehicle vehicle : vehicles) {
+            serviceEvents.addAll(vehicle.getServiceEvents());
+        }
+    
+        // Print the serviceEvents ObservableList
+        System.out.println(serviceEvents);  // Debug statement 2
+    
+        // Set the items of the TableView to the ObservableList
+        maintenanceTableView.setItems(serviceEvents);
+        System.out.println("TableView items set");  // Debug statement 3
+    }
+
+    private void refreshMaintenanceTable() {
+        serviceEvents.clear(); // Clear existing data
+        
+        for (Vehicle vehicle : vehicleManifest.getAllVehicles()) {
+            serviceEvents.addAll(vehicle.getServiceEventList());
+        }
+        
+        maintenanceTableView.setItems(serviceEvents);
+        maintenanceTableView.refresh();
+    }
+    
+
+    
+    
+@FXML
 public void handleAddMaintenance() {
     try {
-        // Get input values from UI elements
         String vehicleVin = vinFieldM.getText();
         String workshopName = workshopNameFieldM.getText();
-        String dateString = maintenanceDatePickerM.getEditor().getText();
-        double costFieldValue = Double.parseDouble(costFieldM.getText());
+        LocalDate maintenanceDate = maintenanceDatePickerM.getValue();
+        double cost = Double.parseDouble(costFieldM.getText());
 
         // Validate inputs
-        if (vehicleVin.isEmpty() || workshopName.isEmpty() || dateString.isEmpty() || String.valueOf(costFieldValue).isEmpty()) {
-            showAlert("Error", "Please fill in all fields.");
+        if (vehicleVin.isEmpty() || workshopName.isEmpty() || maintenanceDate == null || cost <= 0) {
+            showAlert("Error", "Please fill in all fields correctly.");
             return;
         }
 
-        // Check if the vehicle is decommissioned
         Vehicle selectedVehicle = vehicleManifest.getVehicleByVIN(vehicleVin);
         if (selectedVehicle == null) {
             showAlert("Error", "No vehicle found with the entered VIN.");
             return;
         }
+
         if (selectedVehicle.isDecommissioned()) {
             showAlert("Error", "The selected vehicle is decommissioned and cannot receive maintenance.");
             return;
         }
-
-        WorkshopList workshopList = WorkshopList.getInstance();
-
-        // Parse the date from the DatePicker
-        LocalDate maintenanceDate = LocalDate.parse(dateString);
 
         Workshop selectedWorkshop = workshopList.getWorkshopByName(workshopName);
         if (selectedWorkshop == null) {
@@ -186,31 +199,29 @@ public void handleAddMaintenance() {
             return;
         }
 
-        ServiceEvent newMaintenance = new ServiceEvent("Maintenance", "Maintenance Description",
-            costFieldValue, maintenanceDate, selectedWorkshop,
-            selectedVehicle, new ArrayList<>());
+        ServiceEvent serviceEvent = new ServiceEvent(vehicleVin, maintenanceDate, selectedWorkshop, cost);
+        selectedVehicle.addServiceEvent(serviceEvent);
 
-        // Add the new maintenance to the vehicle's service events
-        selectedVehicle.addServiceEvent(newMaintenance);
-
-        // Add the new maintenance to the maintenance table view
-        maintenanceTableView.getItems().add(newMaintenance);
-        
+        // Update the TableView
         refreshMaintenanceTable();
-        
+
         // Clear the input fields
         clearMaintenanceFields();
     } catch (Exception e) {
         showAlert("Error", "An error occurred: " + e.getMessage());
+        e.printStackTrace();
     }
 }
-    @FXML
-    public void clearMaintenanceFields() {
-        vinFieldM.clear();
-        workshopNameFieldM.clear();
-        maintenanceDatePickerM.getEditor().clear();
-        costFieldM.clear();
-    }
+
+
+
+@FXML
+public void clearMaintenanceFields() {
+    vinFieldM.clear();
+    workshopNameFieldM.clear();
+    maintenanceDatePickerM.getEditor().clear();
+    costFieldM.clear();
+}
 
     private void handleMaintenanceDoubleClick(MouseEvent event) {
         if (event.getClickCount() == 2) {

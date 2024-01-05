@@ -84,8 +84,8 @@ public class WorkshopController {
             initializeWorkshopList();
         
             // Initialize workshop table
-            workshopNameColumnW.setCellValueFactory(new PropertyValueFactory<>("workshopName"));
-            workshopAddressColumnW.setCellValueFactory(new PropertyValueFactory<>("workshopAddress"));
+            workshopNameColumnW.setCellValueFactory(new PropertyValueFactory<>("name"));
+            workshopAddressColumnW.setCellValueFactory(new PropertyValueFactory<>("address"));
             workshopTypeColumnW.setCellValueFactory(new PropertyValueFactory<>("type"));
         
             workshopTable.setItems(getWorkshopData());
@@ -128,22 +128,22 @@ public class WorkshopController {
             }
         }
         @FXML
-        public void handleAddWorkshop(ActionEvent event) {
-            String name = nameFieldW.getText();
-            String address = addressFieldW.getText();
-            String type = workshopTypeField.getValue(); // Get the selected value from the ComboBox
-        
-            if (name.isEmpty() || address.isEmpty() || type == null) {
-                showAlert("Error", "Please fill in all fields.");
-                return;
-            }
-        
-            Workshop newWorkshop = new Workshop(name, address, type);
-            workshopList.addWorkshop(newWorkshop);
-        
-            workshopTable.setItems(getWorkshopData());
-            clearWorkshopColumns();
-        }
+    public void handleAddWorkshop(ActionEvent event) {
+    String name = nameFieldW.getText();
+    String address = addressFieldW.getText();
+    String type = workshopTypeField.getValue(); // Get the selected value from the ComboBox
+
+    if (name.isEmpty() || address.isEmpty() || type == null) {
+        showAlert("Error", "Please fill in all fields.");
+        return;
+    }
+
+    Workshop newWorkshop = new Workshop(name, address, type, false, false, false);
+    workshopList.addWorkshop(newWorkshop);
+
+    workshopTable.setItems(getWorkshopData());
+    clearWorkshopColumns();
+}
 
 private void showAlert(String title, String message) {
     Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -184,8 +184,8 @@ private void showWorkshopDetailsDialog(Workshop workshop) {
     grid.setVgap(10);
     grid.setPadding(new Insets(20, 150, 10, 10));
 
-    TextField workshopNameField = new TextField(workshop.getWorkshopName());
-    TextField workshopAddressField = new TextField(workshop.getWorkshopAddress());
+    TextField workshopNameField = new TextField(workshop.getName());
+    TextField workshopAddressField = new TextField(workshop.getAddress());
     Label workshopTypeLabel = new Label(workshop.getType());
 
     grid.add(new Label("Name:"), 0, 0);
@@ -197,7 +197,7 @@ private void showWorkshopDetailsDialog(Workshop workshop) {
 
     dialog.getDialogPane().setContent(grid);
 
-  dialog.setResultConverter(buttonType -> {
+    dialog.setResultConverter(buttonType -> {
         if (buttonType == editButtonType) {
             String name = workshopNameField.getText();
             String address = workshopAddressField.getText();
@@ -207,8 +207,10 @@ private void showWorkshopDetailsDialog(Workshop workshop) {
                 return null;
             }
 
-            workshop.setWorkshopName(name);
-            workshop.setWorkshopAddress(address);
+            workshop.setName(name);
+            workshop.setAddress(address);
+
+            workshopTable.refresh(); // Refresh the TableView to show updated data
             return ButtonType.OK;
 
         } else if (buttonType == deleteButtonType) {
@@ -220,10 +222,11 @@ private void showWorkshopDetailsDialog(Workshop workshop) {
     });
 
     Optional<ButtonType> result = dialog.showAndWait();
-    if (result.isPresent() && (result.get() == editButtonType || result.get() == deleteButtonType)) {
-        workshopTable.refresh(); // Refresh the TableView
+    if (result.isPresent() && result.get() == editButtonType) {
+        workshopTable.refresh(); // Ensure to refresh the TableView here as well
     }
 }
+
 
 @FXML
 public void displayMostExpensiveWorkshop() {
@@ -233,8 +236,8 @@ Workshop mostExpensiveWorkshop = findMostExpensiveWorkshop();
 // Display information on the most expensive workshop
 if (mostExpensiveWorkshop != null) {
 String mostExpensiveWorkshopMessage = "Most Expensive Workshop:\n" +
-        "Workshop Name: " + mostExpensiveWorkshop.getWorkshopName() + "\n" +
-        "Workshop Address: " + mostExpensiveWorkshop.getWorkshopAddress() + "\n" +
+        "Workshop Name: " + mostExpensiveWorkshop.getName() + "\n" +
+        "Workshop Address: " + mostExpensiveWorkshop.getAddress() + "\n" +
         "Total Cost: $" + calculateTotalCostForWorkshop(mostExpensiveWorkshop);
 showAlert3("Most Expensive Workshop", mostExpensiveWorkshopMessage);
 } else {

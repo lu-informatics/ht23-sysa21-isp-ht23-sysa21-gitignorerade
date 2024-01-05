@@ -23,9 +23,9 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="550.0" fitWidth="821.0" layoutX="-3.0" layoutY="-6.0">
+                                          <ImageView fitHeight="650.0" fitWidth="821.0" layoutX="-3.0" layoutY="-6.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.46.08.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2022.46.08.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="337.0" layoutY="56.0" text="Add service activity" textFill="WHITE">
@@ -86,9 +86,9 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="600.0" fitWidth="967.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
+                                          <ImageView fitHeight="800.0" fitWidth="967.0" layoutX="-7.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
                                              </image>
                                           </ImageView>
                                           <TableView fx:id="serviceActivitiesTableView" layoutX="2.0" layoutY="157.0" prefHeight="389.0" prefWidth="800.0">

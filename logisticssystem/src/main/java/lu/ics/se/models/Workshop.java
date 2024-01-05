@@ -1,32 +1,29 @@
 package lu.ics.se.models;
 
 import java.util.ArrayList;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 
 public class Workshop {
-    private String workshopName;
-    private String workshopAddress;
-    private String type;
     private boolean servicesVans;
     private boolean servicesMediumTrucks;
     private boolean servicesLargeTrucks;
     private ArrayList<ServiceEvent> serviceEvent;
+    private StringProperty name;
+    private StringProperty address;
+    private StringProperty type;
 
     public Workshop(String name, String address, String type, boolean servicesVans, boolean servicesMediumTrucks, boolean servicesLargeTrucks) {
-        this.workshopName = name;
-        this.workshopAddress = address;
-        this.type = type;
+        this.name = new SimpleStringProperty(name);
+        this.address = new SimpleStringProperty(address);
+        this.type = new SimpleStringProperty(type);
         this.servicesVans = servicesVans;
         this.servicesMediumTrucks = servicesMediumTrucks;
         this.servicesLargeTrucks = servicesLargeTrucks;
         serviceEvent = new ArrayList<ServiceEvent>();
     }
 
-    public Workshop(String name, String address, String type){
-        this.workshopName = name;
-        this.workshopAddress = address;
-        this.type = type;
-        serviceEvent = new ArrayList<ServiceEvent>();
-    }
+    
     public Workshop(String eventWorkshopName, String eventWorkshopAddress, Object calculateTotalCostForWorkshop) {
         // Add your implementation here
     }
@@ -39,18 +36,7 @@ public class Workshop {
         // Add your implementation here
     }
 
-    public String getWorkshopName() {
-        return workshopName;
-    }
-    public String getWorkshopAddress() {
-        return workshopAddress;
-    }
-    public String getType() {
-        return type;
-    }
-    public void setType(String type) {
-        this.type = type;
-    }
+    
     public boolean getServicesVans() {
         return servicesVans;
     }
@@ -62,12 +48,7 @@ public class Workshop {
     }
     public ArrayList<ServiceEvent> getServiceEvent() {
         return serviceEvent;
-    }
-    public void setWorkshopName(String workshopName) {
-        this.workshopName = workshopName;
-    }
-    public void setWorkshopAddress(String workshopAddress) {
-        this.workshopAddress = workshopAddress;
+    
     }
 
     public void setServicesVans(boolean servicesVans) {
@@ -97,14 +78,45 @@ public class Workshop {
     public ServiceEvent[] getServiceEvents() {
         return null;
     }
-    public Object getName() {
-        return null;
-    }
     public boolean getIsInternal() {
         return false;
     }
     
+    public String getName() {
+        return name.get();
+    }
 
+    public void setName(String name) {
+        this.name.set(name);
+    }
+
+    public String getAddress() {
+        return address.get();
+    }
+
+    public void setAddress(String address) {
+        this.address.set(address);
+    }
+
+    public String getType() {
+        return type.get();
+    }
+
+    public void setType(String type) {
+        this.type.set(type);
+    }
+    public StringProperty getNameProperty() {
+        return name;
+    }
+    
+    public StringProperty getAddressProperty() {
+        return address;
+    }
+
+
+    public String getWorkshopName() {
+        return null;
+    }
 
 
 

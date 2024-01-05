@@ -17,6 +17,9 @@ public class VehicleManifest {
         companyOwnedVehicles = FXCollections.observableArrayList();
     }
     
+    public ObservableList<Vehicle> getAllVehicles() {
+        return companyOwnedVehicles;
+    }
 
     public static VehicleManifest getInstance() {
         if (instance == null) {
@@ -25,6 +28,13 @@ public class VehicleManifest {
         return instance;
     }
 
+    public List<ServiceEvent> getAllServiceEvents() {
+        List<ServiceEvent> allServiceEvents = new ArrayList<>();
+        for (Vehicle vehicle : companyOwnedVehicles) {
+            allServiceEvents.addAll(vehicle.getServiceEventList());
+        }
+        return allServiceEvents;
+    }
     private boolean isVINUnique(String vin) {
         for (Vehicle vehicle : companyOwnedVehicles) {
             if (vehicle.getVehicleIdentificationNumber().equals(vin)) {
@@ -60,10 +70,7 @@ public class VehicleManifest {
         companyOwnedVehicles.remove(vehicle);
     }
 
-    public Callback getAllServiceEvents() {
-        return null;
-    }
-
+    
     public Vehicle getVehicleByName(String vehicleName) {
         return null;
     }

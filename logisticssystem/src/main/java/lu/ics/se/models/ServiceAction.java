@@ -53,6 +53,9 @@ public class ServiceAction {
     }
     public void setPartsReplaced(String partsReplaced2) {
     }
+    public double getCost() {
+        return 0;
+    }
 }
 
 

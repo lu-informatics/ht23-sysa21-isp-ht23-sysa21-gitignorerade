@@ -30,21 +30,24 @@ public ServiceHistory (String vin, Object object, String description, Object obj
         }
     }
 
-    public void addServiceEvent(ServiceEvent serviceEvent) throws LargeTruckInternalServiceException {
+    public void addServiceEvent(ServiceEvent serviceEvent, Object object) throws LargeTruckInternalServiceException {
         // Check if the vehicle type is "Large Truck" and the workshop is internal
-        if (isLargeTruck(serviceEvent.getEventVehicle()) && isInternalWorkshop(serviceEvent.getEventWorkshop())) {
+        if (isLargeTruck(serviceEvent.getEventVehicle()) && isInternalWorkshop(serviceEvent.getEventWorkshopName())) {
             throw new LargeTruckInternalServiceException("Large trucks cannot be serviced at internal workshops.");
         }
 
         this.serviceEvent.add(serviceEvent);
     }
 
-    private boolean isInternalWorkshop(Workshop eventWorkshop) {
-        return eventWorkshop != null && eventWorkshop.getIsInternal();
+    private boolean isInternalWorkshop(String eventWorkshopName) {
+        return false;
     }
+    private boolean isInternalWorkshop(Workshop workshop) {
+        return workshop != null && workshop.getIsInternal();
+    }
+
     private boolean isLargeTruck(Vehicle eventVehicle) {
         return eventVehicle != null && eventVehicle.isLargeTruck();
-    
     }
     public void removeServiceEvent(ServiceEvent serviceEvent) {
         serviceEvent.remove(serviceEvent);
@@ -57,10 +60,10 @@ public ServiceHistory (String vin, Object object, String description, Object obj
         serviceEvent.add(maintenanceEvent);
     }
 
-    public Workshop getMaintenanceWorkshopForVehicle(Vehicle vehicle) {
+    public String getMaintenanceWorkshopForVehicle(Vehicle vehicle) {
         for (ServiceEvent event : serviceEvent) {
             if (event.getEventVehicle().equals(vehicle)) {
-                return event.getEventWorkshop();
+                return event.getEventWorkshopName();
             }
         }
         return null; // Handle the case when no maintenance event is found
@@ -143,8 +146,5 @@ public ServiceHistory (String vin, Object object, String description, Object obj
     public String getWorkshopType() {
         return null;
     }
-
-    
 }
-
     

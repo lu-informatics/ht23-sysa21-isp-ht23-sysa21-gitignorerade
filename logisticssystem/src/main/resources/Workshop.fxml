@@ -21,9 +21,9 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="551.0" fitWidth="896.0" layoutX="-44.0" layoutY="-4.0">
+                                          <ImageView fitHeight="651.0" fitWidth="896.0" layoutX="-44.0" layoutY="-4.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.37.49.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2022.37.49.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="117.0" layoutY="30.0" text="Register workshop" textFill="WHITE">
@@ -60,9 +60,9 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="558.0" fitWidth="1005.0" layoutX="-192.0" layoutY="-11.0">
+                                          <ImageView fitHeight="658.0" fitWidth="1005.0" layoutX="-192.0" layoutY="-11.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2022.29.38.png" />
                                              </image>
                                           </ImageView>
                                           <TableView fx:id="workshopTable" layoutY="-2.0" prefHeight="446.0" prefWidth="412.0">
@@ -94,9 +94,9 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="561.0" fitWidth="872.0" layoutX="-40.0" layoutY="-2.0">
+                                          <ImageView fitHeight="581.0" fitWidth="872.0" layoutX="-40.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="154.0" layoutY="156.0" text="Most expensive workshop" textFill="WHITE">

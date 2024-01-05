@@ -66,7 +66,7 @@ import javafx.util.Callback;
 
         public Workshop getWorkshopByName(String workshopName) {
             for (Workshop workshop : workshopsAvailable) {
-                if (workshop.getWorkshopName().equals(workshopName)) {
+                if (workshop.getName().equals(workshopName)) {
                     return workshop;
                 }
             }
@@ -75,7 +75,7 @@ import javafx.util.Callback;
         public List<String> getAllWorkshopNames() {
         List<String> names = new ArrayList<>();
         for (Workshop workshop : workshopsAvailable) {
-        names.add(workshop.getWorkshopName());
+        names.add(workshop.getName());
         }
         return names;
 }

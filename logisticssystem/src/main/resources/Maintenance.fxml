@@ -23,9 +23,9 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="545.0" fitWidth="913.0" layoutX="-64.0" layoutY="-2.0">
+                                          <ImageView fitHeight="585.0" fitWidth="913.0" layoutX="-64.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.50.10.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2022.50.10.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="166.0" layoutY="95.0" text="Schedule maintenance" textFill="WHITE">
@@ -74,9 +74,9 @@
                               <content>
                                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="543.0" fitWidth="805.0" layoutX="-1.0" layoutY="1.0">
+                                          <ImageView fitHeight="843.0" fitWidth="805.0" layoutX="-1.0" layoutY="1.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
                                              </image>
                                           </ImageView>
                                           <TableView fx:id="maintenanceTableView" layoutX="328.0" layoutY="-2.0" prefHeight="414.0" prefWidth="482.0">
@@ -109,9 +109,9 @@
                                  <content>
                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <ImageView fitHeight="550.0" fitWidth="808.0" layoutX="-4.0" layoutY="-2.0">
+                                          <ImageView fitHeight="585.0" fitWidth="808.0" layoutX="-4.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
+                                                <Image url="@Skärmavbild%202023-12-29%20kl.%2022.08.09.png" />
                                              </image>
                                           </ImageView>
                                           <Label layoutX="153.0" layoutY="80.0" text="Maintenance specifications" textFill="WHITE">

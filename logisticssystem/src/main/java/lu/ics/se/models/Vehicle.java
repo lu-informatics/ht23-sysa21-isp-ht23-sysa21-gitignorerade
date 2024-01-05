@@ -1,14 +1,15 @@
-
-    package lu.ics.se.models;
+package lu.ics.se.models;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.UUID;
 
 public class Vehicle {
     private SimpleStringProperty vehicleIdentificationNumber;
@@ -17,26 +18,26 @@ public class Vehicle {
     private SimpleDoubleProperty capacityInKg;
     private SimpleStringProperty vehicleType;
     private SimpleDoubleProperty daysSinceLastService;
-    private ArrayList<ServiceEvent> serviceEvent;
+    private ObservableList<ServiceEvent> serviceEvent; // Changed to ObservableList
     private ServiceHistory serviceHistory;
     private int numberOfPartsReplaced;
-    
+    private List<ServiceEvent> serviceEvents;
+
+
+
     private static final int MAX_PARTS_REPLACED = 100;
-    private static final double TOTAL_COST_THRESHOLD = 100000;   
+    private static final double TOTAL_COST_THRESHOLD = 100000;
 
-    public Vehicle(String string, String string2, String string3, double d, String string5) {
-        this(string, string2, string3, d, string5, 0); // Assuming the 6th parameter is daysSinceLastService
-    }
-
-    public Vehicle(String vehicleIdentificationNumber, String vehicleName, String location, double capacityinKg, String vehicleType, double daysSinceLastService) {
-        this.vehicleIdentificationNumber = new SimpleStringProperty(generateUniqueVIN());
+    public Vehicle(String vehicleIdentificationNumber, String vehicleName, String location, double capacityInKg, String vehicleType, double daysSinceLastService) {
+        this.vehicleIdentificationNumber = new SimpleStringProperty(vehicleIdentificationNumber);
         this.vehicleName = new SimpleStringProperty(vehicleName);
         this.location = new SimpleStringProperty(location);
-        this.capacityInKg = new SimpleDoubleProperty(capacityinKg);
+        this.capacityInKg = new SimpleDoubleProperty(capacityInKg);
         this.daysSinceLastService = new SimpleDoubleProperty(daysSinceLastService);
-        this.serviceEvent = new ArrayList<ServiceEvent>();
-        this.serviceHistory = new ServiceHistory(vehicleType, daysSinceLastService, vehicleType, daysSinceLastService, daysSinceLastService, daysSinceLastService);
-
+        this.serviceEvent = FXCollections.observableArrayList(); // Initialize as ObservableList
+        this.serviceHistory = new ServiceHistory(); // Assuming a constructor exists for ServiceHistory
+        this.serviceEvents = new ArrayList<ServiceEvent>();
+        
         // Check if the provided type is valid
         if (isValidType(vehicleType)) {
             this.vehicleType = new SimpleStringProperty(vehicleType);
@@ -60,11 +61,11 @@ public class Vehicle {
         return false;
     }
 
-    public List<Workshop> getWorkshopsServicedIn() {
-        List<Workshop> workshops = new ArrayList<>();
+    public List<String> getWorkshopsServicedIn() {
+        List<String> workshops = new ArrayList<>();
 
         for (ServiceEvent event : serviceEvent) {
-            Workshop workshop = event.getEventWorkshop();
+            String workshop = event.getEventWorkshopName();
             if (workshop != null && !workshops.contains(workshop)) {
                 workshops.add(workshop);
             }
@@ -73,6 +74,10 @@ public class Vehicle {
         return workshops;
     }
 
+    public List<ServiceEvent> getServiceEvents() {
+        return serviceEvents;
+    }
+    
     private String generateUniqueVIN() {
     // Create a new instance of Random
     Random random = new Random();
@@ -149,6 +154,7 @@ public class Vehicle {
     }
 
     private boolean isDecommissioned = false;
+    private Object getServiceEventList;
 
     public void replacePart() {
         if (getNumberOfPartsReplaced() < MAX_PARTS_REPLACED) {
@@ -167,9 +173,9 @@ public class Vehicle {
     public boolean isLargeTruckServicedExternally() {
         if (isLargeTruck()) {
             ServiceEvent latestEvent = getLatestServiceEvent();
-            Workshop workshop = latestEvent.getEventWorkshop();
+            String workshop = latestEvent.getEventWorkshopName();
 
-            return workshop != null && !workshop.getIsInternal();
+            return workshop != null && !workshop.equals("internal");
         }
         return false;
     }
@@ -180,6 +186,20 @@ public class Vehicle {
         }
         return null;
     }
+
+    public void addServiceEvent(ServiceEvent serviceEvent) {
+        try {
+            this.serviceEvent.add(serviceEvent);
+        } catch (Exception e) {
+            System.out.println("Exception occurred while adding service event: " + e.getMessage());
+        }
+    }
+
+    public ObservableList<ServiceEvent> getServiceEventList() {
+        return FXCollections.observableArrayList(this.serviceEvent);
+    }
+
+   
 
 
     private void decommissionVehicle() {
@@ -193,18 +213,9 @@ public class Vehicle {
     }
 
     // Define the getServiceEvents() method in the ServiceHistory class
-    public ArrayList<ServiceEvent> getServiceEvents() {
-        return serviceEvent;
-    }
+    
 
-
-    public ArrayList<ServiceEvent> getServiceEvent() {
-        return serviceEvent;
-    }
-
-    public void setServiceEvent(ArrayList<ServiceEvent> serviceEvent) {
-        this.serviceEvent = serviceEvent;
-    }
+   
 
     public ServiceHistory getServiceHistory() {
         return serviceHistory;
@@ -216,10 +227,6 @@ public class Vehicle {
 
     
 
-
-    public void addServiceEvent(ServiceEvent serviceEvent){
-        this.serviceEvent.add(serviceEvent);
-    }
     public void removeServiceEvent(ServiceEvent serviceEvent){
         this.serviceEvent.remove(serviceEvent);
     }

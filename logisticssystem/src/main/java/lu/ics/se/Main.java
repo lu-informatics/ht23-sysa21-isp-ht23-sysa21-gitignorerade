@@ -12,7 +12,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         try {
             // Load Main.fxml
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/Main.fxml"));
             Parent root = loader.load();
 
             // Set the scene to the stage and show the stage

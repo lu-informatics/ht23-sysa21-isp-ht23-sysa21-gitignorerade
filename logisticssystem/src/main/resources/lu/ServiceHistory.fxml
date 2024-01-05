@@ -26,7 +26,7 @@
                                        <children>
                                           <ImageView fitHeight="544.0" fitWidth="987.0" layoutX="-93.0" layoutY="-2.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
+                                                <Image url="@../image/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
                                           <ListView fx:id="vehicleServiceHistoryListView" layoutX="482.0" layoutY="56.0" prefHeight="313.0" prefWidth="273.0" />
@@ -59,7 +59,7 @@
                                        <children>
                                           <ImageView fitHeight="568.0" fitWidth="875.0" layoutX="-33.0" layoutY="-3.0">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
+                                                <Image url="@../image/Skärmavbild%202023-12-29%20kl.%2022.18.46.png" />
                                              </image>
                                           </ImageView>
                                           <ListView fx:id="serviceHistoryListView" layoutX="477.0" layoutY="65.0" prefHeight="318.0" prefWidth="280.0" />
@@ -91,7 +91,7 @@
                                        <children>
                                           <ImageView fitHeight="614.0" fitWidth="951.0" layoutX="-6.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                                              <image>
-                                                <Image url="@../../../../resources/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
+                                                <Image url="@../image/Skärmavbild%202023-12-29%20kl.%2023.07.55.png" />
                                              </image>
                                           </ImageView>
                                           <TableView fx:id="serviceHistoryTableView" layoutX="-10.0" layoutY="106.0" prefHeight="432.0" prefWidth="822.0">

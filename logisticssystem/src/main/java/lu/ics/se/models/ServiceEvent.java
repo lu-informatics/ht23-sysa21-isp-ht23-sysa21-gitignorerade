@@ -2,40 +2,81 @@ package lu.ics.se.models;
 import java.util.Date;
 
 import javafx.beans.Observable;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import lu.ics.se.controllers.ServiceActivityController;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+ 
+
+import java.util.Date;
 import java.util.ArrayList;
 
 public class ServiceEvent {
     private String eventName;
     private String eventDescription;
     private double eventCost;
-    private Date eventDate;
-    private Workshop eventWorkshop;
+    private LocalDate eventDate;
+    private String eventVin;
+    private Workshop eventWorkshopName;
     private Vehicle eventVehicle;
     private ArrayList<ServiceAction> eventActions;
     private String workshopType;
+    private Object eventWorkshop;
 
+    private StringProperty eventVinProperty;
+    private DoubleProperty eventCostProperty;
+    private ObjectProperty<LocalDate> eventDateProperty;
+    private StringProperty eventWorkshopNameProperty;
 
-    public ServiceEvent() {
-        eventActions = new ArrayList<ServiceAction>();
+    
+
+    public ServiceEvent(String eventVin, LocalDate eventDate, Workshop eventWorkshopName, double eventCost) {
+        this.eventVin = eventVin;
+        this.eventDate = eventDate;
+        this.eventWorkshopName = eventWorkshopName;
+        this.eventCost = eventCost;
+
+        this.eventVinProperty = new SimpleStringProperty(eventVin);
+        this.eventCostProperty = new SimpleDoubleProperty(eventCost);
+        this.eventDateProperty = new SimpleObjectProperty<>(eventDate);
+        this.eventWorkshopNameProperty = new SimpleStringProperty(eventWorkshopName.getName());
     }
-    public ServiceEvent(String eventName, String eventDescription, double eventCost, Date maintenanceDate, Workshop eventWorkshop, Vehicle eventVehicle, ArrayList<ServiceAction> eventActions) {
+    
+    
+    public ServiceEvent(String eventVin, String eventName, String eventDescription, double eventCost, LocalDate eventDate, Workshop eventWorkshopName, Vehicle eventVehicle, ArrayList<ServiceAction> eventActions) {
+        this.eventVin = eventVin;
         this.eventName = eventName;
         this.eventDescription = eventDescription;
         this.eventCost = eventCost;
-        this.eventDate = maintenanceDate;
-        this.eventWorkshop = eventWorkshop;
+        this.eventDate = eventDate;
+        this.eventWorkshopName = eventWorkshopName;
         this.eventVehicle = eventVehicle;
         this.eventActions = eventActions;
+        
+        this.eventVinProperty = new SimpleStringProperty(eventVin);
+    this.eventCostProperty = new SimpleDoubleProperty(eventCost);
+    this.eventDateProperty = new SimpleObjectProperty<>(eventDate);
+    this.eventWorkshopNameProperty = new SimpleStringProperty(eventWorkshopName.getName());
+}
+
+
+
+    public String eventWorkshopNameProperty() {
+        return eventWorkshopNameProperty();
     }
-    public ServiceEvent(String string, String string2, double d, LocalDate maintenanceDate, Workshop workshopByName,
-            Vehicle vehicleByVIN, ArrayList arrayList) {
-    }
-    public String getEventName() {
-        return eventName;
+
+    public String getEventVin() {
+        return this.eventVinProperty.get();
     }
 
     public String getEventDescription() {
@@ -47,13 +88,21 @@ public class ServiceEvent {
     }
 
     public double getEventCost() {
-        return eventCost;
+        return this.eventCostProperty.get();
     }
-    public Date getEventDate() {
-        return eventDate;
+    public LocalDate getEventDate() {
+        return this.eventDateProperty.get();
     }
-    public Workshop getEventWorkshop() {
-        return eventWorkshop;
+    public String getEventWorkshopName() {
+        return this.eventWorkshopNameProperty.get();
+    }
+
+    public void setEventVin(String eventVin) {
+        this.eventVinProperty.set(eventVin);
+    
+    }
+    public void setEventdate(LocalDate eventDate) {
+        this.eventDateProperty.set(eventDate);
     }
     public Vehicle getEventVehicle() {
         return eventVehicle;
@@ -64,21 +113,26 @@ public class ServiceEvent {
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
+
+    public String getEventName() {
+        return this.eventName;
+    }
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
     }
     public void setEventCost(double eventCost) {
-        this.eventCost = eventCost;
+        this.eventCostProperty.set(eventCost);
     }
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
+    public void setEventDate(LocalDate eventDate) {
+        this.eventDateProperty.set(eventDate);
     }
-    public void setEventWorkshop(Workshop eventWorkshop) {
-        this.eventWorkshop = eventWorkshop;
+    public void setEventWorkshopName(String eventWorkshop) {
+        this.eventWorkshopNameProperty.set(eventWorkshop);
     }
     public void setEventVehicle(Vehicle eventVehicle) {
         this.eventVehicle = eventVehicle;
     }
+
     public void setEventActions(ArrayList<ServiceAction> eventActions) {
         this.eventActions = eventActions;
     }
@@ -89,72 +143,86 @@ public class ServiceEvent {
     }
     public void addServiceAction(ServiceAction serviceAction) {
     }
-    public void addPart(Part tire) {
-    }
+   
+    
     public String getEventVehicleName() {
-        return null;
+        return ((Workshop) this.eventWorkshop).getName();
     }
-    public String getEventWorkshopName() {
-        return null;
-    }
-    @Override
-    public String toString() {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        StringBuilder result = new StringBuilder();
-        result.append("Event Name: ").append(eventName).append("\n");
-        result.append("Date: ").append(dateFormat.format(eventDate)).append("\n");
-        result.append("Description: ").append(eventDescription).append("\n");
-        result.append("Cost: $").append(eventCost).append("\n");
-
-        // Add information about service actions
-        result.append("Service Actions:\n");
-        for (ServiceAction action : eventActions) {
-            result.append(action.toString());  // Use the toString method of ServiceAction
-        }
-
-        return result.toString();
-    }
-    public String getEventVehicleVIN() {
-        return null;
-    }
-    public String getEventWorkshopAddress() {
-        return null;
-    }
-    public void calculateTotalCostForWorkshop() {
-    }
-    public Observable eventCostProperty() {
-        return null;
-    }
-    public Observable eventWorkshopNameProperty() {
-        return null;
-    }
-    public Observable eventDateProperty() {
-        return null;
-    }
-    public Observable eventVinProperty() {
-        return null;
-    }
-    public double getCost() {
-        return 0;
-    }
+    
+    
     public Object getWorkshopType() {
         return this.workshopType;
     }
-    public String getEventWorkshopType() {
-        return null;
-    }
-    public String getVin() {
-        return null;
-    }
-    public ServiceActivityController getServiceAction() {
-        return null;
-    }
-    public LocalDate getServiceDate() {
-        return null;
-    }
+
     public void setServiceDate(LocalDate localDate) {
     }
     public void setCost(Double double1) {
+    }
+    
+    public StringProperty eventVinProperty() {
+        return eventVinProperty;
+    }
+    
+    public DoubleProperty eventCostProperty() {
+        return eventCostProperty;
+    }
+    
+    public ObjectProperty<LocalDate> eventDateProperty() {
+        return eventDateProperty;
+    }
+    
+    
+    public void addPart(Part tire) {
+        // Assuming ServiceAction has a constructor that takes a Part as parameter
+        this.eventActions.add(new ServiceAction(eventDescription, eventDescription, eventCost, eventDate, tire, eventDescription));
+    }
+    
+    public String getEventVehicleVIN() {
+        return this.eventVehicle.getVin();  // Assuming Vehicle has a getVin() method
+    }
+    
+    public String getEventWorkshopAddress() {
+        return ((Workshop) this.eventWorkshop).getAddress();  // Assuming Workshop has a getAddress() method
+    }
+    
+    public void calculateTotalCostForWorkshop() {
+        double totalCost = 0;
+        for (ServiceAction action : eventActions) {
+            totalCost += action.getCost();  // Assuming ServiceAction has a getCost() method
+        }
+        this.eventCost = totalCost;
+    }
+    
+    public double getCost() {
+        return this.eventCost;
+    }
+    
+    @Override
+public String toString() {
+    DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    StringBuilder result = new StringBuilder();
+    result.append("Event Name: ").append(eventVinProperty().get()).append("\n");
+    result.append("Date: ").append(eventDateProperty().get().format(dateFormat)).append("\n");
+    result.append("Description: ").append(getEventWorkshopName()).append("\n");
+    result.append("Cost: $").append(eventCostProperty().get()).append("\n");
+
+    // Add information about service actions
+    result.append("Service Actions:\n");
+    for (ServiceAction action : eventActions) {
+        result.append(action.toString());  // Use the toString method of ServiceAction
+    }
+
+    return result.toString();
+}
+
+
+    public LocalDate getServiceDate() {
+        return null;
+    }
+
+
+    public String getEventWorkshopType() {
+        return null;
     }
 }
     
