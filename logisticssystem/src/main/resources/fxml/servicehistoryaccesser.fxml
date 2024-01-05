@@ -14,7 +14,7 @@
         <columns>
           <TableColumn fx:id="tableColumnWorkshop" prefWidth="99.0" text="Workshop" />
           <TableColumn fx:id="tableColumnDate" prefWidth="99.0" text="Date" />
-            <TableColumn fx:id="tableColumnDate" prefWidth="99.0" text="Cost" />
+            <TableColumn fx:id="tableColumnCost" prefWidth="99.0" text="Cost" />
         </columns>
       </TableView>
       <Label layoutX="3.0" layoutY="26.0" text="Next Scheduled Maintenance:">

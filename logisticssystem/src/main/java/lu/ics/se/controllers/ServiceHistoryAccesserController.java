@@ -19,6 +19,7 @@ import javafx.scene.control.DateCell;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.application.Platform;
+import lu.ics.se.models.classes.ServiceEvents;
 
 public class ServiceHistoryAccesserController implements Initializable {
 
@@ -53,6 +54,18 @@ public class ServiceHistoryAccesserController implements Initializable {
     @FXML
     private DatePicker maintenanceDatePicker;
 
+    @FXML
+    private TableView<ServiceEvents> serviceHistoryTable;
+
+    @FXML
+    private TableColumn<ServiceEvents, String> tableColumnWorkshop;
+    
+    @FXML
+    private TableColumn<ServiceEvents, LocalDate> tableColumnDate;
+
+    @FXML
+    private TableColumn<ServiceEvents, Integer> tableColumnCost;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         maintenanceDatePicker.setDayCellFactory(picker -> new DateCell(){
@@ -74,15 +87,18 @@ public class ServiceHistoryAccesserController implements Initializable {
 
                 public void handleCloseWindowButton() {
                     ((Stage) closeWindowButton.getScene().getWindow()).close();
-                }
+                    if (onCloseListener != null) {
+                        onCloseListener.onClose();
+                    }
 
+                }
                 public void handleScheduleMaintenanceButton(){
                     vehicle.setScheduledMaintenance(maintenanceDatePicker.getValue());
                     displayDateLabel.setText(vehicle.getScheduledMaintenance().toString());
                 }
 
                 public void handleAddMaintenanceButton() {
-    }
+                }
 
     }
 
