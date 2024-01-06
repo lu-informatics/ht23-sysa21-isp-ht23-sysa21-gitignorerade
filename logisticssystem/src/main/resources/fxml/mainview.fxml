@@ -63,26 +63,28 @@
                         <TableColumn fx:id="vehicleColumnLastMaintenance" prefWidth="-1.0" text="Last Maintenance" />
                         <TableColumn fx:id="vehicleColumnLocation" prefWidth="-1.0" text="Location" />
                         <TableColumn fx:id="vehicleColumnName" prefWidth="-1.0" text="Name" />
+                        <TableColumn fx:id="vehicleColumnPrimaryWorkshop" prefWidth="-1.0" text="Primary Workshop" />
                     </columns>
                   </TableView>
-                  <CheckBox fx:id="classCheckBox" layoutX="14.0" layoutY="87.0" mnemonicParsing="false" selected="true" text="Class" />
-                  <CheckBox fx:id="vehicleIdCheckBox" layoutX="14.0" layoutY="64.0" mnemonicParsing="false" selected="true" text="Vehicle ID" />
-                  <CheckBox fx:id="brandCheckBox" layoutX="104.0" layoutY="87.0" mnemonicParsing="false" selected="true" text="Brand" />
-                  <CheckBox fx:id="capacityCheckBox" layoutX="104.0" layoutY="64.0" mnemonicParsing="false" selected="true" text="Capacity" />
-                  <CheckBox fx:id="lastMaintenanceCheckBox" layoutX="194.0" layoutY="87.0" mnemonicParsing="false" text="Last Maintenance" />
-                  <CheckBox fx:id="scheduledMaintenanceCheckBox" layoutX="194.0" layoutY="64.0" mnemonicParsing="false" text="Scheduled Maintenance" />
-                  <Label layoutX="14.0" layoutY="37.0" text="Display Settings">
+                  <CheckBox fx:id="classCheckBox" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" selected="true" text="Class" />
+                  <CheckBox fx:id="vehicleIdCheckBox" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" selected="true" text="Vehicle ID" />
+                  <CheckBox fx:id="brandCheckBox" layoutX="101.0" layoutY="41.0" mnemonicParsing="false" selected="true" text="Brand" />
+                  <CheckBox fx:id="capacityCheckBox" layoutX="14.0" layoutY="87.0" mnemonicParsing="false" selected="true" text="Capacity" />
+                  <CheckBox fx:id="lastMaintenanceCheckBox" layoutX="101.0" layoutY="87.0" mnemonicParsing="false" text="Last Maintenance" />
+                  <CheckBox fx:id="scheduledMaintenanceCheckBox" layoutX="101.0" layoutY="64.0" mnemonicParsing="false" text="Scheduled Maintenance" />
+                  <Label layoutX="14.0" layoutY="15.0" text="Display Settings">
                      <font>
                         <Font name="Inter Bold" size="16.0" />
                      </font>
                   </Label>
-                  <CheckBox fx:id="vehicleNameCheckBox" layoutX="350.0" layoutY="87.0" mnemonicParsing="false" text="Vehicle Name" />
-                  <CheckBox fx:id="locationCheckBox" layoutX="350.0" layoutY="64.0" mnemonicParsing="false" text="Location" />
+                  <CheckBox fx:id="vehicleNameCheckBox" layoutX="257.0" layoutY="87.0" mnemonicParsing="false" text="Vehicle Name" />
+                  <CheckBox fx:id="locationCheckBox" layoutX="257.0" layoutY="64.0" mnemonicParsing="false" text="Location" />
                   <Label layoutX="363.0" layoutY="14.0" text="Vehicles">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
+                  <CheckBox fx:id="primaryWorkshopCheckBox" layoutX="256.0" layoutY="41.0" mnemonicParsing="false" text="Primary Workshop" />
                </children></AnchorPane>
       </content>
     </Tab>

@@ -20,6 +20,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.application.Platform;
 import lu.ics.se.models.classes.ServiceEvents;
+import lu.ics.se.models.classes.Workshop;
+import javafx.scene.control.ChoiceBox;
+import lu.ics.se.Main;
 
 public class ServiceHistoryAccesserController implements Initializable {
 
@@ -28,6 +31,13 @@ public class ServiceHistoryAccesserController implements Initializable {
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
         displayDateLabel.setText(vehicle.getScheduledMaintenance().toString());
+
+        selectPrimaryWorkshopChoiceBox.getItems().addAll(Main.companyWorkshopList.getWorkshopList());
+            if(vehicle.getPrimaryWorkshop() != null){
+                selectPrimaryWorkshopChoiceBox.setValue(vehicle.getPrimaryWorkshop());
+            } else {
+                selectPrimaryWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().get(0));
+            }
     }
     public onCloseListener onCloseListener;
 
@@ -41,6 +51,12 @@ public class ServiceHistoryAccesserController implements Initializable {
 
     @FXML
     private Button closeWindowButton;
+
+    @FXML
+    private Button setPrimaryWorkshopButton;
+
+    @FXML
+    private ChoiceBox<Workshop> selectPrimaryWorkshopChoiceBox;
 
     @FXML
     private Label displayDateLabel;
@@ -76,6 +92,7 @@ public class ServiceHistoryAccesserController implements Initializable {
                 setDisable(empty || date.compareTo(today) < 0);
             }
         });
+
             maintenanceDatePicker.valueProperty().addListener((obs, oldDate, newDate) -> {
                     if (newDate != null && newDate.isBefore(LocalDate.now())) {
                         Platform.runLater(() ->{
@@ -97,9 +114,15 @@ public class ServiceHistoryAccesserController implements Initializable {
                     displayDateLabel.setText(vehicle.getScheduledMaintenance().toString());
                 }
 
+                public void handleSetPrimaryWorkshopButton(){
+                    Workshop selectedWorkshop = selectPrimaryWorkshopChoiceBox.getValue();
+                    vehicle.setPrimaryWorkshop(selectPrimaryWorkshopChoiceBox.getValue());
+                    selectedWorkshop.getVehiclesPrimarilyServiced().addVehicle(vehicle);
+                }
+
                 public void handleAddMaintenanceButton() {
                 }
+                
 
     }
 
-    

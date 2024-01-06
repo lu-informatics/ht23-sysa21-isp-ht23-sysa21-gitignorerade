@@ -51,5 +51,9 @@ public class Workshop {
     public void setServiceHistory(ServiceHistory serviceHistory) {
         this.serviceHistory = serviceHistory;
     }
+    @Override
+    public String toString() {
+        return workshopName;
+    }
     
 }

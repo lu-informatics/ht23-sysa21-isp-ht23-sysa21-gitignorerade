@@ -63,6 +63,9 @@ public class MainViewController implements Initializable {
     private CheckBox vehicleNameCheckBox;
 
     @FXML
+    private CheckBox primaryWorkshopCheckBox;
+
+    @FXML
     private TableView<Vehicle> vehicleTable;
 
     @FXML
@@ -82,6 +85,9 @@ public class MainViewController implements Initializable {
 
     @FXML
     private TableColumn<Vehicle, String> vehicleColumnBrand;
+
+    @FXML
+    private TableColumn<Vehicle, Workshop> vehicleColumnPrimaryWorkshop;
 
     @FXML
     private TableColumn<Vehicle, String> vehicleColumnCapacity;
@@ -168,6 +174,7 @@ public class MainViewController implements Initializable {
                 .setCellValueFactory(new PropertyValueFactory<Vehicle, LocalDate>("scheduledMaintenance"));
         vehicleColumnName.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleName"));
         workshopColumnInternal.setCellValueFactory(new PropertyValueFactory<Workshop, Boolean>("isInternal"));
+        vehicleColumnPrimaryWorkshop.setCellValueFactory(new PropertyValueFactory<Vehicle, Workshop>("primaryWorkshop"));
         workshopColumnInternal.setCellFactory(column -> {
             return new TableCell<Workshop, Boolean>() {
                 @Override
@@ -195,6 +202,7 @@ public class MainViewController implements Initializable {
         vehicleTable.getColumns().remove(vehicleColumnLastMaintenance);
         vehicleTable.getColumns().remove(vehicleColumnScheduledMaintenance);
         vehicleTable.getColumns().remove(vehicleColumnName);
+        vehicleTable.getColumns().remove(vehicleColumnPrimaryWorkshop);
 
 
         updateColumnWidths();
@@ -206,6 +214,7 @@ public class MainViewController implements Initializable {
         setupCheckBoxListener(scheduledMaintenanceCheckBox, vehicleColumnScheduledMaintenance);
         setupCheckBoxListener(vehicleNameCheckBox, vehicleColumnName);
         setupCheckBoxListener(vehicleIdCheckBox, vehicleColumnID);
+        setupCheckBoxListener(primaryWorkshopCheckBox, vehicleColumnPrimaryWorkshop);
 
 
         vehicleTable.setRowFactory(tv -> {
