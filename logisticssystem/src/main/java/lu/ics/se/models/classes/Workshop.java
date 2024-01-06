@@ -6,7 +6,6 @@ public class Workshop {
     private Locations workshopLocation;
     private VehicleManifest vehiclesPrimarilyServiced;
     private Boolean isInternal;
-    private Double hourlyRate;
     private ServiceHistory serviceHistory;
 
 
@@ -18,7 +17,6 @@ public class Workshop {
         this.workshopName = workshopName;
         this.workshopLocation = workshopLocation;
         this.isInternal = isInternal;
-        this.hourlyRate = hourlyRate;
         this.serviceHistory = new ServiceHistory();
         this.vehiclesPrimarilyServiced = new VehicleManifest();
     }
@@ -35,9 +33,6 @@ public class Workshop {
     public Boolean getInternal() {
         return isInternal;
     }
-    public Double getHourlyRate() {
-        return hourlyRate;
-    }
     public ServiceHistory getServiceHistory() {
         return serviceHistory;
     }
@@ -52,9 +47,6 @@ public class Workshop {
     }
     public void setInternal(Boolean internal) {
         isInternal = internal;
-    }
-    public void setHourlyRate(Double hourlyRate) {
-        this.hourlyRate = hourlyRate;
     }
     public void setServiceHistory(ServiceHistory serviceHistory) {
         this.serviceHistory = serviceHistory;

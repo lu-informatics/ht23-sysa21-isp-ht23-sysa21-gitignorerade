@@ -16,6 +16,7 @@ public class Vehicle {
     private LocalDate scheduledMaintenance;
     private LocalDate lastMaintenance;
     private ServiceHistory serviceHistory;
+    private Workshop primaryWorkshop;
 
     public Vehicle(){
         this.serviceHistory = new ServiceHistory();
@@ -54,6 +55,9 @@ public class Vehicle {
     public LocalDate getLastMaintenance() {
         return lastMaintenance;
     }
+    public Workshop getPrimaryWorkshop() {
+        return primaryWorkshop;
+    }
     public void setVehicleIdentificationNumber(String vehicleIdentificationNumber) {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
     }
@@ -88,6 +92,9 @@ public class Vehicle {
             }
     }
         this.lastMaintenance = closestDate;
+    }
+    public void setPrimaryWorkshop(Workshop primaryWorkshop) {
+        this.primaryWorkshop = primaryWorkshop;
     }
     public String generateVehicleIdentificationNumber() {
         String vehicleIdentificationNumber = "";

@@ -11,7 +11,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="377.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.AddVehicleController">
    <children>
-      <Text layoutX="80.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add new Vehicle to system">
+      <Text layoutX="93.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Add new Vehicle to system">
          <font>
             <Font name="Inter Bold" size="18.0" />
          </font></Text>

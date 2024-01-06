@@ -78,12 +78,36 @@
                   </Label>
                   <CheckBox fx:id="vehicleNameCheckBox" layoutX="350.0" layoutY="87.0" mnemonicParsing="false" text="Vehicle Name" />
                   <CheckBox fx:id="locationCheckBox" layoutX="350.0" layoutY="64.0" mnemonicParsing="false" text="Location" />
+                  <Label layoutX="363.0" layoutY="14.0" text="Vehicles">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
                </children></AnchorPane>
       </content>
     </Tab>
     <Tab text="Workshops">
       <content>
-        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="670.0" />
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="670.0">
+               <children>
+                  <TableView fx:id="workshopTable" layoutX="14.0" layoutY="130.0" prefHeight="770.0" prefWidth="741.0">
+                     <columns>
+                        <TableColumn fx:id="workshopColumnInternal" prefWidth="247.0" text="Last Maintenance" />
+                        <TableColumn fx:id="workshopColumnLocation" prefWidth="247.0" text="Location" />
+                        <TableColumn fx:id="workshopColumnName" minWidth="0.0" prefWidth="247.0" text="Name" />
+                     </columns>
+                  </TableView>
+                  <Button fx:id="workshopAddButton" layoutX="551.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleWorkshopAddButtonAction" prefHeight="35.0" prefWidth="175.0" text="Add new Workshop">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Button>
+                  <Label layoutX="350.0" layoutY="14.0" text="Workshop">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children></AnchorPane>
       </content>
     </Tab>
   </tabs>

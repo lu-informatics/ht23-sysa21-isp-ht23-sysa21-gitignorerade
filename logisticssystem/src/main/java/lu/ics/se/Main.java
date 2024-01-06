@@ -10,6 +10,7 @@ import lu.ics.se.models.classes.*;
 public class Main extends Application {
 
     public static VehicleManifest companyVehicleManifest = new VehicleManifest();
+    public static WorkshopList companyWorkshopList = new WorkshopList();
 
     @Override
     public void start(Stage primaryStage) throws Exception{

@@ -35,6 +35,9 @@ public class MainViewController implements Initializable {
     private Button vehicleAddButton;
 
     @FXML
+    private Button workshopAddButton;
+
+    @FXML
     private CheckBox vehicleIdCheckBox;
 
     @FXML
@@ -60,6 +63,18 @@ public class MainViewController implements Initializable {
 
     @FXML
     private TableView<Vehicle> vehicleTable;
+
+    @FXML
+    private TableView<Workshop> workshopTable;
+
+    @FXML
+    private TableColumn<Workshop, String> workshopColumnName;
+
+    @FXML
+    private TableColumn<Workshop, Locations> workshopColumnLocation;
+
+    @FXML
+    private TableColumn<Workshop, Boolean> workshopColumnInternal;
 
     @FXML
     private TableColumn<Vehicle, String> vehicleColumnID;
@@ -101,6 +116,8 @@ public class MainViewController implements Initializable {
 
         }
     }
+    public void handleWorkshopAddButtonAction() {
+        }
 
     private void updateColumnWidths() {
         ObservableList<TableColumn<Vehicle, ?>> columns = vehicleTable.getColumns();
@@ -137,12 +154,20 @@ public class MainViewController implements Initializable {
         vehicleColumnScheduledMaintenance
                 .setCellValueFactory(new PropertyValueFactory<Vehicle, LocalDate>("scheduledMaintenance"));
         vehicleColumnName.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleName"));
+        workshopColumnInternal.setCellValueFactory(new PropertyValueFactory<Workshop, Boolean>("isInternal"));
+        workshopColumnName.setCellValueFactory(new PropertyValueFactory<Workshop, String>("workshopName"));
+        workshopColumnLocation.setCellValueFactory(new PropertyValueFactory<Workshop, Locations>("workshopLocation"));
+
+
+        workshopTable.setItems(Main.companyWorkshopList.getWorkshopList());
         vehicleTable.setItems(Main.companyVehicleManifest.getVehicleManifest());
+
 
         vehicleTable.getColumns().remove(vehicleColumnLocation);
         vehicleTable.getColumns().remove(vehicleColumnLastMaintenance);
         vehicleTable.getColumns().remove(vehicleColumnScheduledMaintenance);
         vehicleTable.getColumns().remove(vehicleColumnName);
+
 
         updateColumnWidths();
         setupCheckBoxListener(brandCheckBox, vehicleColumnBrand);
@@ -153,6 +178,7 @@ public class MainViewController implements Initializable {
         setupCheckBoxListener(scheduledMaintenanceCheckBox, vehicleColumnScheduledMaintenance);
         setupCheckBoxListener(vehicleNameCheckBox, vehicleColumnName);
         setupCheckBoxListener(vehicleIdCheckBox, vehicleColumnID);
+
 
         vehicleTable.setRowFactory(tv -> {
             TableRow<Vehicle> row = new TableRow<>();
