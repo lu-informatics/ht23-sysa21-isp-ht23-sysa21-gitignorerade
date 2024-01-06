@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import javafx.scene.control.CheckBox;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableCell;
 
 public class MainViewController implements Initializable {
 
@@ -117,7 +118,19 @@ public class MainViewController implements Initializable {
         }
     }
     public void handleWorkshopAddButtonAction() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/addworkshop.fxml"));
+            Parent root = loader.load();
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Add new workshop");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
     private void updateColumnWidths() {
         ObservableList<TableColumn<Vehicle, ?>> columns = vehicleTable.getColumns();
@@ -155,6 +168,21 @@ public class MainViewController implements Initializable {
                 .setCellValueFactory(new PropertyValueFactory<Vehicle, LocalDate>("scheduledMaintenance"));
         vehicleColumnName.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleName"));
         workshopColumnInternal.setCellValueFactory(new PropertyValueFactory<Workshop, Boolean>("isInternal"));
+        workshopColumnInternal.setCellFactory(column -> {
+            return new TableCell<Workshop, Boolean>() {
+                @Override
+                protected void updateItem(Boolean isInternal, boolean empty) {
+                    super.updateItem(isInternal, empty);
+                    if (isInternal == null || empty) {
+                        setText(null);
+                    } else if (isInternal) {
+                        setText("Internal Workshop");
+                    } else {
+                        setText("External Workshop");
+                    }
+                }
+            };
+        });
         workshopColumnName.setCellValueFactory(new PropertyValueFactory<Workshop, String>("workshopName"));
         workshopColumnLocation.setCellValueFactory(new PropertyValueFactory<Workshop, Locations>("workshopLocation"));
 

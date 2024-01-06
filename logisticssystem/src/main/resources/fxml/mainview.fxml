@@ -92,9 +92,9 @@
                <children>
                   <TableView fx:id="workshopTable" layoutX="14.0" layoutY="130.0" prefHeight="770.0" prefWidth="741.0">
                      <columns>
-                        <TableColumn fx:id="workshopColumnInternal" prefWidth="247.0" text="Last Maintenance" />
-                        <TableColumn fx:id="workshopColumnLocation" prefWidth="247.0" text="Location" />
                         <TableColumn fx:id="workshopColumnName" minWidth="0.0" prefWidth="247.0" text="Name" />
+                        <TableColumn fx:id="workshopColumnInternal" prefWidth="247.0" text="External or Internal" />
+                        <TableColumn fx:id="workshopColumnLocation" prefWidth="247.0" text="Location" />
                      </columns>
                   </TableView>
                   <Button fx:id="workshopAddButton" layoutX="551.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleWorkshopAddButtonAction" prefHeight="35.0" prefWidth="175.0" text="Add new Workshop">

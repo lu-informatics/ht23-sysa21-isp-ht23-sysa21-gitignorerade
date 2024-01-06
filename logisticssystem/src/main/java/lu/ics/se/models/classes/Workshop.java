@@ -30,7 +30,7 @@ public class Workshop {
     public VehicleManifest getVehiclesPrimarilyServiced() {
         return vehiclesPrimarilyServiced;
     }
-    public Boolean getInternal() {
+    public Boolean getIsInternal() {
         return isInternal;
     }
     public ServiceHistory getServiceHistory() {
@@ -45,7 +45,7 @@ public class Workshop {
     public void setVehiclesPrimarilyServiced(VehicleManifest vehiclesPrimarilyServiced) {
         this.vehiclesPrimarilyServiced = vehiclesPrimarilyServiced;
     }
-    public void setInternal(Boolean internal) {
+    public void setIsInternal(Boolean internal) {
         isInternal = internal;
     }
     public void setServiceHistory(ServiceHistory serviceHistory) {
