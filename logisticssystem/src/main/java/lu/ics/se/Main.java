@@ -11,6 +11,7 @@ public class Main extends Application {
 
     public static VehicleManifest companyVehicleManifest = new VehicleManifest();
     public static WorkshopList companyWorkshopList = new WorkshopList();
+    public static ServiceHistory companyServiceHistory = new ServiceHistory();
 
     @Override
     public void start(Stage primaryStage) throws Exception{

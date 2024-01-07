@@ -116,6 +116,7 @@ public class AddVehicleController implements Initializable {
             vehicle.setScheduledMaintenance(LocalDate.now().plusMonths(6));
             vehicle.setLastMaintenance();
             Main.companyVehicleManifest.addVehicle(vehicle);
+            vehicle.setServiceHistory(new ServiceHistory());
             vehicleBrandTextField.clear();
             vehicleCargoCapacityTextField.clear();
             vehicleTypeChoiceBox.setValue("VAN");

@@ -9,13 +9,14 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="383.0" prefWidth="489.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.ServiceHistoryAccesserController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="390.0" prefWidth="593.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.ServiceHistoryAccesserController">
    <children>
-      <TableView fx:id="tableViewServiceHistory" layoutX="192.0" layoutY="22.0" prefHeight="361.0" prefWidth="297.0">
+      <TableView fx:id="tableViewServiceHistory" layoutX="192.0" layoutY="22.0" prefHeight="361.0" prefWidth="400.0">
         <columns>
-          <TableColumn fx:id="tableColumnWorkshop" prefWidth="99.0" text="Workshop" />
-          <TableColumn fx:id="tableColumnDate" prefWidth="99.0" text="Date" />
-            <TableColumn fx:id="tableColumnCost" prefWidth="99.0" text="Cost" />
+          <TableColumn fx:id="tableColumnWorkshop" prefWidth="100.0" text="Workshop" />
+          <TableColumn fx:id="tableColumnDate" prefWidth="100.0" text="Date" />
+            <TableColumn fx:id="tableColumnCost" prefWidth="100.0" text="Cost" />
+            <TableColumn fx:id="tableColumnPartsReplaced" prefWidth="100.0" text="Parts Replaced" />
         </columns>
       </TableView>
       <Label layoutX="3.0" layoutY="26.0" text="Next Scheduled Maintenance:">

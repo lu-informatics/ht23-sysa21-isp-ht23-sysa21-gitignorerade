@@ -1,24 +1,20 @@
 package lu.ics.se.models.classes;
 
 public class ServiceAction {
-    private String actionName;
     private String actionDescription;
     private int numberOfPartsReplaced;
     private int costOfPartsReplaced;
     private int costOfService;
+    private int totalCost;
 
     public ServiceAction(){
 
     }
-    public ServiceAction(String actionName, String actionDescription, int numberOfPartsReplaced, int costOfPartsReplaced, int numberOfHoursWorked) {
-        this.actionName = actionName;
+    public ServiceAction(String actionDescription, int numberOfPartsReplaced, int costOfPartsReplaced, int numberOfHoursWorked) {
         this.actionDescription = actionDescription;
         this.numberOfPartsReplaced = numberOfPartsReplaced;
         this.costOfPartsReplaced = costOfPartsReplaced;
         this.costOfService= numberOfHoursWorked;
-    }
-    public String getActionName() {
-        return actionName;
     }
     public String getActionDescription() {
         return actionDescription;
@@ -32,8 +28,8 @@ public class ServiceAction {
     public int getCostOfService() {
         return costOfService;
     }
-    public void setActionName(String actionName) {
-        this.actionName = actionName;
+    public int getTotalCost() {
+        return totalCost;
     }
     public void setActionDescription(String actionDescription) {
         this.actionDescription = actionDescription;
@@ -47,6 +43,10 @@ public class ServiceAction {
     public void setCostOfService(int numberOfHoursWorked) {
         this.costOfService = numberOfHoursWorked;
     }
+    public void setTotalCost(int totalCost) {
+        this.totalCost = costOfPartsReplaced + costOfService;
+    }
+
     
 
 }

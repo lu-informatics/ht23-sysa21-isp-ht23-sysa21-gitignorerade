@@ -1,17 +1,22 @@
 package lu.ics.se.models.classes;
 import java.util.ArrayList;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 
 public class ServiceHistory {
-    private ArrayList<ServiceEvents> serviceHistory;
+    private ObservableList<ServiceEvents> serviceHistory;
 
     public ServiceHistory(){
-        this.serviceHistory = new ArrayList<>();
+        this.serviceHistory = FXCollections.observableArrayList();
     }
-    public ArrayList<ServiceEvents> getServiceHistory() {
-        return serviceHistory;
-    }
-    public void setServiceHistory(ArrayList<ServiceEvents> serviceHistory) {
+    public ServiceHistory(ObservableList<ServiceEvents> serviceHistory) {
         this.serviceHistory = serviceHistory;
+    }
+    public void setServiceHistory(ObservableList<ServiceEvents> serviceHistory) {
+        this.serviceHistory = serviceHistory;
+    }
+    public ObservableList<ServiceEvents> getServiceHistory() {
+        return serviceHistory;
     }
     public void addServiceEvent(ServiceEvents serviceEvent){
         this.serviceHistory.add(serviceEvent);

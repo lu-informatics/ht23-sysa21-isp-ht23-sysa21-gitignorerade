@@ -1,21 +1,24 @@
 package lu.ics.se.models.classes;
 import java.util.ArrayList;
 import java.time.LocalDate;
+import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 
 public class ServiceEvents {
     private Vehicle vehicleServiced;
     private LocalDate eventDate;
-    private ArrayList<ServiceAction> serviceActions;
+    private ObservableList<ServiceAction> serviceActions;
     private Integer totalCostOfService;
     private Integer totalPartsReplaced;
+    private Workshop workshop;
 
     public ServiceEvents(){
-        this.serviceActions = new ArrayList<>();
+        this.serviceActions = FXCollections.observableArrayList();
     }
     public ServiceEvents(Vehicle vehicleServiced, LocalDate eventDate) {
         this.vehicleServiced = vehicleServiced;
         this.eventDate = eventDate;
-        this.serviceActions = new ArrayList<>();
+        this.serviceActions = FXCollections.observableArrayList();
     }
     public Vehicle getVehicleServiced() {
         return vehicleServiced;
@@ -23,7 +26,7 @@ public class ServiceEvents {
     public LocalDate getEventDate() {
         return eventDate;
     }
-    public ArrayList<ServiceAction> getServiceActions() {
+    public ObservableList<ServiceAction> getServiceActions() {
         return serviceActions;
     }
     public int getTotalCostOfService(){
@@ -32,14 +35,20 @@ public class ServiceEvents {
     public int getTotalPartsReplaced(){
         return totalPartsReplaced;
     }
+    public Workshop getWorkshop() {
+        return workshop;
+    }
     public void setVehicleServiced(Vehicle vehicleServiced) {
         this.vehicleServiced = vehicleServiced;
     }
     public void setEventDate(LocalDate eventDate) {
         this.eventDate = eventDate;
     }
-    public void setServiceActions(ArrayList<ServiceAction> serviceActions) {
+    public void setServiceActions(ObservableList<ServiceAction> serviceActions) {
         this.serviceActions = serviceActions;
+    }
+    public void setWorkshop(Workshop workshop) {
+        this.workshop = workshop;
     }
     public void setTotalCostOfService(){
         this.totalCostOfService = 0;
