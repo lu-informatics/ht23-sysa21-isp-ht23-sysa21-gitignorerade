@@ -49,6 +49,9 @@ public class MainViewController implements Initializable {
     private Button mostExpensiveMaintenanceButton;
 
     @FXML
+    private Button calculateAllMaintenanceCostButton;
+
+    @FXML
     private CheckBox vehicleIdCheckBox;
 
     @FXML
@@ -163,7 +166,27 @@ public class MainViewController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    public void handleCalculateAllMaintenanceCostButton() {
+        try {
+            int totalCostOfAllMaintenance = 0;
+            for (Vehicle vehicle : Main.companyVehicleManifest.getVehicleManifest()) {
+                for (ServiceEvents event : vehicle.getServiceHistory().getServiceHistory()) {
+                    totalCostOfAllMaintenance += event.getTotalCostOfService();
+                }
+            }
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Total Maintenance Cost");
+            alert.setHeaderText("The total maintenance cost has been calculated!");
+            alert.setContentText("The total maintenance cost is:" + "\n" + totalCostOfAllMaintenance + "SEK");
+            alert.showAndWait();
+        } catch (NullPointerException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Total Maintenance Cost");
+            alert.setHeaderText("The total maintenance cost has been calculated!");
+            alert.setContentText("There are no maintenance events to calculate the total maintenance cost from");
+            alert.showAndWait();
+        }
+    }
     public void handleAverageMaintenanceCostButton() {
         try {
             int averageMaintenanceCost = 0;

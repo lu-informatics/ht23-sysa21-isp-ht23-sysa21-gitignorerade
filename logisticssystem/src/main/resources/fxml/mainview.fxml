@@ -129,6 +129,11 @@
                         <Font name="Inter Bold" size="16.0" />
                      </font>
                   </Button>
+                  <Button fx:id="calculateAllMaintenanceCostButton" layoutX="465.0" layoutY="88.0" mnemonicParsing="false" onAction="#handleCalculateAllMaintenanceCostButton" prefHeight="35.0" prefWidth="278.0" text="Calculate Cost of all Maintenance">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Button>
                </children></AnchorPane>
       </content>
     </Tab>

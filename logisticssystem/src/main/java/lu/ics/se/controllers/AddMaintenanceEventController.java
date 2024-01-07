@@ -58,7 +58,11 @@ public class AddMaintenanceEventController implements Initializable {
         }
         if (vehicle.getPrimaryWorkshop() != null) {
             selectWorkshopChoiceBox.setValue(vehicle.getPrimaryWorkshop());
-        } else {
+        } else if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
+            selectWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().stream()
+                    .filter(workshop -> !workshop.getIsInternal()).findFirst().get());
+        }
+        else {
             selectWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().get(0));
         }
     }
