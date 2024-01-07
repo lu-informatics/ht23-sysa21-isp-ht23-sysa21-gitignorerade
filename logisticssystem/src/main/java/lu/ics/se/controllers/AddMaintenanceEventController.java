@@ -128,7 +128,6 @@ public class AddMaintenanceEventController implements Initializable {
             for (ServiceAction serviceAction : ServiceEvent.getServiceActions()) {
                 totalNumberOfPartsReplaced += serviceAction.getNumberOfPartsReplaced(); 
         }
-        totalNumberOfPartsReplaced += Integer.parseInt(numberOfPartsTextField.getText());
     }
         if (descriptionTextField.getText().isEmpty() || numberOfPartsTextField.getText().isEmpty()
                 || costOfLaborTextField.getText().isEmpty()) {
@@ -138,7 +137,7 @@ public class AddMaintenanceEventController implements Initializable {
             alert.setContentText("Please fill in all fields");
             alert.showAndWait();
         }
-        else if (totalNumberOfPartsReplaced >= 100) {
+        else if (totalNumberOfPartsReplaced + Integer.parseInt(numberOfPartsTextField.getText()) >= 100) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Vehicle should be decommissioned");
             alert.setHeaderText("Vehicle should be decommissioned");

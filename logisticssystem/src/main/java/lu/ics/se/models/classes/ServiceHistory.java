@@ -26,6 +26,11 @@ public class ServiceHistory {
     public void removeServiceEventByIndex(int index){
         this.serviceHistory.remove(index);
     }
+    public void removeServiceEventIfTrue(ServiceEvents serviceEvent, boolean check){
+        if(check){
+            this.serviceHistory.remove(serviceEvent);
+        }
+    }
 
 
 

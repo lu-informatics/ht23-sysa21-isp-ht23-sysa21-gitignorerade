@@ -85,6 +85,14 @@ public class ServiceEvents {
     public void removeServiceActionByIndex(int index){
         this.serviceActions.remove(index);
     }
+    public boolean checkIfNoServiceActions(){
+        if (serviceActions.isEmpty()){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     
 
 

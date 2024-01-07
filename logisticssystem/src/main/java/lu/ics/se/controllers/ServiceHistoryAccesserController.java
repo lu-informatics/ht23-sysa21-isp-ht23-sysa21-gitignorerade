@@ -24,6 +24,7 @@ import javafx.scene.Scene;
 import javafx.application.Platform;
 import lu.ics.se.models.classes.ServiceEvents;
 import lu.ics.se.models.classes.Workshop;
+import lu.ics.se.models.classes.ServiceHistory;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
 import lu.ics.se.models.enums.VehicleClass;
@@ -32,6 +33,7 @@ import java.io.IOException;
 import lu.ics.se.models.classes.ServiceAction;
 import javafx.scene.control.Alert;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -195,7 +197,69 @@ public class ServiceHistoryAccesserController implements Initializable {
                 serviceActionPartsReplacedColumn.setCellValueFactory(new PropertyValueFactory<ServiceAction, Integer>("numberOfPartsReplaced"));
 
                 alert.getDialogPane().setContent(serviceActionTableView);
+                
+                serviceActionTableView.setRowFactory(event1 -> {
+                    TableRow<ServiceAction> editrow = new TableRow<>();
+                    ContextMenu contextMenuRemove = new ContextMenu();
+                    MenuItem deleteItemRemove = new MenuItem("Delete Service Action");
+
+                    deleteItemRemove.setOnAction(event2 -> {
+                        ServiceAction serviceAction = editrow.getItem();
+                        Workshop workshop = serviceEvents.getWorkshop();
+                        Iterator<ServiceEvents> iterator = vehicle.getServiceHistory().getServiceHistory().iterator();
+                        while(iterator.hasNext()) {
+                            ServiceEvents serviceEvent = iterator.next();
+                            if (serviceEvent.getServiceActions().contains(serviceAction)){
+                                serviceEvent.getServiceActions().remove(serviceAction);
+                                serviceEvent.setTotalCostOfService();
+                                serviceEvent.setTotalPartsReplaced();
+                            }
+                            if (serviceEvent.getServiceActions().isEmpty()) {
+                                iterator.remove();
+                                
+                            }
+                        }
+                        iterator = Main.companyServiceHistory.getServiceHistory().iterator();
+                        while(iterator.hasNext()) {
+                            ServiceEvents serviceEvent = iterator.next();
+                            if (serviceEvent.getServiceActions().contains(serviceAction)){
+                                serviceEvent.getServiceActions().remove(serviceAction);
+                                serviceEvent.setTotalCostOfService();
+                                serviceEvent.setTotalPartsReplaced();
+                            }
+                            if (serviceEvent.getServiceActions().isEmpty()){
+                                iterator.remove();
+                            }
+                        }
+                        iterator = workshop.getServiceHistory().getServiceHistory().iterator();
+                        while (iterator.hasNext()) {
+                            ServiceEvents serviceEvent = iterator.next();
+                            if (serviceEvent.getServiceActions().contains(serviceAction)){
+                                serviceEvent.getServiceActions().remove(serviceAction);
+                                serviceEvent.setTotalCostOfService();
+                                serviceEvent.setTotalPartsReplaced();
+                            }
+                            if (serviceEvent.getServiceActions().isEmpty()){
+                                iterator.remove();
+                            }
+                        }
+                        serviceActionTableView.refresh();
+                        if (updateUIListener != null) {
+                            updateUIListener.updateUI();
+                        }
+                    });
+
+
+                    contextMenuRemove.getItems().addAll(deleteItemRemove);
+                    editrow.contextMenuProperty().bind(
+                            javafx.beans.binding.Bindings.when(editrow.emptyProperty())
+                                    .then((ContextMenu)null)
+                                    .otherwise(contextMenuRemove)
+                    );
+                    return editrow;
+                });
                 alert.showAndWait();
+
 
             });
             contextMenu.getItems().addAll(deleteItem, editItem);
