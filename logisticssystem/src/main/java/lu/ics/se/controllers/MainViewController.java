@@ -448,6 +448,10 @@ public class MainViewController implements Initializable {
                     ServiceHistoryAccesserController controller = loader.getController();
                     controller.setVehicle(vehicle);
                     controller.updateUI();
+                    controller.setUpdateUIListener(() -> {
+                        vehicleTable.refresh();
+                        workshopTable.refresh();
+                    });
 
                     controller.setOnCloseListener(() -> {
                         vehicleTable.refresh();

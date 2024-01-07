@@ -38,6 +38,15 @@ import java.util.Optional;
 
 public class ServiceHistoryAccesserController implements Initializable {
 
+    public interface updateUIListener {
+        void updateUI();
+    }
+    private updateUIListener updateUIListener;
+
+    public void setUpdateUIListener(updateUIListener updateUIListener) {
+        this.updateUIListener = updateUIListener;
+    }
+
     private Vehicle vehicle;
 
     public void setVehicle(Vehicle vehicle) {
@@ -210,6 +219,10 @@ public class ServiceHistoryAccesserController implements Initializable {
     public void handleScheduleMaintenanceButton() {
         vehicle.setScheduledMaintenance(maintenanceDatePicker.getValue());
         displayDateLabel.setText(vehicle.getScheduledMaintenance().toString());
+        if (updateUIListener != null) {
+            updateUIListener.updateUI();
+        }
+
     }
 
     public void handleSetPrimaryWorkshopButton() {
