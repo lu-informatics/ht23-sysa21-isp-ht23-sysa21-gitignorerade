@@ -105,6 +105,16 @@ public class AddMaintenanceEventController implements Initializable {
 
     @FXML
     public void handleAddServiceActivityButton() {
+        int totalNumberOfPartsReplaced = 0;
+        for (ServiceAction serviceAction : serviceEventToAdd.getServiceActions()) {
+            totalNumberOfPartsReplaced += serviceAction.getNumberOfPartsReplaced();
+        }
+        for (ServiceEvents ServiceEvent : vehicle.getServiceHistory().getServiceHistory()) {
+            for (ServiceAction serviceAction : ServiceEvent.getServiceActions()) {
+                totalNumberOfPartsReplaced += serviceAction.getNumberOfPartsReplaced(); 
+        }
+        totalNumberOfPartsReplaced += Integer.parseInt(numberOfPartsTextField.getText());
+    }
         if (descriptionTextField.getText().isEmpty() || numberOfPartsTextField.getText().isEmpty()
                 || costOfLaborTextField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -112,6 +122,15 @@ public class AddMaintenanceEventController implements Initializable {
             alert.setHeaderText("Error");
             alert.setContentText("Please fill in all fields");
             alert.showAndWait();
+        }
+        else if (totalNumberOfPartsReplaced >= 100) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Vehicle should be decommissioned");
+            alert.setHeaderText("Vehicle should be decommissioned");
+            alert.setContentText("The vehicle has exceeded 100 parts replaced." + "\n" + "Decommision the vehicle, and remove it from the system");
+            alert.showAndWait();
+            vehicle.setIsDecommissioned(true);
+
         } else {
             ServiceAction serviceActionToAdd = new ServiceAction();
             serviceActionToAdd.setActionDescription(descriptionTextField.getText());

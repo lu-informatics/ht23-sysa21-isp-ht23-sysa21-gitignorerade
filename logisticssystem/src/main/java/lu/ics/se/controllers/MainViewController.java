@@ -190,6 +190,19 @@ public class MainViewController implements Initializable {
                 }
             };
         });
+        vehicleTable.setRowFactory(tv -> new TableRow<Vehicle>() {
+            @Override
+            protected void updateItem(Vehicle vehicle, boolean empty) {
+                super.updateItem(vehicle, empty);
+                if (vehicle == null || empty) {
+                    setStyle("");
+                } else if (vehicle.getIsDecommissioned()) {
+                    setStyle("-fx-text-decoration: line-through;");
+                } else {
+                    setStyle("");
+                }
+            }
+        });
         workshopColumnName.setCellValueFactory(new PropertyValueFactory<Workshop, String>("workshopName"));
         workshopColumnLocation.setCellValueFactory(new PropertyValueFactory<Workshop, Locations>("workshopLocation"));
 

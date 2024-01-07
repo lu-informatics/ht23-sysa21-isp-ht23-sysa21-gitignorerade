@@ -5,6 +5,7 @@ import java.util.Random;
 import java.time.LocalDate;
 import lu.ics.se.Main;
 import java.time.temporal.ChronoUnit;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class Vehicle {
     private String vehicleIdentificationNumber;
@@ -17,9 +18,11 @@ public class Vehicle {
     private LocalDate lastMaintenance;
     private ServiceHistory serviceHistory;
     private Workshop primaryWorkshop;
+    private SimpleBooleanProperty isDecommissioned;
 
     public Vehicle(){
         this.serviceHistory = new ServiceHistory();
+        this.isDecommissioned = new SimpleBooleanProperty(false);
 
     }
     public Vehicle(String vehicleBrand, double capacityinKg, VehicleClass vehicleClass) {
@@ -27,7 +30,8 @@ public class Vehicle {
         this.capacityinKg = capacityinKg;
         this.vehicleClass = vehicleClass;
         this.serviceHistory = new ServiceHistory();
-    }
+        this.isDecommissioned = new SimpleBooleanProperty(false);
+        }
     public String getVehicleIdentificationNumber() {
         return vehicleIdentificationNumber;
     }
@@ -57,6 +61,9 @@ public class Vehicle {
     }
     public Workshop getPrimaryWorkshop() {
         return primaryWorkshop;
+    }
+    public boolean getIsDecommissioned() {
+        return isDecommissioned.get();
     }
     public void setVehicleIdentificationNumber(String vehicleIdentificationNumber) {
         this.vehicleIdentificationNumber = vehicleIdentificationNumber;
@@ -95,6 +102,9 @@ public class Vehicle {
     }
     public void setPrimaryWorkshop(Workshop primaryWorkshop) {
         this.primaryWorkshop = primaryWorkshop;
+    }
+    public void setIsDecommissioned(boolean isDecommissioned) {
+        this.isDecommissioned.set(isDecommissioned);
     }
     public String generateVehicleIdentificationNumber() {
         String vehicleIdentificationNumber = "";
