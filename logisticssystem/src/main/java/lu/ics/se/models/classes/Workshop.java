@@ -7,7 +7,7 @@ public class Workshop {
     private VehicleManifest vehiclesPrimarilyServiced;
     private Boolean isInternal;
     private ServiceHistory serviceHistory;
-    private Integer totalCostOfService;
+    private Integer totalCostOfAllService;
 
 
     public Workshop(){
@@ -37,7 +37,7 @@ public class Workshop {
     public ServiceHistory getServiceHistory() {
         return serviceHistory;
     }
-    public int getTotalCostOfService() {
+    public int getTotalCostOfAllService() {
         int totalCostOfService = 0;
         for (ServiceEvents serviceEvent : serviceHistory.getServiceHistory()) {
             totalCostOfService += serviceEvent.getTotalCostOfService();
@@ -57,7 +57,7 @@ public class Workshop {
         isInternal = internal;
     }
     public void setTotalCostOfService(Integer totalCostOfService) {
-        this.totalCostOfService = totalCostOfService;
+        this.totalCostOfAllService = totalCostOfService;
     }
     public void setServiceHistory(ServiceHistory serviceHistory) {
         this.serviceHistory = serviceHistory;

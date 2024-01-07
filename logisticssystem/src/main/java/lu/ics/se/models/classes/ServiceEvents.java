@@ -1,16 +1,17 @@
 package lu.ics.se.models.classes;
-import java.util.ArrayList;
 import java.time.LocalDate;
 import javafx.collections.ObservableList;
 import javafx.collections.FXCollections;
 
 public class ServiceEvents {
     private Vehicle vehicleServiced;
+    private String vehicleServicedName;
     private LocalDate eventDate;
     private ObservableList<ServiceAction> serviceActions;
     private Integer totalCostOfService;
     private Integer totalPartsReplaced;
     private Workshop workshop;
+    private String workshopName;
 
     public ServiceEvents(){
         this.serviceActions = FXCollections.observableArrayList();
@@ -38,6 +39,12 @@ public class ServiceEvents {
     public Workshop getWorkshop() {
         return workshop;
     }
+    public String getVehicleServicedName(){
+        return vehicleServiced.getVehicleName();
+    }
+    public String getWorkshopName(){
+        return workshop.getWorkshopName();
+    }
     public void setVehicleServiced(Vehicle vehicleServiced) {
         this.vehicleServiced = vehicleServiced;
     }
@@ -62,6 +69,12 @@ public class ServiceEvents {
         for (ServiceAction serviceAction : serviceActions){
             this.totalPartsReplaced += serviceAction.getNumberOfPartsReplaced();
         }
+    }
+    public void setVehicleServicedName(String vehicleServicedName){
+        this.vehicleServicedName = vehicleServicedName;
+    }
+    public void setWorkshopName(String workshopName){
+        this.workshopName = workshopName;
     }
     public void addServiceAction(ServiceAction serviceAction){
         this.serviceActions.add(serviceAction);

@@ -104,17 +104,27 @@
                         <TableColumn fx:id="workshopColumnTotalCost" prefWidth="185.0" text="Total Cost" />
                      </columns>
                   </TableView>
-                  <Button fx:id="workshopAddButton" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleWorkshopAddButtonAction" prefHeight="35.0" prefWidth="175.0" text="Add new Workshop">
+                  <Button fx:id="workshopAddButton" layoutX="14.0" layoutY="41.0" mnemonicParsing="false" onAction="#handleWorkshopAddButtonAction" prefHeight="35.0" prefWidth="175.0" text="Add new Workshop">
                      <font>
                         <Font name="Inter Bold" size="16.0" />
                      </font>
                   </Button>
-                  <Label layoutX="350.0" layoutY="14.0" text="Workshop">
+                  <Label layoutX="273.0" layoutY="14.0" text="Workshops and Maintenance">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Button fx:id="averageMaintenanceCostButton" layoutX="202.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleAverageMaintenanceCostButton" prefHeight="35.0" prefWidth="296.0" text="Display Average Maintenance Cost">
+                  <Button fx:id="averageMaintenanceCostButton" layoutX="14.0" layoutY="88.0" mnemonicParsing="false" onAction="#handleAverageMaintenanceCostButton" prefHeight="35.0" prefWidth="296.0" text="Display Average Maintenance Cost">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="mostExpensiveMaintenanceButton" layoutX="194.0" layoutY="41.0" mnemonicParsing="false" onAction="#handleMostExpensiveMaintenanceButton" prefHeight="35.0" prefWidth="326.0" text="Info on most expensive Maintenance">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="displayServiceHistoryForAllButton" layoutX="314.0" layoutY="88.0" mnemonicParsing="false" onAction="#handleDisplayServiceHistoryForAllButton" prefHeight="35.0" prefWidth="142.0" text="Show all services">
                      <font>
                         <Font name="Inter Bold" size="16.0" />
                      </font>

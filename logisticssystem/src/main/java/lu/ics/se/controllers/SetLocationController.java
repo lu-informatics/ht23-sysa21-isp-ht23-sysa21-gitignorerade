@@ -5,8 +5,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Button;
 import lu.ics.se.models.classes.Vehicle;
 import lu.ics.se.models.enums.Locations;
-import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.List;
 import java.util.Arrays;
 import java.util.stream.Collectors;

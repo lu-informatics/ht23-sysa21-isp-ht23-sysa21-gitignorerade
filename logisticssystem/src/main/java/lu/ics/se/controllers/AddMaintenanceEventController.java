@@ -16,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
-import lu.ics.se.models.classes.ServiceAction;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Alert;
 import java.util.function.UnaryOperator;
@@ -26,7 +25,6 @@ import javafx.stage.Stage;
 import javafx.scene.control.DatePicker;
 import java.time.LocalDate;
 import javafx.scene.control.DateCell;
-import lu.ics.se.controllers.MainViewController;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
@@ -226,7 +224,11 @@ public class AddMaintenanceEventController implements Initializable {
             Main.companyServiceHistory.addServiceEvent(serviceEventToAdd);
             vehicle.getServiceHistory().addServiceEvent(serviceEventToAdd);
             Workshop workshop = selectWorkshopChoiceBox.getValue();
-            workshop.getServiceHistory().addServiceEvent(serviceEventToAdd);
+            for (Workshop workshopToFind : Main.companyWorkshopList.getWorkshopList()) {
+                if (workshopToFind.equals(workshop)) {
+                    workshopToFind.getServiceHistory().addServiceEvent(serviceEventToAdd);
+                }
+            }
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Service Event Added");
