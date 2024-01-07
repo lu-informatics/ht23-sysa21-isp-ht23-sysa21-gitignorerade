@@ -26,6 +26,10 @@ import javafx.stage.Stage;
 import javafx.scene.control.DatePicker;
 import java.time.LocalDate;
 import javafx.scene.control.DateCell;
+import lu.ics.se.controllers.MainViewController;
+import javafx.scene.control.ButtonType;
+import java.util.Optional;
+
 
 public class AddMaintenanceEventController implements Initializable {
     private ServiceEvents serviceEventToAdd;
@@ -105,6 +109,15 @@ public class AddMaintenanceEventController implements Initializable {
 
     @FXML
     public void handleAddServiceActivityButton() {
+        int totalCostOfAllMaintenance = 0;
+        for (ServiceEvents ServiceEvent : vehicle.getServiceHistory().getServiceHistory()) {
+            totalCostOfAllMaintenance += ServiceEvent.getTotalCostOfService();
+        }
+        for (ServiceAction serviceAction : serviceEventToAdd.getServiceActions()) {
+            totalCostOfAllMaintenance += serviceAction.getTotalCost();
+        }
+        totalCostOfAllMaintenance += Integer.parseInt(costOfLaborTextField.getText());
+
         int totalNumberOfPartsReplaced = 0;
         for (ServiceAction serviceAction : serviceEventToAdd.getServiceActions()) {
             totalNumberOfPartsReplaced += serviceAction.getNumberOfPartsReplaced();
@@ -127,9 +140,43 @@ public class AddMaintenanceEventController implements Initializable {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Vehicle should be decommissioned");
             alert.setHeaderText("Vehicle should be decommissioned");
-            alert.setContentText("The vehicle has exceeded 100 parts replaced." + "\n" + "Decommision the vehicle, and remove it from the system");
+            alert.setContentText("The vehicle has exceeded 100 parts replaced." + "\n" + "Vehicle will be removed from system");
             alert.showAndWait();
-            vehicle.setIsDecommissioned(true);
+            Main.companyVehicleManifest.removeVehicle(vehicle);
+            Stage stage = (Stage) saveAndExitButton.getScene().getWindow();
+            stage.close();
+        
+        } else if (totalCostOfAllMaintenance >= 100000){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Exceedingly high maintenance cost");
+            alert.setHeaderText("Exceedingly high maintenance cost");
+            alert.setContentText("The vehicle has exceeded 100,000 crowns in maintenance costs." + "\n" + "Consider decommissioning the vehicle");
+
+            ButtonType buttonTypeGoAheadAnyway = new ButtonType("Add event anyway");
+            ButtonType buttonTypeCancel = new ButtonType("Cancel");
+            alert.getButtonTypes().setAll(buttonTypeGoAheadAnyway, buttonTypeCancel);
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.get() == buttonTypeGoAheadAnyway){
+            ServiceAction serviceActionToAdd = new ServiceAction();
+            serviceActionToAdd.setActionDescription(descriptionTextField.getText());
+            serviceActionToAdd.setNumberOfPartsReplaced(Integer.parseInt(numberOfPartsTextField.getText()));
+            serviceActionToAdd.setCostOfService(Integer.parseInt(costOfLaborTextField.getText()));
+            if (vehicle.getVehicleClass() == VehicleClass.Van) {
+                serviceActionToAdd.setCostOfPartsReplaced(100 * serviceActionToAdd.getNumberOfPartsReplaced());
+            } else if (vehicle.getVehicleClass() == VehicleClass.Mediumtruck) {
+                serviceActionToAdd.setCostOfPartsReplaced(200 * serviceActionToAdd.getNumberOfPartsReplaced());
+            } else if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
+                serviceActionToAdd.setCostOfPartsReplaced(500 * serviceActionToAdd.getNumberOfPartsReplaced());
+            }
+            serviceActionToAdd
+                    .setTotalCost(serviceActionToAdd.getCostOfPartsReplaced() + serviceActionToAdd.getCostOfService());
+
+            serviceEventToAdd.getServiceActions().add(serviceActionToAdd);
+            }
+            else {
+            }
+
 
         } else {
             ServiceAction serviceActionToAdd = new ServiceAction();

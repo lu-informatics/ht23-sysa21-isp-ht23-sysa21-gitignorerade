@@ -21,8 +21,4 @@ public class WorkshopList {
     public void removeWorkshop(Workshop workshop) {
         this.workshopList.remove(workshop);
     }
-
-
-
-
 }

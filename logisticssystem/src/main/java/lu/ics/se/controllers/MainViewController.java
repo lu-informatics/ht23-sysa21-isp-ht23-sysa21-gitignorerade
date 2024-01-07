@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
 import java.net.URL;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -39,6 +40,9 @@ public class MainViewController implements Initializable {
     private Button workshopAddButton;
 
     @FXML
+    private Button averageMaintenanceCostButton;
+
+    @FXML
     private CheckBox vehicleIdCheckBox;
 
     @FXML
@@ -66,6 +70,12 @@ public class MainViewController implements Initializable {
     private CheckBox primaryWorkshopCheckBox;
 
     @FXML
+    private CheckBox totalCostCheckBox;
+
+    @FXML
+    private CheckBox partsReplacedCheckBox;
+
+    @FXML
     private TableView<Vehicle> vehicleTable;
 
     @FXML
@@ -79,6 +89,9 @@ public class MainViewController implements Initializable {
 
     @FXML
     private TableColumn<Workshop, Boolean> workshopColumnInternal;
+
+    @FXML
+    private TableColumn<Workshop, Integer> workshopColumnTotalCost;
 
     @FXML
     private TableColumn<Vehicle, String> vehicleColumnID;
@@ -106,6 +119,12 @@ public class MainViewController implements Initializable {
 
     @FXML
     private TableColumn<Vehicle, String> vehicleColumnName;
+
+    @FXML
+    private TableColumn<Vehicle, Integer> vehicleColumnTotalCostOfService;
+
+    @FXML
+    private TableColumn<Vehicle, Integer> vehicleColumnPartsReplaced;
 
     @FXML
     public void handleVehicleAddButtonAction() {
@@ -137,6 +156,31 @@ public class MainViewController implements Initializable {
             e.printStackTrace();
         }
     }
+    public void handleAverageMaintenanceCostButton() {
+        try{
+        int averageMaintenanceCost = 0;
+        int totalCostOfAllMaintenance = 0;
+        int totalNumberOfMaintenanceEvents = 0;
+        for (Vehicle vehicle : Main.companyVehicleManifest.getVehicleManifest()) {
+            for (ServiceEvents event : vehicle.getServiceHistory().getServiceHistory()) {
+                totalCostOfAllMaintenance += event.getTotalCostOfService();
+                totalNumberOfMaintenanceEvents++;}
+        }
+        averageMaintenanceCost = totalCostOfAllMaintenance / totalNumberOfMaintenanceEvents;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Average Maintenance Cost");
+        alert.setHeaderText("The average maintenance cost has been calculated!");
+        alert.setContentText("The average maintenance cost is:" + "\n" + averageMaintenanceCost + "SEK");
+        alert.showAndWait();
+        } catch (ArithmeticException e) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Average Maintenance Cost");
+            alert.setHeaderText("The average maintenance cost has been calculated!");
+            alert.setContentText("There are no maintenance events to calculate the average maintenance cost from");
+            alert.showAndWait();
+        }
+    }
+            
 
     private void updateColumnWidths() {
         ObservableList<TableColumn<Vehicle, ?>> columns = vehicleTable.getColumns();
@@ -175,6 +219,8 @@ public class MainViewController implements Initializable {
         vehicleColumnName.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("vehicleName"));
         workshopColumnInternal.setCellValueFactory(new PropertyValueFactory<Workshop, Boolean>("isInternal"));
         vehicleColumnPrimaryWorkshop.setCellValueFactory(new PropertyValueFactory<Vehicle, Workshop>("primaryWorkshop"));
+        vehicleColumnTotalCostOfService.setCellValueFactory(new PropertyValueFactory<Vehicle, Integer>("totalCostOfService"));
+        vehicleColumnPartsReplaced.setCellValueFactory(new PropertyValueFactory<Vehicle, Integer>("totalPartsReplaced"));
         workshopColumnInternal.setCellFactory(column -> {
             return new TableCell<Workshop, Boolean>() {
                 @Override
@@ -190,21 +236,9 @@ public class MainViewController implements Initializable {
                 }
             };
         });
-        vehicleTable.setRowFactory(tv -> new TableRow<Vehicle>() {
-            @Override
-            protected void updateItem(Vehicle vehicle, boolean empty) {
-                super.updateItem(vehicle, empty);
-                if (vehicle == null || empty) {
-                    setStyle("");
-                } else if (vehicle.getIsDecommissioned()) {
-                    setStyle("-fx-text-decoration: line-through;");
-                } else {
-                    setStyle("");
-                }
-            }
-        });
         workshopColumnName.setCellValueFactory(new PropertyValueFactory<Workshop, String>("workshopName"));
         workshopColumnLocation.setCellValueFactory(new PropertyValueFactory<Workshop, Locations>("workshopLocation"));
+        workshopColumnTotalCost.setCellValueFactory(new PropertyValueFactory<Workshop, Integer>("totalCostOfService"));
 
 
         workshopTable.setItems(Main.companyWorkshopList.getWorkshopList());
@@ -216,7 +250,8 @@ public class MainViewController implements Initializable {
         vehicleTable.getColumns().remove(vehicleColumnScheduledMaintenance);
         vehicleTable.getColumns().remove(vehicleColumnName);
         vehicleTable.getColumns().remove(vehicleColumnPrimaryWorkshop);
-
+        vehicleTable.getColumns().remove(vehicleColumnTotalCostOfService);
+        vehicleTable.getColumns().remove(vehicleColumnPartsReplaced);
 
         updateColumnWidths();
         setupCheckBoxListener(brandCheckBox, vehicleColumnBrand);
@@ -228,16 +263,16 @@ public class MainViewController implements Initializable {
         setupCheckBoxListener(vehicleNameCheckBox, vehicleColumnName);
         setupCheckBoxListener(vehicleIdCheckBox, vehicleColumnID);
         setupCheckBoxListener(primaryWorkshopCheckBox, vehicleColumnPrimaryWorkshop);
+        setupCheckBoxListener(totalCostCheckBox, vehicleColumnTotalCostOfService);
+        setupCheckBoxListener(partsReplacedCheckBox, vehicleColumnPartsReplaced);
 
 
         vehicleTable.setRowFactory(tv -> {
             TableRow<Vehicle> row = new TableRow<>();
             ContextMenu contextMenu = new ContextMenu();
-
             MenuItem editItem = new MenuItem("Edit Vehicle");
             editItem.setOnAction(event -> {
                 try {
-                    
                     Vehicle vehicle = row.getItem();
 
                     Stage stage = new Stage();
@@ -258,6 +293,7 @@ public class MainViewController implements Initializable {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+            
             });
 
             MenuItem removeItem = new MenuItem("Remove Vehicle");
@@ -343,8 +379,8 @@ public class MainViewController implements Initializable {
                     Bindings.when(row.emptyProperty())
                             .then((ContextMenu) null)
                             .otherwise(contextMenu));
-
             return row;
         });
+
     }
 }

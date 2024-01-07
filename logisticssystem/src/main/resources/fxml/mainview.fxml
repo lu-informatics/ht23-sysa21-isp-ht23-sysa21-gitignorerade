@@ -64,6 +64,8 @@
                         <TableColumn fx:id="vehicleColumnLocation" prefWidth="-1.0" text="Location" />
                         <TableColumn fx:id="vehicleColumnName" prefWidth="-1.0" text="Name" />
                         <TableColumn fx:id="vehicleColumnPrimaryWorkshop" prefWidth="-1.0" text="Primary Workshop" />
+                        <TableColumn fx:id="vehicleColumnTotalCostOfService" prefWidth="-1.0" text="Total Cost of Service" />
+                        <TableColumn fx:id="vehicleColumnPartsReplaced" prefWidth="-1.0" text="Parts Replaced" />
                     </columns>
                   </TableView>
                   <CheckBox fx:id="classCheckBox" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" selected="true" text="Class" />
@@ -85,21 +87,24 @@
                      </font>
                   </Label>
                   <CheckBox fx:id="primaryWorkshopCheckBox" layoutX="256.0" layoutY="41.0" mnemonicParsing="false" text="Primary Workshop" />
+                  <CheckBox fx:id="totalCostCheckBox" layoutX="384.0" layoutY="41.0" mnemonicParsing="false" text="Total Cost" />
+                  <CheckBox fx:id="partsReplacedCheckBox" layoutX="384.0" layoutY="64.0" mnemonicParsing="false" text="Parts Replaced" />
                </children></AnchorPane>
       </content>
     </Tab>
-    <Tab text="Workshops">
+    <Tab text="Workshops and Maintenance">
       <content>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="401.0" prefWidth="670.0">
                <children>
-                  <TableView fx:id="workshopTable" layoutX="14.0" layoutY="130.0" prefHeight="770.0" prefWidth="741.0">
+                  <TableView fx:id="workshopTable" layoutX="14.0" layoutY="130.0" prefHeight="770.0" prefWidth="742.0">
                      <columns>
-                        <TableColumn fx:id="workshopColumnName" minWidth="0.0" prefWidth="247.0" text="Name" />
-                        <TableColumn fx:id="workshopColumnInternal" prefWidth="247.0" text="External or Internal" />
-                        <TableColumn fx:id="workshopColumnLocation" prefWidth="247.0" text="Location" />
+                        <TableColumn fx:id="workshopColumnName" minWidth="0.0" prefWidth="185.0" text="Name" />
+                        <TableColumn fx:id="workshopColumnInternal" prefWidth="185.0" text="External or Internal" />
+                        <TableColumn fx:id="workshopColumnLocation" prefWidth="185.0" text="Location" />
+                        <TableColumn fx:id="workshopColumnTotalCost" prefWidth="185.0" text="Total Cost" />
                      </columns>
                   </TableView>
-                  <Button fx:id="workshopAddButton" layoutX="551.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleWorkshopAddButtonAction" prefHeight="35.0" prefWidth="175.0" text="Add new Workshop">
+                  <Button fx:id="workshopAddButton" layoutX="14.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleWorkshopAddButtonAction" prefHeight="35.0" prefWidth="175.0" text="Add new Workshop">
                      <font>
                         <Font name="Inter Bold" size="16.0" />
                      </font>
@@ -109,6 +114,11 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
+                  <Button fx:id="averageMaintenanceCostButton" layoutX="202.0" layoutY="70.0" mnemonicParsing="false" onAction="#handleAverageMaintenanceCostButton" prefHeight="35.0" prefWidth="296.0" text="Display Average Maintenance Cost">
+                     <font>
+                        <Font name="Inter Bold" size="16.0" />
+                     </font>
+                  </Button>
                </children></AnchorPane>
       </content>
     </Tab>
