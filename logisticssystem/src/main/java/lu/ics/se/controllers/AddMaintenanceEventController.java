@@ -9,6 +9,7 @@ import javafx.scene.control.ChoiceBox;
 import lu.ics.se.Main;
 import lu.ics.se.models.classes.Vehicle;
 import lu.ics.se.models.classes.Workshop;
+import lu.ics.se.models.classes.WorkshopList;
 import lu.ics.se.models.classes.ServiceEvents;
 import lu.ics.se.models.classes.ServiceAction;
 import lu.ics.se.models.enums.VehicleClass;
@@ -49,10 +50,12 @@ public class AddMaintenanceEventController implements Initializable {
     public void updateUI() {
         displayCurrentVehicleLabel.setText(vehicle.getVehicleName());
         if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
+            WorkshopList filteredWorkshopList = new WorkshopList();
             selectWorkshopChoiceBox.getItems().addAll(
                     Main.companyWorkshopList.getWorkshopList().stream()
                             .filter(workshop -> !workshop.getIsInternal())
                             .collect(Collectors.toList()));
+            selectWorkshopChoiceBox.setValue(filteredWorkshopList.getWorkshopList().get(0));
         } else {
             selectWorkshopChoiceBox.getItems().addAll(Main.companyWorkshopList.getWorkshopList());
         }

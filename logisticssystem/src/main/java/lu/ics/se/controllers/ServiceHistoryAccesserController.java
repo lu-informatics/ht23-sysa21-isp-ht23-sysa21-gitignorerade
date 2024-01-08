@@ -25,6 +25,7 @@ import javafx.application.Platform;
 import lu.ics.se.models.classes.ServiceEvents;
 import lu.ics.se.models.classes.Workshop;
 import lu.ics.se.models.classes.ServiceHistory;
+import lu.ics.se.models.classes.WorkshopList;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ContextMenu;
 import lu.ics.se.models.enums.VehicleClass;
@@ -37,12 +38,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-
 public class ServiceHistoryAccesserController implements Initializable {
 
     public interface updateUIListener {
         void updateUI();
     }
+
     private updateUIListener updateUIListener;
 
     public void setUpdateUIListener(updateUIListener updateUIListener) {
@@ -55,10 +56,16 @@ public class ServiceHistoryAccesserController implements Initializable {
         this.vehicle = vehicle;
         displayDateLabel.setText(vehicle.getScheduledMaintenance().toString());
         if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
-            selectPrimaryWorkshopChoiceBox.getItems().addAll(
-                    Main.companyWorkshopList.getWorkshopList().stream()
-                            .filter(workshop -> !workshop.getIsInternal())
-                            .collect(Collectors.toList()));
+            WorkshopList filteredWorkshopList = new WorkshopList();
+            filteredWorkshopList.getWorkshopList().addAll(Main.companyWorkshopList.getWorkshopList().stream()
+                    .filter(workshop -> workshop.getIsInternal())
+                    .collect(Collectors.toList()));
+            selectPrimaryWorkshopChoiceBox.getItems().addAll(Main.companyWorkshopList.getWorkshopList().stream()
+                    .filter(workshop -> !workshop.getIsInternal())
+                    .collect(Collectors.toList()));
+            if (!filteredWorkshopList.getWorkshopList().isEmpty()) {
+                selectPrimaryWorkshopChoiceBox.setValue(filteredWorkshopList.getWorkshopList().get(0));
+            }
         } else {
             selectPrimaryWorkshopChoiceBox.getItems().addAll(Main.companyWorkshopList.getWorkshopList());
         }
@@ -142,28 +149,28 @@ public class ServiceHistoryAccesserController implements Initializable {
                     maintenanceDatePicker.setValue(LocalDate.now());
                 });
             }
-        }); 
+        });
         tableViewServiceHistory.setRowFactory(tv -> {
-            TableRow <ServiceEvents> row = new TableRow<>();
+            TableRow<ServiceEvents> row = new TableRow<>();
             ContextMenu contextMenu = new ContextMenu();
 
             MenuItem deleteItem = new MenuItem("Delete Service Event");
             deleteItem.setOnAction(event -> {
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this service event?", ButtonType.YES, ButtonType.NO);
+                Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
+                        "Are you sure you want to delete this service event?", ButtonType.YES, ButtonType.NO);
                 alert.setTitle("Delete Service Event");
                 alert.setHeaderText("Delete Service Event");
                 Optional<ButtonType> result = alert.showAndWait();
 
                 if (result.isPresent() && result.get() == ButtonType.YES) {
-                ServiceEvents serviceEvents = row.getItem();
-                Workshop workshop = serviceEvents.getWorkshop();
-                Vehicle vehicle = serviceEvents.getVehicleServiced();
-                vehicle.getServiceHistory().getServiceHistory().remove(serviceEvents);
-                Main.companyServiceHistory.getServiceHistory().remove(serviceEvents);
-                workshop.getServiceHistory().getServiceHistory().remove(serviceEvents);
-                updateUI();
-                }
-                else {
+                    ServiceEvents serviceEvents = row.getItem();
+                    Workshop workshop = serviceEvents.getWorkshop();
+                    Vehicle vehicle = serviceEvents.getVehicleServiced();
+                    vehicle.getServiceHistory().getServiceHistory().remove(serviceEvents);
+                    Main.companyServiceHistory.getServiceHistory().remove(serviceEvents);
+                    workshop.getServiceHistory().getServiceHistory().remove(serviceEvents);
+                    updateUI();
+                } else {
                     alert.close();
                 }
             });
@@ -177,13 +184,17 @@ public class ServiceHistoryAccesserController implements Initializable {
 
                 serviceActionTableView.setItems(serviceEvents.getServiceActions());
 
-                TableColumn<ServiceAction, String> serviceActionDescriptionColumn = new TableColumn<>("Service Action Description");
+                TableColumn<ServiceAction, String> serviceActionDescriptionColumn = new TableColumn<>(
+                        "Service Action Description");
                 TableColumn<ServiceAction, Integer> serviceActionCostColumn = new TableColumn<>("Service Action Cost");
-                TableColumn<ServiceAction, Integer> serviceActionPartsReplacedColumn = new TableColumn<>("Parts Replaced");
+                TableColumn<ServiceAction, Integer> serviceActionPartsReplacedColumn = new TableColumn<>(
+                        "Parts Replaced");
 
-                serviceActionDescriptionColumn.prefWidthProperty().bind(serviceActionTableView.widthProperty().divide(3));
+                serviceActionDescriptionColumn.prefWidthProperty()
+                        .bind(serviceActionTableView.widthProperty().divide(3));
                 serviceActionCostColumn.prefWidthProperty().bind(serviceActionTableView.widthProperty().divide(3));
-                serviceActionPartsReplacedColumn.prefWidthProperty().bind(serviceActionTableView.widthProperty().divide(3));
+                serviceActionPartsReplacedColumn.prefWidthProperty()
+                        .bind(serviceActionTableView.widthProperty().divide(3));
 
                 List<TableColumn<ServiceAction, ?>> columns = new ArrayList<>();
                 columns.add(serviceActionDescriptionColumn);
@@ -192,12 +203,15 @@ public class ServiceHistoryAccesserController implements Initializable {
 
                 serviceActionTableView.getColumns().addAll(columns);
 
-                serviceActionDescriptionColumn.setCellValueFactory(new PropertyValueFactory<ServiceAction, String>("actionDescription"));
-                serviceActionCostColumn.setCellValueFactory(new PropertyValueFactory<ServiceAction, Integer>("totalCost"));
-                serviceActionPartsReplacedColumn.setCellValueFactory(new PropertyValueFactory<ServiceAction, Integer>("numberOfPartsReplaced"));
+                serviceActionDescriptionColumn
+                        .setCellValueFactory(new PropertyValueFactory<ServiceAction, String>("actionDescription"));
+                serviceActionCostColumn
+                        .setCellValueFactory(new PropertyValueFactory<ServiceAction, Integer>("totalCost"));
+                serviceActionPartsReplacedColumn
+                        .setCellValueFactory(new PropertyValueFactory<ServiceAction, Integer>("numberOfPartsReplaced"));
 
                 alert.getDialogPane().setContent(serviceActionTableView);
-                
+
                 serviceActionTableView.setRowFactory(event1 -> {
                     TableRow<ServiceAction> editrow = new TableRow<>();
                     ContextMenu contextMenuRemove = new ContextMenu();
@@ -207,39 +221,39 @@ public class ServiceHistoryAccesserController implements Initializable {
                         ServiceAction serviceAction = editrow.getItem();
                         Workshop workshop = serviceEvents.getWorkshop();
                         Iterator<ServiceEvents> iterator = vehicle.getServiceHistory().getServiceHistory().iterator();
-                        while(iterator.hasNext()) {
+                        while (iterator.hasNext()) {
                             ServiceEvents serviceEvent = iterator.next();
-                            if (serviceEvent.getServiceActions().contains(serviceAction)){
+                            if (serviceEvent.getServiceActions().contains(serviceAction)) {
                                 serviceEvent.getServiceActions().remove(serviceAction);
                                 serviceEvent.setTotalCostOfService();
                                 serviceEvent.setTotalPartsReplaced();
                             }
                             if (serviceEvent.getServiceActions().isEmpty()) {
                                 iterator.remove();
-                                
+
                             }
                         }
                         iterator = Main.companyServiceHistory.getServiceHistory().iterator();
-                        while(iterator.hasNext()) {
+                        while (iterator.hasNext()) {
                             ServiceEvents serviceEvent = iterator.next();
-                            if (serviceEvent.getServiceActions().contains(serviceAction)){
+                            if (serviceEvent.getServiceActions().contains(serviceAction)) {
                                 serviceEvent.getServiceActions().remove(serviceAction);
                                 serviceEvent.setTotalCostOfService();
                                 serviceEvent.setTotalPartsReplaced();
                             }
-                            if (serviceEvent.getServiceActions().isEmpty()){
+                            if (serviceEvent.getServiceActions().isEmpty()) {
                                 iterator.remove();
                             }
                         }
                         iterator = workshop.getServiceHistory().getServiceHistory().iterator();
                         while (iterator.hasNext()) {
                             ServiceEvents serviceEvent = iterator.next();
-                            if (serviceEvent.getServiceActions().contains(serviceAction)){
+                            if (serviceEvent.getServiceActions().contains(serviceAction)) {
                                 serviceEvent.getServiceActions().remove(serviceAction);
                                 serviceEvent.setTotalCostOfService();
                                 serviceEvent.setTotalPartsReplaced();
                             }
-                            if (serviceEvent.getServiceActions().isEmpty()){
+                            if (serviceEvent.getServiceActions().isEmpty()) {
                                 iterator.remove();
                             }
                         }
@@ -249,25 +263,21 @@ public class ServiceHistoryAccesserController implements Initializable {
                         }
                     });
 
-
                     contextMenuRemove.getItems().addAll(deleteItemRemove);
                     editrow.contextMenuProperty().bind(
                             javafx.beans.binding.Bindings.when(editrow.emptyProperty())
-                                    .then((ContextMenu)null)
-                                    .otherwise(contextMenuRemove)
-                    );
+                                    .then((ContextMenu) null)
+                                    .otherwise(contextMenuRemove));
                     return editrow;
                 });
                 alert.showAndWait();
-
 
             });
             contextMenu.getItems().addAll(deleteItem, editItem);
             row.contextMenuProperty().bind(
                     javafx.beans.binding.Bindings.when(row.emptyProperty())
-                            .then((ContextMenu)null)
-                            .otherwise(contextMenu)
-            );
+                            .then((ContextMenu) null)
+                            .otherwise(contextMenu));
             return row;
         });
     }
@@ -317,8 +327,5 @@ public class ServiceHistoryAccesserController implements Initializable {
             e.printStackTrace();
         }
     }
-        
-
 
 }
-
