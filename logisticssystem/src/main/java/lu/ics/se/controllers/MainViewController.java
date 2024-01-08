@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import java.net.URL;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -14,10 +15,13 @@ import javafx.stage.Modality;
 import java.io.IOException;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lu.ics.se.models.classes.*;
 import lu.ics.se.models.enums.*;
 import java.util.ResourceBundle;
+
+
 import lu.ics.se.Main;
 import javafx.scene.control.ContextMenu;
 import javafx.scene.control.TableRow;
@@ -30,6 +34,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableCell;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class MainViewController implements Initializable {
 
@@ -529,7 +534,28 @@ public class MainViewController implements Initializable {
                     e.printStackTrace();
                 }
             });
-            contextMenu.getItems().addAll(viewServiceHistory);
+            MenuItem deleteWorkshop = new MenuItem("Delete Workshop");
+
+            deleteWorkshop.setOnAction(event ->{
+                Workshop workshop = row.getItem();
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setHeaderText("Confirmation");
+                alert.setContentText("Are you sure you want to delete the workshop?");
+                alert.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+                Optional<ButtonType> result = alert.showAndWait();
+                if(result.isPresent() && result.get() == ButtonType.YES){
+                if (workshop.getServiceHistory().getServiceHistory().isEmpty()){
+                    Main.companyWorkshopList.removeWorkshop(workshop);
+                    workshopTable.refresh();
+                } else {
+                    Alert warningAlert = new Alert(AlertType.WARNING, "Remove all service events before removing the workshop", ButtonType.OK);
+                    warningAlert.showAndWait();
+                }}
+                else if (result.isPresent() && result.get() == ButtonType.NO){
+                    alert.close();
+                }
+            });
+            contextMenu.getItems().addAll(viewServiceHistory, deleteWorkshop);
             row.contextMenuProperty().bind(
                     Bindings.when(row.emptyProperty())
                             .then((ContextMenu) null)

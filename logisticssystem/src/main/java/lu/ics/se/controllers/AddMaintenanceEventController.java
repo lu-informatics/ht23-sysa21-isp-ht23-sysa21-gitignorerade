@@ -27,6 +27,8 @@ import javafx.scene.control.DatePicker;
 import java.time.LocalDate;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.ButtonType;
+
+import java.util.List;
 import java.util.Optional;
 
 public class AddMaintenanceEventController implements Initializable {
@@ -49,24 +51,24 @@ public class AddMaintenanceEventController implements Initializable {
     public void updateUI() {
         displayCurrentVehicleLabel.setText(vehicle.getVehicleName());
         if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
-            WorkshopList filteredWorkshopList = new WorkshopList();
-            selectWorkshopChoiceBox.getItems().addAll(
-                    Main.companyWorkshopList.getWorkshopList().stream()
-                            .filter(workshop -> !workshop.getIsInternal())
-                            .collect(Collectors.toList()));
-            selectWorkshopChoiceBox.setValue(filteredWorkshopList.getWorkshopList().get(0));
-        } else {
-            selectWorkshopChoiceBox.getItems().addAll(Main.companyWorkshopList.getWorkshopList());
+            List<Workshop> filteredWorkshops = Main.companyWorkshopList.getWorkshopList().stream()
+                    .filter(workshop -> !workshop.getIsInternal())
+                    .collect(Collectors.toList());
+            selectWorkshopChoiceBox.getItems().addAll(filteredWorkshops);
+            if (!filteredWorkshops.isEmpty()) {
+                selectWorkshopChoiceBox.setValue(filteredWorkshops.get(0));
+            }} else {
+                selectWorkshopChoiceBox.getItems().addAll(Main.companyWorkshopList.getWorkshopList());
+            }
+            if (vehicle.getPrimaryWorkshop() != null) {
+                selectWorkshopChoiceBox.setValue(vehicle.getPrimaryWorkshop());
+            } else if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
+                selectWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().stream()
+                        .filter(workshop -> !workshop.getIsInternal()).findFirst().get());
+            } else {
+                selectWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().get(0));
+            }
         }
-        if (vehicle.getPrimaryWorkshop() != null) {
-            selectWorkshopChoiceBox.setValue(vehicle.getPrimaryWorkshop());
-        } else if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
-            selectWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().stream()
-                    .filter(workshop -> !workshop.getIsInternal()).findFirst().get());
-        } else {
-            selectWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().get(0));
-        }
-    }
 
     private Vehicle vehicle;
 

@@ -55,19 +55,23 @@ public class ServiceHistoryAccesserController implements Initializable {
         this.vehicle = vehicle;
         displayDateLabel.setText(vehicle.getScheduledMaintenance().toString());
         if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
-            selectPrimaryWorkshopChoiceBox.getItems().addAll(
-                    Main.companyWorkshopList.getWorkshopList().stream()
-                            .filter(workshop -> !workshop.getIsInternal())
-                            .collect(Collectors.toList()));
-        } else {
-            selectPrimaryWorkshopChoiceBox.getItems().addAll(Main.companyWorkshopList.getWorkshopList());
-        }
-        if (vehicle.getPrimaryWorkshop() != null) {
-            selectPrimaryWorkshopChoiceBox.setValue(vehicle.getPrimaryWorkshop());
-        } else {
-
-            selectPrimaryWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().get(0));
-        }
+            List<Workshop> filteredWorkshops = Main.companyWorkshopList.getWorkshopList().stream()
+                    .filter(workshop -> !workshop.getIsInternal())
+                    .collect(Collectors.toList());
+            selectPrimaryWorkshopChoiceBox.getItems().addAll(filteredWorkshops);
+            if (!filteredWorkshops.isEmpty()) {
+                selectPrimaryWorkshopChoiceBox.setValue(filteredWorkshops.get(0));
+            }} else {
+                selectPrimaryWorkshopChoiceBox.getItems().addAll(Main.companyWorkshopList.getWorkshopList());
+            }
+            if (vehicle.getPrimaryWorkshop() != null) {
+                selectPrimaryWorkshopChoiceBox.setValue(vehicle.getPrimaryWorkshop());
+            } else if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
+                selectPrimaryWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().stream()
+                        .filter(workshop -> !workshop.getIsInternal()).findFirst().get());
+            } else {
+                selectPrimaryWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().get(0));
+            }
     }
 
     public void updateUI() {
