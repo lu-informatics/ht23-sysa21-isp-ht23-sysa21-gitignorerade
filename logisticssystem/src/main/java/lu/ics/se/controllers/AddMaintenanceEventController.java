@@ -29,7 +29,6 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.ButtonType;
 import java.util.Optional;
 
-
 public class AddMaintenanceEventController implements Initializable {
     private ServiceEvents serviceEventToAdd;
 
@@ -64,8 +63,7 @@ public class AddMaintenanceEventController implements Initializable {
         } else if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
             selectWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().stream()
                     .filter(workshop -> !workshop.getIsInternal()).findFirst().get());
-        }
-        else {
+        } else {
             selectWorkshopChoiceBox.setValue(Main.companyWorkshopList.getWorkshopList().get(0));
         }
     }
@@ -129,9 +127,9 @@ public class AddMaintenanceEventController implements Initializable {
         }
         for (ServiceEvents ServiceEvent : vehicle.getServiceHistory().getServiceHistory()) {
             for (ServiceAction serviceAction : ServiceEvent.getServiceActions()) {
-                totalNumberOfPartsReplaced += serviceAction.getNumberOfPartsReplaced(); 
+                totalNumberOfPartsReplaced += serviceAction.getNumberOfPartsReplaced();
+            }
         }
-    }
         if (descriptionTextField.getText().isEmpty() || numberOfPartsTextField.getText().isEmpty()
                 || costOfLaborTextField.getText().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -139,48 +137,55 @@ public class AddMaintenanceEventController implements Initializable {
             alert.setHeaderText("Error");
             alert.setContentText("Please fill in all fields");
             alert.showAndWait();
-        }
-        else if (totalNumberOfPartsReplaced + Integer.parseInt(numberOfPartsTextField.getText()) >= 100) {
+        } else if (vehicle.getVehicleClass() == VehicleClass.Largetruck
+                && selectWorkshopChoiceBox.getValue().getIsInternal()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Incompatible workshop");
+            alert.setHeaderText("This vehicle class is incompatible with this type of workshop");
+            alert.setContentText("Large trucks can only be serviced in external workshops");
+            alert.showAndWait();
+        } else if (totalNumberOfPartsReplaced + Integer.parseInt(numberOfPartsTextField.getText()) >= 100) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Vehicle should be decommissioned");
             alert.setHeaderText("Vehicle should be decommissioned");
-            alert.setContentText("The vehicle has exceeded 100 parts replaced." + "\n" + "Vehicle will be removed from system");
+            alert.setContentText(
+                    "The vehicle has exceeded 100 parts replaced." + "\n" + "Vehicle will be removed from system");
             alert.showAndWait();
             Main.companyVehicleManifest.removeVehicle(vehicle);
             Stage stage = (Stage) saveAndExitButton.getScene().getWindow();
             stage.close();
-        
-        } else if (totalCostOfAllMaintenance >= 100000){
+
+        } else if (totalCostOfAllMaintenance >= 100000) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Exceedingly high maintenance cost");
             alert.setHeaderText("Exceedingly high maintenance cost");
-            alert.setContentText("The vehicle has exceeded 100,000 crowns in maintenance costs." + "\n" + "Consider decommissioning the vehicle");
+            alert.setContentText("The vehicle has exceeded 100,000 crowns in maintenance costs." + "\n"
+                    + "Consider decommissioning the vehicle");
 
             ButtonType buttonTypeGoAheadAnyway = new ButtonType("Add event anyway");
             ButtonType buttonTypeCancel = new ButtonType("Cancel");
             alert.getButtonTypes().setAll(buttonTypeGoAheadAnyway, buttonTypeCancel);
             Optional<ButtonType> result = alert.showAndWait();
 
-            if (result.get() == buttonTypeGoAheadAnyway){
-            ServiceAction serviceActionToAdd = new ServiceAction();
-            serviceActionToAdd.setActionDescription(descriptionTextField.getText());
-            serviceActionToAdd.setNumberOfPartsReplaced(Integer.parseInt(numberOfPartsTextField.getText()));
-            serviceActionToAdd.setCostOfService(Integer.parseInt(costOfLaborTextField.getText()));
-            if (vehicle.getVehicleClass() == VehicleClass.Van) {
-                serviceActionToAdd.setCostOfPartsReplaced(100 * serviceActionToAdd.getNumberOfPartsReplaced());
-            } else if (vehicle.getVehicleClass() == VehicleClass.Mediumtruck) {
-                serviceActionToAdd.setCostOfPartsReplaced(200 * serviceActionToAdd.getNumberOfPartsReplaced());
-            } else if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
-                serviceActionToAdd.setCostOfPartsReplaced(500 * serviceActionToAdd.getNumberOfPartsReplaced());
-            }
-            serviceActionToAdd
-                    .setTotalCost(serviceActionToAdd.getCostOfPartsReplaced() + serviceActionToAdd.getCostOfService());
+            if (result.get() == buttonTypeGoAheadAnyway) {
+                ServiceAction serviceActionToAdd = new ServiceAction();
+                serviceActionToAdd.setActionDescription(descriptionTextField.getText());
+                serviceActionToAdd.setNumberOfPartsReplaced(Integer.parseInt(numberOfPartsTextField.getText()));
+                serviceActionToAdd.setCostOfService(Integer.parseInt(costOfLaborTextField.getText()));
+                if (vehicle.getVehicleClass() == VehicleClass.Van) {
+                    serviceActionToAdd.setCostOfPartsReplaced(100 * serviceActionToAdd.getNumberOfPartsReplaced());
+                } else if (vehicle.getVehicleClass() == VehicleClass.Mediumtruck) {
+                    serviceActionToAdd.setCostOfPartsReplaced(200 * serviceActionToAdd.getNumberOfPartsReplaced());
+                } else if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
+                    serviceActionToAdd.setCostOfPartsReplaced(500 * serviceActionToAdd.getNumberOfPartsReplaced());
+                }
+                serviceActionToAdd
+                        .setTotalCost(
+                                serviceActionToAdd.getCostOfPartsReplaced() + serviceActionToAdd.getCostOfService());
 
-            serviceEventToAdd.getServiceActions().add(serviceActionToAdd);
+                serviceEventToAdd.getServiceActions().add(serviceActionToAdd);
+            } else {
             }
-            else {
-            }
-
 
         } else {
             ServiceAction serviceActionToAdd = new ServiceAction();
@@ -248,7 +253,8 @@ public class AddMaintenanceEventController implements Initializable {
                 onCloseListener.onClose();
             }
         }
-        }
+    }
+
     public void initialize(URL url, ResourceBundle rb) {
         serviceActionColumnDescription
                 .setCellValueFactory(new PropertyValueFactory<ServiceAction, String>("actionDescription"));
