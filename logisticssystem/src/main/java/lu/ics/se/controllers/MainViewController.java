@@ -207,7 +207,7 @@ public class MainViewController implements Initializable {
         } catch (ArithmeticException e) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Average Maintenance Cost");
-            alert.setHeaderText("The average maintenance cost has been calculated!");
+            alert.setHeaderText("The average maintenance cost has not been calculated!");
             alert.setContentText("There are no maintenance events to calculate the average maintenance cost from");
             alert.showAndWait();
         }
