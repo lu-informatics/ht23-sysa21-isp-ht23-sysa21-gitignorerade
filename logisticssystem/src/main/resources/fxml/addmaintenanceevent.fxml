@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="612.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lu.ics.se.controllers.AddMaintenanceEventController">
+   <children>
+      <TableView fx:id="serviceActionTable" layoutX="282.0" layoutY="61.0" prefHeight="330.0" prefWidth="330.0">
+        <columns>
+          <TableColumn fx:id="serviceActionColumnDescription" prefWidth="110.0" text="Desc." />
+          <TableColumn fx:id="serviceActionColumnCost" prefWidth="110.0" text="Cost" />
+            <TableColumn fx:id="serviceActionColumnPartsReplaced" prefWidth="110.0" text="Parts Replaced" />
+        </columns>
+      </TableView>
+      <Label layoutX="197.0" layoutY="14.0" text="Maintenance Event Adder">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="391.0" layoutY="41.0" text="Service Activities">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Label>
+      <ChoiceBox fx:id="selectWorkshopChoiceBox" layoutX="131.0" layoutY="87.0" prefHeight="25.0" prefWidth="131.0" />
+      <Text layoutX="12.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select Workshop:" />
+      <TextField fx:id="descriptionTextField" layoutX="131.0" layoutY="135.0" prefHeight="25.0" prefWidth="131.0" promptText="Description" />
+      <Text layoutX="12.0" layoutY="152.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Description of activity:" />
+      <TextField fx:id="numberOfPartsTextField" layoutX="131.0" layoutY="181.0" prefHeight="25.0" prefWidth="131.0" promptText="Number of parts" />
+      <Text layoutX="14.0" layoutY="198.0" strokeType="OUTSIDE" strokeWidth="0.0" text="No. of parts replaced:" />
+      <TextField fx:id="costOfLaborTextField" layoutX="131.0" layoutY="226.0" prefHeight="25.0" prefWidth="131.0" promptText="Cost of labor" />
+      <Text layoutX="14.0" layoutY="243.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cost of Labor:" />
+      <Button fx:id="addServiceActivityButton" layoutX="123.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleAddServiceActivityButton" prefHeight="25.0" prefWidth="139.0" text="Add Service Activity" />
+      <Button fx:id="saveAndExitButton" layoutX="12.0" layoutY="342.0" mnemonicParsing="false" onAction="#handleSaveAndExitButton" prefHeight="37.0" prefWidth="255.0" text="Save Maintenance Event and exit" wrapText="true" />
+      <Label fx:id="displayCurrentVehicleLabel" layoutX="127.0" layoutY="43.0" />
+      <DatePicker fx:id="maintenanceDatePicker" layoutX="132.0" layoutY="311.0" prefHeight="25.0" prefWidth="139.0" promptText="Enter Date" />
+      <Text layoutX="15.0" layoutY="328.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Date of Maintenance:" />
+   </children>
+</AnchorPane>
