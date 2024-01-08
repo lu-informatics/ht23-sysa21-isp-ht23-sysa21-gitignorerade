@@ -1,6 +1,8 @@
 package lu.ics.se.controllers;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import lu.ics.se.Main;
 import lu.ics.se.controllers.EditVehicleController.OnCloseListener;
@@ -32,12 +34,18 @@ public class RemoveVehicleController {
     }
 
     public void handleYesButton(){
+        if (!vehicle.getServiceHistory().getServiceHistory().isEmpty()) {
+            Alert alert = new Alert(AlertType.WARNING);
+            alert.setHeaderText("Vehicle has service events in service history");
+            alert.setContentText("Please remove all service events from the vehicle befoire removing it");
+            }
+            else{
         Main.companyVehicleManifest.removeVehicle(vehicle);
         ((Stage)yesButton.getScene().getWindow()).close();
         if (onCloseListener != null) {
             onCloseListener.onClose();
         }
-    }
+    }}
     public void handleNoButton(){
         ((Stage)noButton.getScene().getWindow()).close();
         if (onCloseListener != null) {
