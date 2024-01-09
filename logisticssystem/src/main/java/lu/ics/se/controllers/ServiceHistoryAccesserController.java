@@ -40,6 +40,8 @@ import java.util.Optional;
 
 public class ServiceHistoryAccesserController implements Initializable {
 
+    //This sets up the listener for the updateUI event. This listener is called by the controller that created this controller.
+
     public interface updateUIListener {
         void updateUI();
     }
@@ -49,10 +51,14 @@ public class ServiceHistoryAccesserController implements Initializable {
         this.updateUIListener = updateUIListener;
     }
 
+    //This method sets the vehicle that is to be edited. It is called by the controller that created this controller.
+
     private Vehicle vehicle;
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
+
+        //First the UI is updated with the vehicle's scheduled maintenance date.
         displayDateLabel.setText(vehicle.getScheduledMaintenance().toString());
         if (vehicle.getVehicleClass() == VehicleClass.Largetruck) {
             List<Workshop> filteredWorkshops = Main.companyWorkshopList.getWorkshopList().stream()

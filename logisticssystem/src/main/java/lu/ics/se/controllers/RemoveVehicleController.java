@@ -16,14 +16,18 @@ public class RemoveVehicleController {
     @FXML
     private Button noButton;
 
+
     private Vehicle vehicle;
 
     private OnCloseListener onCloseListener;
+
+    //This method sets the listener for the close event. This listener is called by the controller that created this controller.
 
      public void setOnCloseListener(OnCloseListener onCloseListener) {
             this.onCloseListener = onCloseListener;
         }
 
+    //This method sets the vehicle that is to be removed. It is called by the controller that created this controller.
 
     public void setVehicle(Vehicle vehicle) {
         this.vehicle = vehicle;
@@ -32,6 +36,10 @@ public class RemoveVehicleController {
     @FXML
     public void initialize(){
     }
+
+    //This method handles the yes button. It first checks if the vehicle has any service events in its service history. 
+    //If it does, it displays an alert telling the user to remove all service events from the vehicle before removing it.
+    //If it does not, it removes the vehicle from the vehicle manifest and closes the window.
 
     public void handleYesButton(){
         if (!vehicle.getServiceHistory().getServiceHistory().isEmpty()) {
@@ -46,6 +54,9 @@ public class RemoveVehicleController {
             onCloseListener.onClose();
         }
     }}
+    
+    //This method handles the no button. It closes the window without removing the vehicle.
+    
     public void handleNoButton(){
         ((Stage)noButton.getScene().getWindow()).close();
         if (onCloseListener != null) {
