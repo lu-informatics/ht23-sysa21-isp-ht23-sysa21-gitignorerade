@@ -35,11 +35,24 @@ public class AddWorkshopController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        //This sets the choice box to contain the two options "Yes" and "No".
+
         workshopInternalChoiceBox.getItems().addAll("Yes", "No");
+
+        //This sets the default value of the choice box to "Yes".
+
         workshopInternalChoiceBox.setValue("Yes");
 
+        //This sets the choice box to contain all the locations in the Locations enum.
+
         workshopLocationChoiceBox.getItems().addAll(Locations.values());
+
+        //This sets the default value of the choice box to "Stockholm".
+
         workshopLocationChoiceBox.setValue(Locations.Stockholm);
+
+        //This creates a textfilter that only allows the user to enter letters and spaces in the workshop name text field.
 
         UnaryOperator<TextFormatter.Change> filter = change -> {
             String text = change.getText();
@@ -48,14 +61,26 @@ public class AddWorkshopController implements Initializable {
             }
             return null;
         };
+
+        //This applies the textfilter to the workshop name text field.
+
         TextFormatter<String> textFormatter = new TextFormatter<>(filter);
         workshopNameTextField.setTextFormatter(textFormatter);
     }
     @FXML
+
+    //This code runs when the add workshop button is pressed. 
+
     private void handleAddWorkshopButton(){
+
+        //This checks if the workshop name text field is empty. If it is, it displays an error message telling the user to enter a name for the workshop.
+
         if (workshopNameTextField.getText().isEmpty()) {
             addWorkshopErrorLabel.setText("Please enter a name for the workshop");
         } else {
+
+            //This creates a new workshop object and sets its name, location and internal status to the values entered by the user.
+
             Workshop workshop = new Workshop();
             workshop.setWorkshopName(workshopNameTextField.getText());
             workshop.setWorkshopLocation(workshopLocationChoiceBox.getValue());
@@ -64,7 +89,12 @@ public class AddWorkshopController implements Initializable {
             } else {
                 workshop.setIsInternal(false);
             }
+
+            //This adds the workshop to the workshop list in the main class.
+
             Main.companyWorkshopList.addWorkshop(workshop);
+
+            //This displays an alert telling the user that the workshop has been added.
 
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Workshop added");
@@ -72,6 +102,8 @@ public class AddWorkshopController implements Initializable {
             alert.setContentText("Workshop " + workshop.getWorkshopName() + " has been added to the system");
             alert.showAndWait();
 
+            //This closes the window.
+            
             Stage stage = (Stage) addWorkshopButton.getScene().getWindow();
             stage.close();
         }

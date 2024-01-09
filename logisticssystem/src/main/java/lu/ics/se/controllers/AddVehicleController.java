@@ -39,9 +39,15 @@ public class AddVehicleController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
+        //This sets the choice box to contain the three options "Van", "Mediumtruck" and "Largetruck".
+
         vehicleTypeChoiceBox.getItems().addAll("Van", "Mediumtruck", "Largetruck");
+
+        //This sets the default value of the choice box to "Van".
         vehicleTypeChoiceBox.setValue("Van");
 
+        //This sets the slider to have a minimum value of 0 and a maximum value of 2000.
         vehicleCapacitySlider.setMin(0);
         vehicleCapacitySlider.setMax(2000);
 
