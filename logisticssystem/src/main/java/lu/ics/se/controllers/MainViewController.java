@@ -555,7 +555,34 @@ public class MainViewController implements Initializable {
                     alert.close();
                 }
             });
-            contextMenu.getItems().addAll(viewServiceHistory, deleteWorkshop);
+
+            MenuItem editWorkshop = new MenuItem("Edit Workshop");
+            editWorkshop.setOnAction(event -> {
+                try {
+                    Workshop workshop = row.getItem();
+
+                    Stage stage = new Stage();
+                    stage.setTitle("Workshop Editor");
+
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/editworkshop.fxml"));
+                    Parent root = loader.load();
+
+                    stage.setScene(new Scene(root));
+                    stage.show();
+
+                    EditWorkshopController controller = loader.getController();
+                    controller.setWorkshop(workshop);
+
+                    controller.setOnCloseListener(() -> {
+                        vehicleTable.refresh();
+                        workshopTable.refresh();
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
+     
+            contextMenu.getItems().addAll(viewServiceHistory, deleteWorkshop, editWorkshop);
             row.contextMenuProperty().bind(
                     Bindings.when(row.emptyProperty())
                             .then((ContextMenu) null)
